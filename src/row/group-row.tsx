@@ -1,4 +1,4 @@
-import { PreventClickOnDrag } from "../interaction/PreventClickOnDrag";
+import { PreventClickOnDrag } from "../interaction";
 import React, { useCallback, useMemo } from "react";
 import type { TimelineGroupBase } from "../types";
 
@@ -14,9 +14,9 @@ export type GroupRowProps<TGroup extends TimelineGroupBase = TimelineGroupBase> 
   horizontalLineClassNamesForGroup?: (group: TGroup) => string[] | undefined;
 };
 
-export function GroupRow<TGroup extends TimelineGroupBase = TimelineGroupBase>(
+export const GroupRow = <TGroup extends TimelineGroupBase = TimelineGroupBase>(
   props: GroupRowProps<TGroup>
-) {
+): React.ReactElement => {
   const {
     group,
     onClick,
@@ -62,4 +62,4 @@ export function GroupRow<TGroup extends TimelineGroupBase = TimelineGroupBase>(
       )}
     />
   );
-}
+};
