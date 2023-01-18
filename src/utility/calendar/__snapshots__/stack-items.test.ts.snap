@@ -1,0 +1,721 @@
+// Vitest Snapshot v1
+
+exports[`stackItems > should stack items while moving an item 1`] = `
+{
+  "dimensionItems": [
+    {
+      "dimensions": {
+        "collisionLeft": 1540543600000,
+        "collisionWidth": 6803877,
+        "extraSpaceLeft": null,
+        "extraSpaceRight": null,
+        "height": 0.75,
+        "left": 4472.222222222223,
+        "order": {
+          "group": {
+            "id": "1",
+            "title": "1",
+          },
+          "index": 0,
+        },
+        "stack": true,
+        "top": 14.625,
+        "width": 236.24572916666602,
+      },
+      "id": "0",
+    },
+    {
+      "dimensions": {
+        "collisionLeft": 1540532800000,
+        "collisionWidth": 21203877,
+        "extraSpaceLeft": null,
+        "extraSpaceRight": null,
+        "height": 0.75,
+        "left": 4097.222222222223,
+        "order": {
+          "group": {
+            "id": "1",
+            "title": "1",
+          },
+          "index": 0,
+        },
+        "stack": true,
+        "top": 44.625,
+        "width": 736.245729166666,
+      },
+      "id": "5",
+    },
+    {
+      "dimensions": {
+        "collisionLeft": 1540550800000,
+        "collisionWidth": 24803877,
+        "extraSpaceLeft": null,
+        "extraSpaceRight": null,
+        "height": 0.75,
+        "left": 4722.222222222223,
+        "order": {
+          "group": {
+            "id": "1",
+            "title": "1",
+          },
+          "index": 0,
+        },
+        "stack": true,
+        "top": 14.625,
+        "width": 861.245729166666,
+      },
+      "id": "6",
+    },
+    {
+      "dimensions": {
+        "collisionLeft": 1540570000000,
+        "collisionWidth": 14875919,
+        "extraSpaceLeft": null,
+        "extraSpaceRight": null,
+        "height": 0.75,
+        "left": 5388.888888888889,
+        "order": {
+          "group": {
+            "id": "1",
+            "title": "1",
+          },
+          "index": 0,
+        },
+        "stack": true,
+        "top": 44.625,
+        "width": 516.5249652777784,
+      },
+      "id": "1",
+    },
+    {
+      "dimensions": {
+        "collisionLeft": 1540620000000,
+        "collisionWidth": 20397548,
+        "extraSpaceLeft": null,
+        "extraSpaceRight": null,
+        "height": 0.75,
+        "left": 7125,
+        "order": {
+          "group": {
+            "id": "1",
+            "title": "1",
+          },
+          "index": 0,
+        },
+        "stack": true,
+        "top": 14.625,
+        "width": 708.2481944444444,
+      },
+      "id": "2",
+    },
+    {
+      "dimensions": {
+        "collisionLeft": 1540656000000,
+        "collisionWidth": 20397548,
+        "extraSpaceLeft": null,
+        "extraSpaceRight": null,
+        "height": 0.75,
+        "left": 8375,
+        "order": {
+          "group": {
+            "id": "3",
+            "title": "3",
+          },
+          "index": 2,
+        },
+        "stack": true,
+        "top": 104.625,
+        "width": 625,
+      },
+      "id": "3",
+    },
+  ],
+  "groupHeights": [
+    60,
+    30,
+    30,
+  ],
+  "groupTops": [
+    0,
+    60,
+    90,
+  ],
+  "height": 120,
+}
+`;
+
+exports[`stackItems > should stack items while resize item left 1`] = `
+{
+  "dimensionItems": [
+    {
+      "dimensions": {
+        "collisionLeft": 1540543600000,
+        "collisionWidth": 3203877,
+        "extraSpaceLeft": null,
+        "extraSpaceRight": null,
+        "height": 0.75,
+        "left": 4472.222222222223,
+        "order": {
+          "group": {
+            "id": "1",
+            "title": "1",
+          },
+          "index": 0,
+        },
+        "stack": true,
+        "top": 14.625,
+        "width": 111.24572916666602,
+      },
+      "id": "0",
+    },
+    {
+      "dimensions": {
+        "collisionLeft": 1540532800000,
+        "collisionWidth": 21203877,
+        "extraSpaceLeft": null,
+        "extraSpaceRight": null,
+        "height": 0.75,
+        "left": 4097.222222222223,
+        "order": {
+          "group": {
+            "id": "1",
+            "title": "1",
+          },
+          "index": 0,
+        },
+        "stack": true,
+        "top": 44.625,
+        "width": 736.245729166666,
+      },
+      "id": "5",
+    },
+    {
+      "dimensions": {
+        "collisionLeft": 1540550800000,
+        "collisionWidth": 24803877,
+        "extraSpaceLeft": null,
+        "extraSpaceRight": null,
+        "height": 0.75,
+        "left": 4722.222222222223,
+        "order": {
+          "group": {
+            "id": "1",
+            "title": "1",
+          },
+          "index": 0,
+        },
+        "stack": true,
+        "top": 14.625,
+        "width": 861.245729166666,
+      },
+      "id": "6",
+    },
+    {
+      "dimensions": {
+        "collisionLeft": 1540570000000,
+        "collisionWidth": 14875919,
+        "extraSpaceLeft": null,
+        "extraSpaceRight": null,
+        "height": 0.75,
+        "left": 5388.888888888889,
+        "order": {
+          "group": {
+            "id": "1",
+            "title": "1",
+          },
+          "index": 0,
+        },
+        "stack": true,
+        "top": 44.625,
+        "width": 516.5249652777784,
+      },
+      "id": "1",
+    },
+    {
+      "dimensions": {
+        "collisionLeft": 1540620000000,
+        "collisionWidth": 20397548,
+        "extraSpaceLeft": null,
+        "extraSpaceRight": null,
+        "height": 0.75,
+        "left": 7125,
+        "order": {
+          "group": {
+            "id": "1",
+            "title": "1",
+          },
+          "index": 0,
+        },
+        "stack": true,
+        "top": 14.625,
+        "width": 708.2481944444444,
+      },
+      "id": "2",
+    },
+    {
+      "dimensions": {
+        "collisionLeft": 1540656000000,
+        "collisionWidth": 20397548,
+        "extraSpaceLeft": null,
+        "extraSpaceRight": null,
+        "height": 0.75,
+        "left": 8375,
+        "order": {
+          "group": {
+            "id": "3",
+            "title": "3",
+          },
+          "index": 2,
+        },
+        "stack": true,
+        "top": 104.625,
+        "width": 625,
+      },
+      "id": "3",
+    },
+  ],
+  "groupHeights": [
+    60,
+    30,
+    30,
+  ],
+  "groupTops": [
+    0,
+    60,
+    90,
+  ],
+  "height": 120,
+}
+`;
+
+exports[`stackItems > should stack items while resize item right 1`] = `
+{
+  "dimensionItems": [
+    {
+      "dimensions": {
+        "collisionLeft": 1540540000000,
+        "collisionWidth": 10403877,
+        "extraSpaceLeft": null,
+        "extraSpaceRight": null,
+        "height": 0.75,
+        "left": 4347.222222222223,
+        "order": {
+          "group": {
+            "id": "1",
+            "title": "1",
+          },
+          "index": 0,
+        },
+        "stack": true,
+        "top": 14.625,
+        "width": 361.245729166666,
+      },
+      "id": "0",
+    },
+    {
+      "dimensions": {
+        "collisionLeft": 1540532800000,
+        "collisionWidth": 21203877,
+        "extraSpaceLeft": null,
+        "extraSpaceRight": null,
+        "height": 0.75,
+        "left": 4097.222222222223,
+        "order": {
+          "group": {
+            "id": "1",
+            "title": "1",
+          },
+          "index": 0,
+        },
+        "stack": true,
+        "top": 44.625,
+        "width": 736.245729166666,
+      },
+      "id": "5",
+    },
+    {
+      "dimensions": {
+        "collisionLeft": 1540550800000,
+        "collisionWidth": 24803877,
+        "extraSpaceLeft": null,
+        "extraSpaceRight": null,
+        "height": 0.75,
+        "left": 4722.222222222223,
+        "order": {
+          "group": {
+            "id": "1",
+            "title": "1",
+          },
+          "index": 0,
+        },
+        "stack": true,
+        "top": 14.625,
+        "width": 861.245729166666,
+      },
+      "id": "6",
+    },
+    {
+      "dimensions": {
+        "collisionLeft": 1540570000000,
+        "collisionWidth": 14875919,
+        "extraSpaceLeft": null,
+        "extraSpaceRight": null,
+        "height": 0.75,
+        "left": 5388.888888888889,
+        "order": {
+          "group": {
+            "id": "1",
+            "title": "1",
+          },
+          "index": 0,
+        },
+        "stack": true,
+        "top": 44.625,
+        "width": 516.5249652777784,
+      },
+      "id": "1",
+    },
+    {
+      "dimensions": {
+        "collisionLeft": 1540620000000,
+        "collisionWidth": 20397548,
+        "extraSpaceLeft": null,
+        "extraSpaceRight": null,
+        "height": 0.75,
+        "left": 7125,
+        "order": {
+          "group": {
+            "id": "1",
+            "title": "1",
+          },
+          "index": 0,
+        },
+        "stack": true,
+        "top": 14.625,
+        "width": 708.2481944444444,
+      },
+      "id": "2",
+    },
+    {
+      "dimensions": {
+        "collisionLeft": 1540656000000,
+        "collisionWidth": 20397548,
+        "extraSpaceLeft": null,
+        "extraSpaceRight": null,
+        "height": 0.75,
+        "left": 8375,
+        "order": {
+          "group": {
+            "id": "3",
+            "title": "3",
+          },
+          "index": 2,
+        },
+        "stack": true,
+        "top": 104.625,
+        "width": 625,
+      },
+      "id": "3",
+    },
+  ],
+  "groupHeights": [
+    60,
+    30,
+    30,
+  ],
+  "groupTops": [
+    0,
+    60,
+    90,
+  ],
+  "height": 120,
+}
+`;
+
+exports[`stackItems > work as expected 1`] = `
+{
+  "dimensionItems": [
+    {
+      "dimensions": {
+        "collisionLeft": 1540540000000,
+        "collisionWidth": 6803877,
+        "extraSpaceLeft": null,
+        "extraSpaceRight": null,
+        "height": 0.75,
+        "left": 4347.222222222223,
+        "order": {
+          "group": {
+            "id": "1",
+            "title": "1",
+          },
+          "index": 0,
+        },
+        "stack": true,
+        "top": 14.625,
+        "width": 236.24572916666602,
+      },
+      "id": "0",
+    },
+    {
+      "dimensions": {
+        "collisionLeft": 1540532800000,
+        "collisionWidth": 21203877,
+        "extraSpaceLeft": null,
+        "extraSpaceRight": null,
+        "height": 0.75,
+        "left": 4097.222222222223,
+        "order": {
+          "group": {
+            "id": "1",
+            "title": "1",
+          },
+          "index": 0,
+        },
+        "stack": true,
+        "top": 44.625,
+        "width": 736.245729166666,
+      },
+      "id": "5",
+    },
+    {
+      "dimensions": {
+        "collisionLeft": 1540550800000,
+        "collisionWidth": 24803877,
+        "extraSpaceLeft": null,
+        "extraSpaceRight": null,
+        "height": 0.75,
+        "left": 4722.222222222223,
+        "order": {
+          "group": {
+            "id": "1",
+            "title": "1",
+          },
+          "index": 0,
+        },
+        "stack": true,
+        "top": 14.625,
+        "width": 861.245729166666,
+      },
+      "id": "6",
+    },
+    {
+      "dimensions": {
+        "collisionLeft": 1540570000000,
+        "collisionWidth": 14875919,
+        "extraSpaceLeft": null,
+        "extraSpaceRight": null,
+        "height": 0.75,
+        "left": 5388.888888888889,
+        "order": {
+          "group": {
+            "id": "1",
+            "title": "1",
+          },
+          "index": 0,
+        },
+        "stack": true,
+        "top": 44.625,
+        "width": 516.5249652777784,
+      },
+      "id": "1",
+    },
+    {
+      "dimensions": {
+        "collisionLeft": 1540620000000,
+        "collisionWidth": 20397548,
+        "extraSpaceLeft": null,
+        "extraSpaceRight": null,
+        "height": 0.75,
+        "left": 7125,
+        "order": {
+          "group": {
+            "id": "1",
+            "title": "1",
+          },
+          "index": 0,
+        },
+        "stack": true,
+        "top": 14.625,
+        "width": 708.2481944444444,
+      },
+      "id": "2",
+    },
+    {
+      "dimensions": {
+        "collisionLeft": 1540656000000,
+        "collisionWidth": 20397548,
+        "extraSpaceLeft": null,
+        "extraSpaceRight": null,
+        "height": 0.75,
+        "left": 8375,
+        "order": {
+          "group": {
+            "id": "3",
+            "title": "3",
+          },
+          "index": 2,
+        },
+        "stack": true,
+        "top": 104.625,
+        "width": 625,
+      },
+      "id": "3",
+    },
+  ],
+  "groupHeights": [
+    60,
+    30,
+    30,
+  ],
+  "groupTops": [
+    0,
+    60,
+    90,
+  ],
+  "height": 120,
+}
+`;
+
+exports[`stackItems > work as expected no stack 1`] = `
+{
+  "dimensionItems": [
+    {
+      "dimensions": {
+        "collisionLeft": 1540540000000,
+        "collisionWidth": 6803877,
+        "extraSpaceLeft": null,
+        "extraSpaceRight": null,
+        "height": 0.75,
+        "left": 4347.222222222223,
+        "order": {
+          "group": {
+            "id": "1",
+            "title": "1",
+          },
+          "index": 0,
+        },
+        "stack": true,
+        "top": 14.625,
+        "width": 236.24572916666602,
+      },
+      "id": "0",
+    },
+    {
+      "dimensions": {
+        "collisionLeft": 1540532800000,
+        "collisionWidth": 21203877,
+        "extraSpaceLeft": null,
+        "extraSpaceRight": null,
+        "height": 0.75,
+        "left": 4097.222222222223,
+        "order": {
+          "group": {
+            "id": "1",
+            "title": "1",
+          },
+          "index": 0,
+        },
+        "stack": true,
+        "top": 14.625,
+        "width": 736.245729166666,
+      },
+      "id": "5",
+    },
+    {
+      "dimensions": {
+        "collisionLeft": 1540550800000,
+        "collisionWidth": 24803877,
+        "extraSpaceLeft": null,
+        "extraSpaceRight": null,
+        "height": 0.75,
+        "left": 4722.222222222223,
+        "order": {
+          "group": {
+            "id": "1",
+            "title": "1",
+          },
+          "index": 0,
+        },
+        "stack": true,
+        "top": 14.625,
+        "width": 861.245729166666,
+      },
+      "id": "6",
+    },
+    {
+      "dimensions": {
+        "collisionLeft": 1540570000000,
+        "collisionWidth": 14875919,
+        "extraSpaceLeft": null,
+        "extraSpaceRight": null,
+        "height": 0.75,
+        "left": 5388.888888888889,
+        "order": {
+          "group": {
+            "id": "1",
+            "title": "1",
+          },
+          "index": 0,
+        },
+        "stack": true,
+        "top": 14.625,
+        "width": 516.5249652777784,
+      },
+      "id": "1",
+    },
+    {
+      "dimensions": {
+        "collisionLeft": 1540620000000,
+        "collisionWidth": 20397548,
+        "extraSpaceLeft": null,
+        "extraSpaceRight": null,
+        "height": 0.75,
+        "left": 7125,
+        "order": {
+          "group": {
+            "id": "1",
+            "title": "1",
+          },
+          "index": 0,
+        },
+        "stack": true,
+        "top": 14.625,
+        "width": 708.2481944444444,
+      },
+      "id": "2",
+    },
+    {
+      "dimensions": {
+        "collisionLeft": 1540656000000,
+        "collisionWidth": 20397548,
+        "extraSpaceLeft": null,
+        "extraSpaceRight": null,
+        "height": 0.75,
+        "left": 8375,
+        "order": {
+          "group": {
+            "id": "3",
+            "title": "3",
+          },
+          "index": 2,
+        },
+        "stack": true,
+        "top": 74.625,
+        "width": 625,
+      },
+      "id": "3",
+    },
+  ],
+  "groupHeights": [
+    30,
+    30,
+    30,
+  ],
+  "groupTops": [
+    0,
+    30,
+    60,
+  ],
+  "height": 90,
+}
+`;

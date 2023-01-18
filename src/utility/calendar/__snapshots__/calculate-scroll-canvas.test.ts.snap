@@ -1,0 +1,297 @@
+// Vitest Snapshot v1
+
+exports[`calculateScrollCanvas > should calculate new scroll state correctly 1`] = `
+{
+  "canvasTimeEnd": 1540720800000,
+  "canvasTimeStart": 1540461600000,
+  "dimensionItems": [
+    {
+      "dimensions": {
+        "collisionLeft": 1540540000000,
+        "collisionWidth": 6803877,
+        "extraSpaceLeft": null,
+        "extraSpaceRight": null,
+        "height": undefined,
+        "left": 907.4074074074074,
+        "order": {
+          "group": {
+            "id": "1",
+            "title": "1",
+          },
+          "index": 0,
+        },
+        "stack": true,
+        "top": NaN,
+        "width": 78.74857638888886,
+      },
+      "id": "0",
+    },
+    {
+      "dimensions": {
+        "collisionLeft": 1540532800000,
+        "collisionWidth": 21203877,
+        "extraSpaceLeft": null,
+        "extraSpaceRight": null,
+        "height": undefined,
+        "left": 824.074074074074,
+        "order": {
+          "group": {
+            "id": "1",
+            "title": "1",
+          },
+          "index": 0,
+        },
+        "stack": true,
+        "top": NaN,
+        "width": 245.4152430555556,
+      },
+      "id": "5",
+    },
+    {
+      "dimensions": {
+        "collisionLeft": 1540550800000,
+        "collisionWidth": 24803877,
+        "extraSpaceLeft": null,
+        "extraSpaceRight": null,
+        "height": undefined,
+        "left": 1032.4074074074074,
+        "order": {
+          "group": {
+            "id": "1",
+            "title": "1",
+          },
+          "index": 0,
+        },
+        "stack": true,
+        "top": NaN,
+        "width": 287.08190972222224,
+      },
+      "id": "6",
+    },
+    {
+      "dimensions": {
+        "collisionLeft": 1540570000000,
+        "collisionWidth": 14875919,
+        "extraSpaceLeft": null,
+        "extraSpaceRight": null,
+        "height": undefined,
+        "left": 1254.6296296296296,
+        "order": {
+          "group": {
+            "id": "1",
+            "title": "1",
+          },
+          "index": 0,
+        },
+        "stack": true,
+        "top": NaN,
+        "width": 172.1749884259259,
+      },
+      "id": "1",
+    },
+    {
+      "dimensions": {
+        "collisionLeft": 1540620000000,
+        "collisionWidth": 20397548,
+        "extraSpaceLeft": null,
+        "extraSpaceRight": null,
+        "height": undefined,
+        "left": 1833.3333333333333,
+        "order": {
+          "group": {
+            "id": "1",
+            "title": "1",
+          },
+          "index": 0,
+        },
+        "stack": true,
+        "top": NaN,
+        "width": 236.08273148148123,
+      },
+      "id": "2",
+    },
+    {
+      "dimensions": {
+        "collisionLeft": 1540656000000,
+        "collisionWidth": 20397548,
+        "extraSpaceLeft": null,
+        "extraSpaceRight": null,
+        "height": undefined,
+        "left": 2250,
+        "order": {
+          "group": {
+            "id": "3",
+            "title": "3",
+          },
+          "index": 2,
+        },
+        "stack": true,
+        "top": NaN,
+        "width": 236.08273148148146,
+      },
+      "id": "3",
+    },
+  ],
+  "groupHeights": [
+    30,
+    30,
+    30,
+  ],
+  "groupTops": [
+    0,
+    30,
+    60,
+  ],
+  "height": 90,
+  "visibleTimeEnd": 1540634400000,
+  "visibleTimeStart": 1540548000000,
+}
+`;
+
+exports[`calculateScrollCanvas > should calculate new state if zoom changed correctly 1`] = `
+{
+  "canvasTimeEnd": 1540681200000,
+  "canvasTimeStart": 1540411200000,
+  "dimensionItems": [
+    {
+      "dimensions": {
+        "collisionLeft": 1540540000000,
+        "collisionWidth": 6803877,
+        "extraSpaceLeft": null,
+        "extraSpaceRight": null,
+        "height": undefined,
+        "left": 1431.111111111111,
+        "order": {
+          "group": {
+            "id": "1",
+            "title": "1",
+          },
+          "index": 0,
+        },
+        "stack": true,
+        "top": NaN,
+        "width": 75.59863333333351,
+      },
+      "id": "0",
+    },
+    {
+      "dimensions": {
+        "collisionLeft": 1540532800000,
+        "collisionWidth": 21203877,
+        "extraSpaceLeft": null,
+        "extraSpaceRight": null,
+        "height": undefined,
+        "left": 1351.111111111111,
+        "order": {
+          "group": {
+            "id": "1",
+            "title": "1",
+          },
+          "index": 0,
+        },
+        "stack": true,
+        "top": NaN,
+        "width": 235.5986333333335,
+      },
+      "id": "5",
+    },
+    {
+      "dimensions": {
+        "collisionLeft": 1540550800000,
+        "collisionWidth": 24803877,
+        "extraSpaceLeft": null,
+        "extraSpaceRight": null,
+        "height": undefined,
+        "left": 1551.111111111111,
+        "order": {
+          "group": {
+            "id": "1",
+            "title": "1",
+          },
+          "index": 0,
+        },
+        "stack": true,
+        "top": NaN,
+        "width": 275.5986333333335,
+      },
+      "id": "6",
+    },
+    {
+      "dimensions": {
+        "collisionLeft": 1540570000000,
+        "collisionWidth": 14875919,
+        "extraSpaceLeft": null,
+        "extraSpaceRight": null,
+        "height": undefined,
+        "left": 1764.4444444444446,
+        "order": {
+          "group": {
+            "id": "1",
+            "title": "1",
+          },
+          "index": 0,
+        },
+        "stack": true,
+        "top": NaN,
+        "width": 165.28798888888878,
+      },
+      "id": "1",
+    },
+    {
+      "dimensions": {
+        "collisionLeft": 1540620000000,
+        "collisionWidth": 20397548,
+        "extraSpaceLeft": null,
+        "extraSpaceRight": null,
+        "height": undefined,
+        "left": 2320,
+        "order": {
+          "group": {
+            "id": "1",
+            "title": "1",
+          },
+          "index": 0,
+        },
+        "stack": true,
+        "top": NaN,
+        "width": 226.6394222222225,
+      },
+      "id": "2",
+    },
+    {
+      "dimensions": {
+        "collisionLeft": 1540656000000,
+        "collisionWidth": 20397548,
+        "extraSpaceLeft": null,
+        "extraSpaceRight": null,
+        "height": undefined,
+        "left": 2720,
+        "order": {
+          "group": {
+            "id": "3",
+            "title": "3",
+          },
+          "index": 2,
+        },
+        "stack": true,
+        "top": NaN,
+        "width": 226.6394222222225,
+      },
+      "id": "3",
+    },
+  ],
+  "groupHeights": [
+    30,
+    30,
+    30,
+  ],
+  "groupTops": [
+    0,
+    30,
+    60,
+  ],
+  "height": 90,
+  "visibleTimeEnd": 1540591200000,
+  "visibleTimeStart": 1540501200000,
+}
+`;
