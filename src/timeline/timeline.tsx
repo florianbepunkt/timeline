@@ -25,7 +25,7 @@ import { TimelineHeadersProvider } from "../headers/headers-context";
 import { TimelineMarkersProvider } from "../markers/TimelineMarkersContext";
 import { TimelineStateProvider } from "./timeline-state-context";
 import isEqual from "lodash.isequal";
-import Items from "../items/Items";
+import { Items } from "../items";
 import MarkerCanvas from "../markers/MarkerCanvas";
 import React, { Component } from "react";
 import type {
