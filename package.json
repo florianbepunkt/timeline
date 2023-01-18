@@ -9,7 +9,7 @@
     "src/**/*"
   ],
   "scripts": {
-    "build": "npx rimraf ./dist && tsc && sass src/Timeline.scss dist/Timeline.css",
+    "build": "npx rimraf ./dist && tsc && sass src/timeline.scss dist/timeline.css",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "format": "prettier --write \"./**/*.{ts,tsx,json}\"",

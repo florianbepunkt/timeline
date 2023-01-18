@@ -1,6 +1,6 @@
 import { arraysEqual, keyBy } from "../utility/generic";
 import { getGroupOrders, getVisibleItems } from "../utility/calendar";
-import Item from "./Item";
+import { Item } from "./item-backup";
 import React, { Component } from "react";
 import type {
   ClickType,
@@ -58,7 +58,7 @@ type Props<TGroup extends TimelineGroupBase, TItem extends TimelineItemBase> = {
   onItemDoubleClick: (item: Id, event: React.MouseEvent) => void;
   onItemContextMenu: (item: Id, event: React.MouseEvent) => void;
 
-  itemRenderer?: (props: ReactCalendarItemRendererProps<TItem, TGroup>) => React.ReactNode;
+  itemRenderer?: (props: ReactCalendarItemRendererProps<TItem, TGroup>) => React.ReactElement;
   scrollRef: HTMLDivElement | null;
 };
 

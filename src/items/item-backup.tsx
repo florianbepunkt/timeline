@@ -87,10 +87,10 @@ type ItemState = {
   resizeTime: number | null;
 };
 
-export default class Item<
-  TGroup extends TimelineGroupBase,
-  TItem extends TimelineItemBase
-> extends Component<ItemProps<TGroup, TItem>, ItemState> {
+export class Item<TGroup extends TimelineGroupBase, TItem extends TimelineItemBase> extends Component<
+  ItemProps<TGroup, TItem>,
+  ItemState
+> {
   static contextType = TimelineContext;
 
   // TODO: storybook webpack freaks out... should be resolved once this component is refactored as function, using context hooks
@@ -630,7 +630,7 @@ export default class Item<
       dragTime: this.state.dragTime,
       dragGroupDelta: this.state.dragGroupDelta,
       resizing: this.state.resizing,
-      resizeEdge: this.state.resizeEdge,
+      resizeEdge: this.state.resizeEdge!,
       resizeStart: this.state.resizeStart,
       resizeTime: this.state.resizeTime,
       width: this.props.dimensions.width,

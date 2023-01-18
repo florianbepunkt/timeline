@@ -1,6 +1,6 @@
 import { getGroupOrders, getVisibleItems } from "../utility/calendar";
+import { Item } from "./item";
 import { keyBy } from "../utility/generic";
-import Item from "./Item";
 import React from "react";
 import type {
   ClickType,
@@ -38,7 +38,7 @@ type ItemsProps<TGroup extends TimelineGroupBase, TItem extends TimelineItemBase
 
   itemDrag: (item: Id, dragTime: number, newGroupIndex: number) => void;
   itemDrop: (item: Id, dragTime: number, newGroupIndex: number) => void;
-  itemRenderer?: (props: ReactCalendarItemRendererProps<TItem, TGroup>) => React.ReactNode;
+  itemRenderer?: (props: ReactCalendarItemRendererProps<TItem, TGroup>) => React.ReactElement;
   itemResized: (item: Id, resizeTime: number, edge: TimelineItemEdge, timeDelta: number) => void;
   itemResizing: (item: Id, resizeTime: number, edge: TimelineItemEdge) => void;
   itemSelect: (item: Id, clickType: ClickType, event: React.MouseEvent | React.TouchEvent) => void;
@@ -68,7 +68,7 @@ type ItemsProps<TGroup extends TimelineGroupBase, TItem extends TimelineItemBase
 //   );
 export const Items = <TGroup extends TimelineGroupBase, TItem extends TimelineItemBase>(
   props: ItemsProps<TGroup, TItem>
-) => {
+): React.ReactElement => {
   const { canvasTimeStart, canvasTimeEnd, canvasTop, canvasBottom, dimensionItems, groups, items } =
     props;
 
@@ -104,6 +104,7 @@ export const Items = <TGroup extends TimelineGroupBase, TItem extends TimelineIt
         const adjustedDimensions = { ...dimensions, ...{ top: dimensions.top - canvasTop } };
 
         return (
+          // @ts-ignore // TODO
           <Item
             canChangeGroup={
               item.canChangeGroup !== undefined ? item.canChangeGroup : props.canChangeGroup

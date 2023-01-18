@@ -1,4 +1,4 @@
-import "../src/Timeline.scss";
+import "../src/timeline.scss";
 import { jsDateDriver } from "../src/utility";
 import { Timeline } from "../src";
 import React from "react";
@@ -45,7 +45,6 @@ const rowDefinitions: RelativeTimeWindow[][] = [
 ];
 
 const dateDriver = jsDateDriver;
-
 const _baseDate = dateDriver().startOf("hour").valueOf();
 const getBaseDate = () => dateDriver(_baseDate);
 

@@ -105,7 +105,7 @@ export type ItemContext<TGroup extends TimelineGroupBase> = {
   dragTime: number | null;
   dragGroupDelta: number | null;
   resizing: boolean | null;
-  resizeEdge: TimelineItemEdge | null;
+  resizeEdge: TimelineItemEdge | undefined;
   resizeStart: number | null;
   resizeTime: number | null;
   width: number;
@@ -323,7 +323,7 @@ export type ReactCalendarTimelineProps<
   ): any;
   onBoundsChange?(canvasTimeStart: number, canvasTimeEnd: number): any;
   onVisibleGroupsChanged?(visibleGroupIds: Id[]): void;
-  itemRenderer?: (props: ReactCalendarItemRendererProps<CustomItem, CustomGroup>) => React.ReactNode;
+  itemRenderer?: (props: ReactCalendarItemRendererProps<CustomItem, CustomGroup>) => React.ReactElement;
   groupRenderer?: (props: ReactCalendarGroupRendererProps<CustomGroup>) => React.ReactNode;
   verticalLineClassNamesForTime?: ((start: number, end: number) => string[]) | undefined;
   horizontalLineClassNamesForGroup?: (group: CustomGroup) => string[];

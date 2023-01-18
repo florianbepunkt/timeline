@@ -1,10 +1,15 @@
-import { binarySearch } from "../utility/search";
-import { Component } from "react";
-import { composeEvents } from "../utility/events";
-import { dateDriver } from "../utility";
+import {
+  binarySearch,
+  composeEvents,
+  dateDriver,
+  getSumScroll,
+  getSumOffset,
+  millisecondsInPixel,
+  usePrevious,
+  useRefState,
+} from "../utility";
 import { defaultItemRenderer } from "./default-item-renderer";
 import { DragEvent, ResizeEvent, PointerEvent } from "@interactjs/types";
-import { getSumScroll, getSumOffset } from "../utility/dom-helpers";
 import {
   leftResizeStyle,
   overridableStyles,
@@ -16,9 +21,8 @@ import {
   selectedAndCanResizeRightAndDragRight,
   selectedStyle,
 } from "./styles";
-import { millisecondsInPixel } from "../utility/calendar";
+import { TimelineContext } from "../timeline";
 import interact from "interactjs";
-import isEqual from "lodash.isequal";
 import React from "react";
 import type {
   ClickType,
@@ -32,38 +36,38 @@ import type {
   TimelineItemEdge,
   TimelineItemProps,
 } from "../types";
-import { TimelineContext } from "../timeline/timeline-context";
-import type { Dimensions, GroupOrder } from "../utility/calendar";
+import type { Dimensions, GroupOrder } from "../utility";
 
 type ItemProps<TGroup extends TimelineGroupBase, TItem extends TimelineItemBase> = {
-  canvasTimeStart: number;
-  canvasTimeEnd: number;
-  canvasWidth: number;
-  canvasTop: number;
-  order: GroupOrder<TGroup>; // Maybe this can be empty... But it seems defined where we use it.
-  dragSnap: number;
-  minResizeWidth: number;
-  selected: boolean; // This had a default value but never would be empty, so I removed the default value completely
   canChangeGroup: boolean;
   canMove: boolean;
   canResizeLeft: boolean;
   canResizeRight: boolean;
+  canSelect: boolean;
+  canvasTimeEnd: number;
+  canvasTimeStart: number;
+  canvasTop: number;
+  canvasWidth: number;
+  dimensions: Dimensions<TGroup>;
+  dragSnap: number;
+  groupTops: number[];
   item: TItem;
-  onSelect: (item: Id, clickType: ClickType, event: React.MouseEvent | React.TouchEvent) => void;
+  itemProps?: object; // Is this used anywhere???
+  minResizeWidth: number;
+  moveResizeValidator?: MoveResizeValidator<TItem>;
+  order: GroupOrder<TGroup>; // Maybe this can be empty... But it seems defined where we use it.
+  scrollRef: HTMLDivElement | null;
+  selected: boolean; // This had a default value but never would be empty, so I removed the default value completely
+  useResizeHandle: boolean;
+
+  itemRenderer?: (props: ReactCalendarItemRendererProps<TItem, TGroup>) => React.ReactElement;
+  onContextMenu: (item: Id, event: React.MouseEvent) => void;
   onDrag: (item: Id, dragTime: number, newGroupIndex: number) => void;
   onDrop: (item: Id, dragTime: number, newGroupIndex: number) => void;
-  onResizing: (item: Id, resizeTime: number, edge: TimelineItemEdge) => void;
-  onResized: (item: Id, resizeTime: number, edge: TimelineItemEdge, timeDelta: number) => void;
-  onContextMenu: (item: Id, event: React.MouseEvent) => void;
-  itemRenderer?: (props: ReactCalendarItemRendererProps<TItem, TGroup>) => React.ReactNode;
-  itemProps?: object; // Is this used anywhere???
-  canSelect: boolean;
-  dimensions: Dimensions<TGroup>;
-  groupTops: number[];
-  useResizeHandle: boolean;
-  moveResizeValidator?: MoveResizeValidator<TItem>;
   onItemDoubleClick: (item: Id, event: React.MouseEvent) => void;
-  scrollRef: HTMLDivElement | null;
+  onResized: (item: Id, resizeTime: number, edge: TimelineItemEdge, timeDelta: number) => void;
+  onResizing: (item: Id, resizeTime: number, edge: TimelineItemEdge) => void;
+  onSelect: (item: Id, clickType: ClickType, event: React.MouseEvent | React.TouchEvent) => void;
 };
 
 type ItemState = {
@@ -87,121 +91,75 @@ type ItemState = {
   resizeTime: number | null;
 };
 
-export default class Item<
-  TGroup extends TimelineGroupBase,
-  TItem extends TimelineItemBase
-> extends Component<ItemProps<TGroup, TItem>, ItemState> {
-  static contextType = TimelineContext;
+export const Item = <TGroup extends TimelineGroupBase, TItem extends TimelineItemBase>(
+  props: ItemProps<TGroup, TItem>
+): React.ReactElement => {
+  const prevProps = usePrevious(props);
+  const timelineContext = React.useContext(TimelineContext);
+  const { canvasTimeStart, canvasTimeEnd, canvasWidth, dragSnap, item, scrollRef } = props;
+  const itemRenderer = props.itemRenderer ?? defaultItemRenderer;
 
-  // TODO: storybook webpack freaks out... should be resolved once this component is refactored as function, using context hooks
-  // declare context: React.ContextType<typeof TimelineContext>;
+  const [interactMounted, setInteractMounted] = React.useState(false);
 
-  constructor(props: ItemProps<TGroup, TItem>) {
-    super(props);
+  const [dragging, setDragging] = useRefState(false);
+  const [dragTime, setDragTime] = React.useState<number | null>(null);
+  const [dragGroupDelta, setDragGroupDelta] = useRefState<number | null>(null);
+  const [dragStart, setDragStart] = useRefState<{ x: number; y: number; offset: number } | null>(null);
 
-    this.state = {
-      interactMounted: false,
-      dragging: null,
-      dragStart: null,
-      preDragPosition: null,
-      dragTime: null,
-      dragGroupDelta: null,
-      resizing: null,
-      resizeEdge: null,
-      resizeStart: null,
-      resizeTime: null,
-    };
-  }
+  const [resizing, setResizing] = useRefState(false);
+  const [resizeEdge, setResizeEdge] = useRefState<TimelineItemEdge | undefined>(undefined);
+  const [resizeStart, setResizeStart] = useRefState<number | null>(null);
+  const [resizeTime, setResizeTime] = React.useState<number | null>(null);
 
-  shouldComponentUpdate(nextProps: Readonly<ItemProps<TGroup, TItem>>, nextState: Readonly<ItemState>) {
-    const shouldUpdate =
-      nextState.dragging !== this.state.dragging ||
-      nextState.dragTime !== this.state.dragTime ||
-      nextState.dragGroupDelta !== this.state.dragGroupDelta ||
-      nextState.resizing !== this.state.resizing ||
-      nextState.resizeTime !== this.state.resizeTime ||
-      !isEqual(nextProps.itemProps, this.props.itemProps) ||
-      nextProps.selected !== this.props.selected ||
-      nextProps.item !== this.props.item ||
-      nextProps.canvasTimeStart !== this.props.canvasTimeStart ||
-      nextProps.canvasTimeEnd !== this.props.canvasTimeEnd ||
-      nextProps.canvasWidth !== this.props.canvasWidth ||
-      (nextProps.order ? nextProps.order.index : undefined) !==
-        (this.props.order ? this.props.order.index : undefined) ||
-      nextProps.dragSnap !== this.props.dragSnap ||
-      nextProps.minResizeWidth !== this.props.minResizeWidth ||
-      nextProps.canChangeGroup !== this.props.canChangeGroup ||
-      nextProps.canSelect !== this.props.canSelect ||
-      nextProps.canMove !== this.props.canMove ||
-      nextProps.canResizeLeft !== this.props.canResizeLeft ||
-      nextProps.canResizeRight !== this.props.canResizeRight ||
-      nextProps.dimensions !== this.props.dimensions;
-    return shouldUpdate;
-  }
+  const _startedClicking = React.useRef(false);
+  const _startedTouching = React.useRef(false);
+  const _item = React.useRef<HTMLDivElement | null>(null);
+  const _dragLeft = React.useRef<HTMLDivElement | null>(null);
+  const _dragRight = React.useRef<HTMLDivElement | null>(null);
 
-  getTimeRatio() {
-    const { canvasTimeStart, canvasTimeEnd, canvasWidth } = this.props;
+  const getTimeRatio = () => {
+    const { canvasTimeStart, canvasTimeEnd, canvasWidth } = props;
     return millisecondsInPixel(canvasTimeStart, canvasTimeEnd, canvasWidth);
-  }
+  };
 
-  // TODO: Please make the optional `considerOffset` parameter required!
-  dragTimeSnap(dragTime: number, considerOffset?: boolean) {
-    const { dragSnap } = this.props;
-
+  const dragTimeSnap = (dragTime: number, considerOffset?: boolean) => {
     if (dragSnap) {
       const offset = considerOffset ? dateDriver().utcOffset() * 60 * 1000 : 0;
       return Math.round(dragTime / dragSnap) * dragSnap - (offset % dragSnap);
     } else {
       return dragTime;
     }
-  }
+  };
 
-  resizeTimeSnap(dragTime: number) {
-    const { dragSnap } = this.props;
+  const resizeTimeSnap = (dragTime: number) => {
     if (dragSnap) {
-      const endTime = this.props.item.endTime % dragSnap;
+      const endTime = item.endTime % dragSnap;
       return Math.round((dragTime - endTime) / dragSnap) * dragSnap + endTime;
     } else {
       return dragTime;
     }
-  }
+  };
 
-  dragTime(e: DragEvent): number {
-    const startTime = dateDriver(this.props.item.startTime);
+  const getDragTime = (e: DragEvent): number => {
+    const startTime = dateDriver(item.startTime);
+    if (dragStart.current === null) throw new Error(`Invalid state`);
+    return dragging.current
+      ? dragTimeSnap(timeFor(e) + dragStart.current.offset, true)
+      : startTime.valueOf();
+  };
 
-    if (this.state.dragStart === null) {
-      throw new Error(
-        `This should never happen: the "dragStart" value is "null" when we try to calculate the drag time`
-      );
-    }
+  const timeFor = (e: DragEvent | ResizeEvent) => {
+    const ratio = millisecondsInPixel(canvasTimeStart, canvasTimeEnd, canvasWidth);
+    const offset = getSumOffset(scrollRef).offsetLeft;
+    const scrolls = getSumScroll(scrollRef);
+    return (e.pageX - offset + scrolls.scrollLeft) * ratio + canvasTimeStart;
+  };
 
-    if (this.state.dragging) {
-      return this.dragTimeSnap(this.timeFor(e) + this.state.dragStart.offset, true);
-    } else {
-      return startTime.valueOf(); // This was originally just a `startTime` return, but I think we need number here.
-    }
-  }
-
-  timeFor(e: DragEvent | ResizeEvent) {
-    const ratio = millisecondsInPixel(
-      this.props.canvasTimeStart,
-      this.props.canvasTimeEnd,
-      this.props.canvasWidth
-    );
-
-    const offset = getSumOffset(this.props.scrollRef).offsetLeft;
-    const scrolls = getSumScroll(this.props.scrollRef);
-
-    return (e.pageX - offset + scrolls.scrollLeft) * ratio + this.props.canvasTimeStart;
-  }
-
-  dragGroupDelta(e: DragEvent) {
-    const { canvasTop, canChangeGroup, groupTops, order } = this.props;
-
-    if (!(this.state.dragging && canChangeGroup)) return 0;
-
-    const offset = getSumOffset(this.props.scrollRef).offsetTop;
-    const scrollTop = getSumScroll(this.props.scrollRef).scrollTop;
+  const getDragGroupDelta = (e: DragEvent) => {
+    const { canvasTop, canChangeGroup, groupTops, order } = props;
+    if (!(dragging.current && canChangeGroup)) return 0;
+    const offset = getSumOffset(scrollRef).offsetTop;
+    const scrollTop = getSumScroll(scrollRef).scrollTop;
     const correctedEventY = e.pageY + canvasTop - offset + scrollTop;
     const lastGroupIndex = groupTops.length - 1;
     const eventGroupIndex = binarySearch(groupTops, (groupTop, groupIndex): number =>
@@ -213,375 +171,234 @@ export default class Item<
           : -1
         : 0
     );
+
     return eventGroupIndex < 0 ? 0 : eventGroupIndex - order.index;
-  }
+  };
 
-  resizeTimeDelta(e: ResizeEvent, resizeEdge: TimelineItemEdge | null) {
-    const length = this.props.item.endTime - this.props.item.startTime;
+  const resizeTimeDelta = (e: ResizeEvent, resizeEdge: TimelineItemEdge | null) => {
+    const length = item.endTime - item.startTime;
+    if (resizeStart.current === null) throw new Error(`Illegal state`);
+    const timeDelta = dragTimeSnap((e.pageX - resizeStart.current) * getTimeRatio());
 
-    if (this.state.resizeStart === null) {
-      throw new Error(
-        `This should never happen: the "resizeStart" is null when we try to calculate resize time delta`
-      );
-    }
-
-    const timeDelta = this.dragTimeSnap((e.pageX - this.state.resizeStart) * this.getTimeRatio());
-
-    if (length + (resizeEdge === "left" ? -timeDelta : timeDelta) < (this.props.dragSnap || 1000)) {
-      if (resizeEdge === "left") {
-        return length - (this.props.dragSnap || 1000);
-      } else {
-        return (this.props.dragSnap || 1000) - length;
-      }
+    if (length + (resizeEdge === "left" ? -timeDelta : timeDelta) < (dragSnap || 1000)) {
+      return resizeEdge === "left" ? length - (dragSnap || 1000) : (dragSnap || 1000) - length;
     } else {
       return timeDelta;
     }
-  }
+  };
 
-  mountInteract() {
-    const leftResize = this.props.useResizeHandle ? ".rct-item-handler-resize-left" : true;
-    const rightResize = this.props.useResizeHandle ? ".rct-item-handler-resize-right" : true;
+  // drag handlers
+  const handleDragStart = (e: DragEvent) => {
+    if (!props.selected) return false;
+    const clickTime = timeFor(e);
+    setDragging(true);
+    setDragStart({ x: e.pageX, y: e.pageY, offset: item.startTime - clickTime });
+    setDragTime(item.startTime);
+    setDragGroupDelta(0);
+    return;
+  };
 
-    if (this._item === null) {
-      throw new Error(`Item reference should be never emtpy.`);
+  // TODO: could be optimized with React.useCallback
+  const handleDragMove = (e: DragEvent) => {
+    if (!dragging.current) return;
+    let newDragTime = getDragTime(e);
+    const dragGroupDelta = getDragGroupDelta(e);
+    if (props.moveResizeValidator) newDragTime = props.moveResizeValidator("move", item, newDragTime);
+    if (props.onDrag) props.onDrag(item.id, newDragTime, props.order.index + dragGroupDelta);
+    setDragTime(newDragTime);
+    setDragGroupDelta(dragGroupDelta);
+  };
+
+  const handleDragEnd = (e: DragEvent) => {
+    if (!dragging.current) return;
+    if (props.onDrop) {
+      let dragTime = getDragTime(e);
+      if (props.moveResizeValidator) dragTime = props.moveResizeValidator("move", item, dragTime);
+      props.onDrop(item.id, dragTime, props.order.index + getDragGroupDelta(e));
+    }
+    setDragging(false);
+    setDragStart(null);
+    setDragTime(null);
+    setDragGroupDelta(null);
+  };
+
+  // resize handlers
+  const handleResizeStart = (e: ResizeEvent) => {
+    if (!props.selected) return false;
+    setResizing(true);
+    setResizeEdge(undefined);
+    setResizeStart(e.pageX);
+    setResizeTime(0);
+  };
+
+  // TODO: could be optimized with React.useCallback
+  const handleResizeMove = (e: ResizeEvent) => {
+    if (!resizing.current) return;
+    let currentResizeEdge = resizeEdge.current;
+    if (!currentResizeEdge) {
+      const fallback = e.deltaRect?.left !== 0 ? "left" : "right";
+      setResizeEdge(fallback);
+      currentResizeEdge = fallback;
     }
 
-    interact(this._item)
+    let resizeTime = resizeTimeSnap(timeFor(e));
+    if (props.moveResizeValidator) {
+      resizeTime = props.moveResizeValidator("resize", item, resizeTime, currentResizeEdge);
+    }
+
+    if (props.onResizing) props.onResizing(item.id, resizeTime, currentResizeEdge!);
+    setResizeTime(resizeTime);
+  };
+
+  const handleResizeEnd = (e: ResizeEvent) => {
+    if (!resizing.current) return;
+    let resizeTime = resizeTimeSnap(timeFor(e));
+    if (props.moveResizeValidator) {
+      if (!resizeEdge.current) throw new Error(`Illegal state`);
+      resizeTime = props.moveResizeValidator("resize", item, resizeTime, resizeEdge.current);
+    }
+
+    if (props.onResized) {
+      if (!resizeEdge.current) throw new Error(`Illegal state`);
+      props.onResized(item.id, resizeTime, resizeEdge.current!, resizeTimeDelta(e, resizeEdge.current!));
+    }
+
+    setResizing(false);
+    setResizeStart(null);
+    setResizeEdge(undefined);
+    setResizeTime(null);
+  };
+
+  const mountInteract = () => {
+    const leftResize = props.useResizeHandle ? ".rct-item-handler-resize-left" : true;
+    const rightResize = props.useResizeHandle ? ".rct-item-handler-resize-right" : true;
+    if (_item.current === null) throw new Error(`Item reference should be never emtpy.`);
+
+    interact(_item.current)
       .resizable({
         edges: {
-          left: this.canResizeLeft() && leftResize,
-          right: this.canResizeRight() && rightResize,
+          left: canResizeLeft() && leftResize,
+          right: canResizeRight() && rightResize,
           top: false,
           bottom: false,
         },
-        enabled: this.props.selected && (this.canResizeLeft() || this.canResizeRight()),
+        enabled: props.selected && (canResizeLeft() || canResizeRight()),
       })
-      .draggable({
-        enabled: this.props.selected && this.canMove(),
-      })
+      .draggable({ enabled: props.selected && canMove() })
       .styleCursor(false)
-      .on("dragstart", (e: DragEvent) => {
-        if (this.props.selected) {
-          const clickTime = this.timeFor(e);
-          const hackedTarget = e.target as { offsetLeft: number; offsetTop: number }; // TODO: remove this ugly type hack
-          this.setState({
-            dragging: true,
-            dragStart: {
-              x: e.pageX,
-              y: e.pageY,
-              offset: this.props.item.startTime - clickTime,
-            },
-            preDragPosition: { x: hackedTarget.offsetLeft, y: hackedTarget.offsetTop },
-            dragTime: this.props.item.startTime,
-            dragGroupDelta: 0,
-          });
-          return;
-        } else {
-          return false;
-        }
-      })
-      .on("dragmove", (e: DragEvent) => {
-        if (this.state.dragging) {
-          let dragTime = this.dragTime(e);
-          const dragGroupDelta = this.dragGroupDelta(e);
-          if (this.props.moveResizeValidator) {
-            dragTime = this.props.moveResizeValidator("move", this.props.item, dragTime);
-          }
-
-          if (this.props.onDrag) {
-            this.props.onDrag(this.props.item.id, dragTime, this.props.order.index + dragGroupDelta);
-          }
-
-          this.setState({
-            dragTime: dragTime,
-            dragGroupDelta: dragGroupDelta,
-          });
-        }
-      })
-      .on("dragend", (e: DragEvent) => {
-        if (this.state.dragging) {
-          if (this.props.onDrop) {
-            let dragTime = this.dragTime(e);
-
-            if (this.props.moveResizeValidator) {
-              dragTime = this.props.moveResizeValidator("move", this.props.item, dragTime);
-            }
-
-            this.props.onDrop(
-              this.props.item.id,
-              dragTime,
-              this.props.order.index + this.dragGroupDelta(e)
-            );
-          }
-
-          this.setState({
-            dragging: false,
-            dragStart: null,
-            preDragPosition: null,
-            dragTime: null,
-            dragGroupDelta: null,
-          });
-        }
-      })
-      .on("resizestart", (e: ResizeEvent) => {
-        if (this.props.selected) {
-          this.setState({
-            resizing: true,
-            resizeEdge: null, // we don't know yet
-            resizeStart: e.pageX,
-            resizeTime: 0,
-          });
-          return;
-        } else {
-          return false;
-        }
-      })
-      .on("resizemove", (e: ResizeEvent) => {
-        if (this.state.resizing) {
-          let resizeEdge = this.state.resizeEdge;
-
-          if (!resizeEdge) {
-            resizeEdge = e.deltaRect?.left !== 0 ? "left" : "right";
-            this.setState({ resizeEdge });
-          }
-          let resizeTime = this.resizeTimeSnap(this.timeFor(e));
-
-          if (this.props.moveResizeValidator) {
-            resizeTime = this.props.moveResizeValidator(
-              "resize",
-              this.props.item,
-              resizeTime,
-              resizeEdge
-            );
-          }
-
-          if (this.props.onResizing) {
-            this.props.onResizing(this.props.item.id, resizeTime, resizeEdge);
-          }
-
-          this.setState({
-            resizeTime,
-          });
-        }
-      })
-      .on("resizeend", (e: ResizeEvent) => {
-        if (this.state.resizing) {
-          const { resizeEdge } = this.state;
-          let resizeTime = this.resizeTimeSnap(this.timeFor(e));
-
-          if (this.props.moveResizeValidator) {
-            if (resizeEdge === null) {
-              throw new Error(`This should never happen: resize edge is null when resize ended`);
-            }
-            resizeTime = this.props.moveResizeValidator(
-              "resize",
-              this.props.item,
-              resizeTime,
-              resizeEdge
-            );
-          }
-
-          if (this.props.onResized) {
-            if (resizeEdge === null) {
-              throw new Error(`This should never happen: resize edge is null when resize ended`);
-            }
-            this.props.onResized(
-              this.props.item.id,
-              resizeTime,
-              resizeEdge,
-              this.resizeTimeDelta(e, resizeEdge)
-            );
-          }
-          this.setState({
-            resizing: null,
-            resizeStart: null,
-            resizeEdge: null,
-            resizeTime: null,
-          });
-        }
-      })
-      // TODO: Dangerous type hack, should be removed
+      .on("dragstart", handleDragStart)
+      .on("dragmove", handleDragMove)
+      .on("dragend", handleDragEnd)
+      .on("resizestart", handleResizeStart)
+      .on("resizemove", handleResizeMove)
+      .on("resizeend", handleResizeEnd)
       .on("tap", (e: PointerEvent & React.MouseEvent) => {
-        this.actualClick(e, e.pointerType === "mouse" ? "click" : "touch");
+        actualClick(e, e.pointerType === "mouse" ? "click" : "touch");
       });
 
-    this.setState({
-      interactMounted: true,
-    });
-  }
+    setInteractMounted(true);
+  };
 
-  canResizeLeft(props = this.props) {
-    if (!props.canResizeLeft) {
-      return false;
-    }
-    const width = parseInt(`${props.dimensions.width}`, 10); // TODO: Really?!
-    return width >= props.minResizeWidth;
-  }
+  const canResizeLeft = (p: ItemProps<TGroup, TItem> = props) => {
+    if (!p.canResizeLeft) return false;
+    const width = parseInt(`${p.dimensions.width}`);
+    return width >= p.minResizeWidth;
+  };
 
-  canResizeRight(props = this.props) {
-    if (!props.canResizeRight) {
-      return false;
-    }
-    const width = parseInt(`${props.dimensions.width}`, 10); // TODO: Really?!
-    return width >= props.minResizeWidth;
-  }
+  const canResizeRight = (p: ItemProps<TGroup, TItem> = props) => {
+    if (!p.canResizeRight) return false;
+    const width = parseInt(`${p.dimensions.width}`);
+    return width >= p.minResizeWidth;
+  };
 
-  canMove(props = this.props) {
-    return !!props.canMove;
-  }
+  const canMove = (p: ItemProps<TGroup, TItem> = props) => !!p.canMove;
 
-  componentDidUpdate(prevProps: Readonly<ItemProps<TGroup, TItem>>) {
-    let { interactMounted } = this.state;
-    const couldDrag = prevProps.selected && this.canMove(prevProps);
-    const couldResizeLeft = prevProps.selected && this.canResizeLeft(prevProps);
-    const couldResizeRight = prevProps.selected && this.canResizeRight(prevProps);
-    const willBeAbleToDrag = this.props.selected && this.canMove(this.props);
-    const willBeAbleToResizeLeft = this.props.selected && this.canResizeLeft(this.props);
-    const willBeAbleToResizeRight = this.props.selected && this.canResizeRight(this.props);
-
-    if (!!this._item) {
-      if (this.props.selected && !interactMounted) {
-        this.mountInteract();
-        interactMounted = true;
-      }
-      if (
-        interactMounted &&
-        (couldResizeLeft !== willBeAbleToResizeLeft || couldResizeRight !== willBeAbleToResizeRight)
-      ) {
-        const leftResize = this.props.useResizeHandle ? this._dragLeft : true;
-        const rightResize = this.props.useResizeHandle ? this._dragRight : true;
-
-        if (leftResize !== null && rightResize !== null) {
-          interact(this._item).resizable({
-            enabled: willBeAbleToResizeLeft || willBeAbleToResizeRight,
-            edges: {
-              top: false,
-              bottom: false,
-              left: willBeAbleToResizeLeft && leftResize,
-              right: willBeAbleToResizeRight && rightResize,
-            },
-          });
-        } else {
-          // This should never happen
-        }
-      }
-      if (interactMounted && couldDrag !== willBeAbleToDrag) {
-        interact(this._item).draggable({ enabled: willBeAbleToDrag });
-      }
-    } else {
-      interactMounted = false;
-    }
-
-    this.setState({ interactMounted });
-  }
-
-  private _startedClicking = false;
-  private _startedTouching = false;
-
-  onMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    if (!this.state.interactMounted) {
+  // event handlers
+  const onMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if (!interactMounted) {
       e.preventDefault();
-      this._startedClicking = true;
+      _startedClicking.current = true;
     }
   };
 
-  onMouseUp = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    if (!this.state.interactMounted && this._startedClicking) {
-      this._startedClicking = false;
-      this.actualClick(e, "click");
+  const onMouseUp = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if (!interactMounted && _startedClicking.current) {
+      _startedClicking.current = false;
+      actualClick(e, "click");
     }
   };
 
-  onTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
-    if (!this.state.interactMounted) {
+  const onTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (!interactMounted) {
       e.preventDefault();
-      this._startedTouching = true;
+      _startedTouching.current = true;
     }
   };
 
-  onTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
-    if (!this.state.interactMounted && this._startedTouching) {
-      this._startedTouching = false;
-      this.actualClick(e, "touch");
+  const onTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (!interactMounted && _startedTouching.current) {
+      _startedTouching.current = false;
+      actualClick(e, "touch");
     }
   };
 
-  handleDoubleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+  const handleDoubleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
-    if (this.props.onItemDoubleClick) {
-      this.props.onItemDoubleClick(this.props.item.id, e);
-    }
+    if (props.onItemDoubleClick) props.onItemDoubleClick(item.id, e);
   };
 
-  handleContextMenu = (e: React.MouseEvent) => {
-    if (this.props.onContextMenu) {
-      e.preventDefault();
-      e.stopPropagation();
-      this.props.onContextMenu(this.props.item.id, e);
-    }
+  const handleContextMenu = (e: React.MouseEvent) => {
+    if (!props.onContextMenu) return;
+    e.preventDefault();
+    e.stopPropagation();
+    props.onContextMenu(props.item.id, e);
   };
 
-  actualClick(e: React.MouseEvent | React.TouchEvent, clickType: "touch" | "click") {
-    if (this.props.canSelect && this.props.onSelect) {
-      this.props.onSelect(this.props.item.id, clickType, e);
-    }
-  }
+  const actualClick = (e: React.MouseEvent | React.TouchEvent, clickType: "touch" | "click") => {
+    if (props.canSelect && props.onSelect) props.onSelect(item.id, clickType, e);
+  };
 
-  private _item: HTMLDivElement | null = null;
-  private _dragLeft: HTMLDivElement | null = null;
-  private _dragRight: HTMLDivElement | null = null;
-
-  getItemRef = (el: HTMLDivElement | null) => (this._item = el);
-  getDragLeftRef = (el: HTMLDivElement | null) => (this._dragLeft = el);
-  getDragRightRef = (el: HTMLDivElement | null) => (this._dragRight = el);
-
-  getItemProps = (props: Partial<Omit<TimelineItemProps, "key" | "ref">> = {}) => {
-    //TODO: maybe shouldnt include all of these classes
-    const classNames = "rct-item" + (this.props.item.className ? ` ${this.props.item.className}` : "");
-
+  const getItemProps = (props: Partial<Omit<TimelineItemProps, "key" | "ref">> = {}) => {
+    const classNames = "rct-item" + (item.className ? ` ${item.className}` : "");
     const result: TimelineItemProps & { title: string | undefined } = {
-      key: this.props.item.id,
-      ref: this.getItemRef,
-      title: this.props.item.title,
       className: classNames + ` ${props.className ? props.className : ""}`,
-      onMouseDown: composeEvents(this.onMouseDown, props.onMouseDown),
-      onMouseUp: composeEvents(this.onMouseUp, props.onMouseUp),
-      onTouchStart: composeEvents(this.onTouchStart, props.onTouchStart),
-      onTouchEnd: composeEvents(this.onTouchEnd, props.onTouchEnd),
-      onDoubleClick: composeEvents(this.handleDoubleClick, props.onDoubleClick),
-      onContextMenu: composeEvents(this.handleContextMenu, props.onContextMenu),
-      style: Object.assign({}, this.getItemStyle(props)),
+      key: item.id,
+      onContextMenu: composeEvents(handleContextMenu, props.onContextMenu),
+      onDoubleClick: composeEvents(handleDoubleClick, props.onDoubleClick),
+      onMouseDown: composeEvents(onMouseDown, props.onMouseDown),
+      onMouseUp: composeEvents(onMouseUp, props.onMouseUp),
+      onTouchEnd: composeEvents(onTouchEnd, props.onTouchEnd),
+      onTouchStart: composeEvents(onTouchStart, props.onTouchStart),
+      ref: _item,
+      style: Object.assign({}, getItemStyle(props)),
+      title: item.title,
     };
     return result;
   };
 
-  getResizeProps = (props: ResizeStyles = {}) => {
+  const getResizeProps = (props: ResizeStyles = {}) => {
     let leftName = "rct-item-handler rct-item-handler-left rct-item-handler-resize-left";
-    if (props.leftClassName) {
-      leftName += ` ${props.leftClassName}`;
-    }
+    if (props.leftClassName) leftName += ` ${props.leftClassName}`;
 
     let rightName = "rct-item-handler rct-item-handler-right rct-item-handler-resize-right";
-    if (props.rightClassName) {
-      rightName += ` ${props.rightClassName}`;
-    }
+    if (props.rightClassName) rightName += ` ${props.rightClassName}`;
+
     return {
       left: {
-        ref: this.getDragLeftRef,
         className: leftName,
+        ref: _dragLeft,
         style: Object.assign({}, leftResizeStyle, props.leftStyle),
       },
       right: {
-        ref: this.getDragRightRef,
         className: rightName,
+        ref: _dragRight,
         style: Object.assign({}, rightResizeStyle, props.rightStyle),
       },
     };
   };
 
-  getItemStyle(props: React.HTMLAttributes<HTMLDivElement>) {
-    const dimensions = this.props.dimensions;
-
+  const getItemStyle = (p: React.HTMLAttributes<HTMLDivElement>) => {
+    const { dimensions } = props;
     const baseStyles = {
       position: "absolute",
       boxSizing: "border-box",
@@ -592,57 +409,96 @@ export default class Item<
       lineHeight: `${dimensions.height}px`,
     };
 
-    const finalStyle = Object.assign(
+    return Object.assign(
       {},
       overridableStyles,
-      this.props.selected ? selectedStyle : {},
-      this.props.selected && this.canMove(this.props) ? selectedAndCanMove : {},
-      this.props.selected && this.canResizeLeft(this.props) ? selectedAndCanResizeLeft : {},
-      this.props.selected && this.canResizeLeft(this.props) && this.state.dragging
+      props.selected ? selectedStyle : {},
+      props.selected && canMove(props) ? selectedAndCanMove : {},
+      props.selected && canResizeLeft(props) ? selectedAndCanResizeLeft : {},
+      props.selected && canResizeLeft(props) && dragging.current
         ? selectedAndCanResizeLeftAndDragLeft
         : {},
-      this.props.selected && this.canResizeRight(this.props) ? selectedAndCanResizeRight : {},
-      this.props.selected && this.canResizeRight(this.props) && this.state.dragging
+      props.selected && canResizeRight(props) ? selectedAndCanResizeRight : {},
+      props.selected && canResizeRight(props) && dragging.current
         ? selectedAndCanResizeRightAndDragRight
         : {},
-      props.style,
+      p.style,
       baseStyles
     );
-    return finalStyle;
-  }
+  };
 
-  render() {
-    if (typeof this.props.order === "undefined" || this.props.order === null) {
-      return null;
+  React.useEffect(() => {
+    let mounted = interactMounted;
+
+    const couldDrag = prevProps?.selected && canMove(prevProps);
+    const couldResizeLeft = prevProps?.selected && canResizeLeft(prevProps);
+    const couldResizeRight = prevProps?.selected && canResizeRight(prevProps);
+    const willBeAbleToDrag = props.selected && canMove(props);
+    const willBeAbleToResizeLeft = props.selected && canResizeLeft(props);
+    const willBeAbleToResizeRight = props.selected && canResizeRight(props);
+
+    if (!!_item.current) {
+      if (props.selected && !mounted) {
+        mountInteract();
+        mounted = true;
+      }
+
+      if (
+        mounted &&
+        (couldResizeLeft !== willBeAbleToResizeLeft || couldResizeRight !== willBeAbleToResizeRight)
+      ) {
+        const leftResize = props.useResizeHandle ? _dragLeft.current : true;
+        const rightResize = props.useResizeHandle ? _dragRight.current : true;
+
+        if (leftResize !== null && rightResize !== null) {
+          interact(_item.current).resizable({
+            enabled: willBeAbleToResizeLeft || willBeAbleToResizeRight,
+            edges: {
+              bottom: false,
+              left: willBeAbleToResizeLeft && leftResize,
+              right: willBeAbleToResizeRight && rightResize,
+              top: false,
+            },
+          });
+        }
+      }
+
+      if (mounted && couldDrag !== willBeAbleToDrag) {
+        interact(_item.current).draggable({ enabled: willBeAbleToDrag });
+      }
+    } else {
+      mounted = false;
     }
 
-    const timelineContext = this.context as TimelineContext;
-    const itemContext: ItemContext<TGroup> = {
-      dimensions: this.props.dimensions,
-      useResizeHandle: this.props.useResizeHandle,
-      title: this.props.item.title,
-      canMove: this.canMove(this.props),
-      canResizeLeft: this.canResizeLeft(this.props),
-      canResizeRight: this.canResizeRight(this.props),
-      selected: this.props.selected,
-      dragging: this.state.dragging,
-      dragStart: this.state.dragStart,
-      dragTime: this.state.dragTime,
-      dragGroupDelta: this.state.dragGroupDelta,
-      resizing: this.state.resizing,
-      resizeEdge: this.state.resizeEdge,
-      resizeStart: this.state.resizeStart,
-      resizeTime: this.state.resizeTime,
-      width: this.props.dimensions.width,
-    }; // I am too tired for this...
+    if (interactMounted !== mounted) {
+      setInteractMounted(mounted);
+    }
+  });
 
-    const itemRenderer = this.props.itemRenderer ?? defaultItemRenderer;
-    return itemRenderer({
-      item: this.props.item,
-      timelineContext,
-      itemContext,
-      getItemProps: this.getItemProps,
-      getResizeProps: this.getResizeProps,
-    });
-  }
-}
+  const itemContext: ItemContext<TGroup> = {
+    canMove: canMove(props),
+    canResizeLeft: canResizeLeft(props),
+    canResizeRight: canResizeRight(props),
+    dimensions: props.dimensions,
+    dragging: dragging.current,
+    dragGroupDelta: dragGroupDelta.current,
+    dragStart: dragStart.current,
+    dragTime: dragTime,
+    resizeEdge: resizeEdge.current,
+    resizeStart: resizeStart.current,
+    resizeTime: resizeTime,
+    resizing: resizing.current,
+    selected: props.selected,
+    title: item.title,
+    useResizeHandle: props.useResizeHandle,
+    width: props.dimensions.width,
+  };
+
+  return itemRenderer({
+    getItemProps,
+    getResizeProps,
+    item,
+    itemContext,
+    timelineContext,
+  });
+};

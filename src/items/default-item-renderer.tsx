@@ -16,7 +16,7 @@ type DefaultItemRendererProps<TGroup extends TimelineGroupBase, TItem extends Ti
 
 export const defaultItemRenderer = <TGroup extends TimelineGroupBase, TItem extends TimelineItemBase>(
   props: DefaultItemRendererProps<TGroup, TItem>
-) => {
+): React.ReactElement => {
   const { item, itemContext, getItemProps, getResizeProps } = props;
   const { left: leftResizeProps, right: rightResizeProps } = getResizeProps();
 
