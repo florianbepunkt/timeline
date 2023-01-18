@@ -1,7 +1,7 @@
 import { DateDriver } from "../utility";
 import { iterateTimes } from "../utility/calendar";
 import { TimelineHeadersConsumer } from "./headers-context";
-import { TimelineStateConsumer } from "../timeline/TimelineStateContext";
+import { TimelineStateConsumer } from "../timeline/timeline-state-context";
 import memoize from "memoize-one";
 import React from "react";
 import type {

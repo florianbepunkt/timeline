@@ -2,7 +2,7 @@ import { CustomHeader, DateHeader, SidebarHeader, TimelineHeaders } from "../hea
 import { ITimelineHeadersProviderProps } from "../headers/headers-context";
 import { render } from "@testing-library/react";
 import { RenderHeadersWrapper } from "./header-renderer";
-import { TimelineStateProviderProps } from "../timeline/TimelineStateContext";
+import { TimelineStateProviderProps } from "../timeline/timeline-state-context";
 import { TimeUnit } from "../types";
 
 export const renderSidebarHeaderWithCustomValues = ({

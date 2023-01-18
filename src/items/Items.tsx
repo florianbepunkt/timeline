@@ -1,6 +1,7 @@
-import React, { Component } from "react";
-
+import { arraysEqual, keyBy } from "../utility/generic";
+import { getGroupOrders, getVisibleItems } from "../utility/calendar";
 import Item from "./Item";
+import React, { Component } from "react";
 import type {
   ClickType,
   Id,
@@ -11,8 +12,6 @@ import type {
   TimelineItemBase,
   TimelineItemEdge,
 } from "../types";
-import { arraysEqual, keyBy } from "../utility/generic";
-import { getGroupOrders, getVisibleItems } from "../utility/calendar";
 import type { ItemDimensions } from "../utility/calendar";
 
 const canResizeLeft = (item: TimelineItemBase, canResize: ResizeOptions) => {
@@ -131,11 +130,6 @@ export default class Items<
             const adjustedDimensions = { ...dimensions, ...{ top: dimensions.top - canvasTop } };
             return (
               <Item
-                key={item.id}
-                item={item}
-                order={groupOrders[item.group]}
-                dimensions={adjustedDimensions}
-                selected={this.isSelected(item)}
                 canChangeGroup={
                   item.canChangeGroup !== undefined ? item.canChangeGroup : this.props.canChangeGroup
                 }
@@ -143,24 +137,29 @@ export default class Items<
                 canResizeLeft={canResizeLeft(item, this.props.canResize)}
                 canResizeRight={canResizeRight(item, this.props.canResize)}
                 canSelect={item.canSelect !== undefined ? item.canSelect : this.props.canSelect}
-                useResizeHandle={this.props.useResizeHandle}
-                groupTops={this.props.groupTops ?? []} // I used an empty array here as a default value to make it safer
-                canvasTimeStart={this.props.canvasTimeStart}
                 canvasTimeEnd={this.props.canvasTimeEnd}
-                canvasWidth={this.props.canvasWidth}
+                canvasTimeStart={this.props.canvasTimeStart}
                 canvasTop={canvasTop}
+                canvasWidth={this.props.canvasWidth}
+                dimensions={adjustedDimensions}
                 dragSnap={this.props.dragSnap}
+                groupTops={this.props.groupTops ?? []} // I used an empty array here as a default value to make it safer
+                item={item}
+                itemRenderer={this.props.itemRenderer}
+                key={item.id}
                 minResizeWidth={this.props.minResizeWidth}
-                onResizing={this.props.itemResizing}
-                onResized={this.props.itemResized}
                 moveResizeValidator={this.props.moveResizeValidator}
+                onContextMenu={this.props.onItemContextMenu}
                 onDrag={this.props.itemDrag}
                 onDrop={this.props.itemDrop}
                 onItemDoubleClick={this.props.onItemDoubleClick}
-                onContextMenu={this.props.onItemContextMenu}
+                onResized={this.props.itemResized}
+                onResizing={this.props.itemResizing}
                 onSelect={this.props.itemSelect}
-                itemRenderer={this.props.itemRenderer}
+                order={groupOrders[item.group]}
                 scrollRef={this.props.scrollRef}
+                selected={this.isSelected(item)}
+                useResizeHandle={this.props.useResizeHandle}
               />
             );
           })}

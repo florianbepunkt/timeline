@@ -3,7 +3,7 @@ import { TimelineMarkersConsumer } from "./TimelineMarkersContext";
 import { TimelineMarkerType } from "./markerType";
 import TodayMarker from "./implementations/TodayMarker";
 import CustomMarker from "./implementations/CustomMarker";
-import { TimelineStateConsumer } from "../timeline/TimelineStateContext";
+import { TimelineStateConsumer } from "../timeline/timeline-state-context";
 import CursorMarker from "./implementations/CursorMarker";
 
 /** Internal component used in timeline to render markers registered */

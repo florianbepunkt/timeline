@@ -1,7 +1,7 @@
 import "../src/Timeline.scss";
 import { jsDateDriver } from "../src/utility";
+import { Timeline } from "../src";
 import React from "react";
-import Timeline from "../src";
 import type { TimelineGroupBase, TimelineItemBase } from "../src/types";
 
 const groups: TimelineGroupBase[] = [];
@@ -65,7 +65,7 @@ for (let group = 0; group < groups.length; group++) {
   }
 }
 
-export const Itch = (): JSX.Element => (
+export const BasicTimeline = (): JSX.Element => (
   <div style={{ height: "100vh" }}>
     <Timeline
       defaultTimeEnd={getBaseDate().add(12, "hour").valueOf()}

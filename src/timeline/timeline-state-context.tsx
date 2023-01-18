@@ -48,7 +48,8 @@ const defaultContextState: ProvidedTimelineContext = {
 };
 /* eslint-enable */
 
-const { Consumer, Provider } = React.createContext<ProvidedTimelineContext>(defaultContextState);
+const TimelineStateContext = React.createContext<ProvidedTimelineContext>(defaultContextState);
+const { Consumer, Provider } = TimelineStateContext;
 
 export type TimelineStateProviderProps = {
   canvasTimeEnd: number;

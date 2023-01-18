@@ -1,4 +1,5 @@
 import type { DateDriver } from "./utility";
+import type { TimelineContext } from "./timeline";
 import type React from "react";
 
 type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>;
@@ -24,14 +25,6 @@ export type CompleteTimeSteps = {
 export type ITimeSteps = Partial<CompleteTimeSteps>;
 
 export type TimeUnit = keyof CompleteTimeSteps;
-
-export type TimelineContext = {
-  timelineWidth: number;
-  visibleTimeStart: number;
-  visibleTimeEnd: number;
-  canvasTimeStart: number;
-  canvasTimeEnd: number;
-};
 
 export type TimelineGroupBase = {
   id: Id;

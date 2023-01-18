@@ -3,7 +3,7 @@ import { CustomHeader } from "./custom-header";
 import { DateDriver } from "../utility";
 import { defaultHeaderFormats } from "../default-config";
 import { getNextUnit } from "../utility/calendar";
-import { TimelineStateConsumer } from "../timeline/TimelineStateContext";
+import { TimelineStateConsumer } from "../timeline/timeline-state-context";
 import memoize from "memoize-one";
 import React from "react";
 import type { TimeUnit, IntervalRenderer, DateHeaderProps } from "../types";

@@ -1,8 +1,8 @@
 import { TimelineMarkersProvider } from "../markers/TimelineMarkersContext";
-import { TimelineStateProvider } from "../timeline/TimelineStateContext";
+import { TimelineStateProvider } from "../timeline/timeline-state-context";
 import React from "react";
 import TimelineMarkersRenderer from "../markers/TimelineMarkersRenderer";
-import type { TimelineStateProviderProps } from "../timeline/TimelineStateContext";
+import type { TimelineStateProviderProps } from "../timeline/timeline-state-context";
 
 const ONE_DAY = 1000 * 60 * 60 * 24;
 

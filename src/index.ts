@@ -2,7 +2,7 @@ export { CursorMarker } from "./markers/public/CursorMarker";
 export { CustomHeader, DateHeader, SidebarHeader, TimelineHeaders } from "./headers";
 export { CustomMarker } from "./markers/public/CustomMarker";
 export { defaultTimeSteps, defaultHeaderFormats } from "./default-config";
-export { Timeline } from "./timeline";
+export { Timeline, TimelineContext } from "./timeline";
 export { TodayMarker } from "./markers/public/TodayMarker";
 
 export type {
@@ -14,7 +14,7 @@ export type {
   LabelFormat,
   ResizeOptions,
   ResizeStyles,
-  TimelineContext,
+  // TimelineContext,
   TimelineGroupBase,
   TimelineHeaderProps,
   TimelineItemBase,

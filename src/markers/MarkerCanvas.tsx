@@ -1,7 +1,7 @@
 import React from "react";
 import { MarkerCanvasProvider } from "./MarkerCanvasContext";
 import TimelineMarkersRenderer from "./TimelineMarkersRenderer";
-import { TimelineStateConsumer } from "../timeline/TimelineStateContext";
+import { TimelineStateConsumer } from "../timeline/timeline-state-context";
 
 // expand to fill entire parent container (ScrollElement)
 const staticStyles: React.CSSProperties = {

@@ -20,13 +20,13 @@ import { defaultTimeSteps } from "../default-config";
 import { GroupRows } from "../row/group-rows";
 import { ScrollElement } from "../scroll";
 import { Sidebar } from "../sidebar";
+import { TimelineContext } from "./timeline-context";
 import { TimelineHeadersProvider } from "../headers/headers-context";
 import { TimelineMarkersProvider } from "../markers/TimelineMarkersContext";
-import { TimelineStateProvider } from "../timeline/TimelineStateContext";
+import { TimelineStateProvider } from "./timeline-state-context";
 import isEqual from "lodash.isequal";
 import Items from "../items/Items";
 import MarkerCanvas from "../markers/MarkerCanvas";
-import PropTypes from "prop-types";
 import React, { Component } from "react";
 import type {
   ClickType,
@@ -100,18 +100,6 @@ export class Timeline<
   ReactCalendarTimelineProps<CustomItem, CustomGroup>,
   ReactCalendarTimelineState<CustomGroup>
 > {
-  static childContextTypes = {
-    getTimelineContext: PropTypes.func,
-  };
-
-  getChildContext() {
-    return {
-      getTimelineContext: () => {
-        return this.getTimelineContext();
-      },
-    };
-  }
-
   getTimelineContext = () => {
     const { width, visibleTimeStart, visibleTimeEnd, canvasTimeStart, canvasTimeEnd } = this.state;
 
@@ -1028,85 +1016,97 @@ export class Timeline<
     };
 
     return (
-      <TimelineStateProvider
-        canvasTimeEnd={canvasTimeEnd}
-        canvasTimeStart={canvasTimeStart}
-        canvasWidth={canvasWidth}
-        showPeriod={this.showPeriod}
-        timelineUnit={minUnit}
-        timelineWidth={this.state.width}
-        visibleTimeEnd={visibleTimeEnd}
-        visibleTimeStart={visibleTimeStart}
+      <TimelineContext.Provider
+        value={{
+          canvasTimeEnd,
+          canvasTimeStart,
+          timelineWidth: width,
+          visibleTimeEnd,
+          visibleTimeStart,
+        }}
       >
-        <TimelineMarkersProvider>
-          <TimelineHeadersProvider
-            leftSidebarWidth={this.props.sidebarWidth ?? defaultSidebarWidth}
-            registerScroll={this.handleHeaderRef}
-            rightSidebarWidth={this.props.rightSidebarWidth ?? defaultRightSidebarWidth}
-            timeSteps={timeSteps}
-          >
-            <div
-              style={{ ...defaultContainerStyle, ...(this.props.style ?? defaultStyle) }}
-              ref={(el) => (this._container = el)}
-              className={`react-calendar-timeline ${this.props.className ?? defaultClassName}`}
+        <TimelineStateProvider
+          canvasTimeEnd={canvasTimeEnd}
+          canvasTimeStart={canvasTimeStart}
+          canvasWidth={canvasWidth}
+          showPeriod={this.showPeriod}
+          timelineUnit={minUnit}
+          timelineWidth={this.state.width}
+          visibleTimeEnd={visibleTimeEnd}
+          visibleTimeStart={visibleTimeStart}
+        >
+          <TimelineMarkersProvider>
+            <TimelineHeadersProvider
+              leftSidebarWidth={this.props.sidebarWidth ?? defaultSidebarWidth}
+              registerScroll={this.handleHeaderRef}
+              rightSidebarWidth={this.props.rightSidebarWidth ?? defaultRightSidebarWidth}
+              timeSteps={timeSteps}
             >
-              {this.renderHeaders()}
-              <div style={outerComponentStyle} className="rct-outer">
-                {sidebarWidth > 0 ? this.sidebar(groupHeights, canvasTop, canvasBottom) : null}
-                <ScrollElement
-                  getVisibleTimeWindow={this.getVisibleTimeWindow}
-                  height={canvasHeight}
-                  isInteractingWithItem={isInteractingWithItem}
-                  onHorizontalScroll={this.scrollHorizontally}
-                  onVerticalScrollBy={this.scrollVerticallyBy}
-                  onWheelZoom={this.handleWheelZoom}
-                  onZoom={this.changeZoom}
-                  scrollHorizontallyByTime={this.scrollHorizontallyByTime}
-                  scrollRef={this.getScrollElementRef}
-                  top={canvasTop}
-                  width={width}
-                  zoomSpeed={this.props.zoomSpeed}
-                >
-                  <MarkerCanvas>
-                    {this.columns(
-                      canvasTimeStart,
-                      canvasTimeEnd,
-                      canvasWidth,
-                      minUnit,
-                      timeSteps,
-                      canvasHeight
-                    )}
-                    {this.rows(canvasWidth, canvasTop, canvasBottom, groupHeights, groups)}
-                    {this.items(
-                      canvasTimeStart,
-                      canvasTimeEnd,
-                      canvasWidth,
-                      canvasTop,
-                      canvasBottom,
-                      dimensionItems,
-                      groupTops
-                    )}
-                    {this.childrenWithProps(
-                      canvasTimeStart,
-                      canvasTimeEnd,
-                      canvasWidth,
-                      dimensionItems,
-                      groupHeights,
-                      groupTops,
-                      height,
-                      visibleTimeStart,
-                      visibleTimeEnd,
-                      minUnit,
-                      timeSteps
-                    )}
-                  </MarkerCanvas>
-                </ScrollElement>
-                {rightSidebarWidth > 0 ? this.rightSidebar(groupHeights, canvasTop, canvasBottom) : null}
+              <div
+                style={{ ...defaultContainerStyle, ...(this.props.style ?? defaultStyle) }}
+                ref={(el) => (this._container = el)}
+                className={`react-calendar-timeline ${this.props.className ?? defaultClassName}`}
+              >
+                {this.renderHeaders()}
+                <div style={outerComponentStyle} className="rct-outer">
+                  {sidebarWidth > 0 ? this.sidebar(groupHeights, canvasTop, canvasBottom) : null}
+                  <ScrollElement
+                    getVisibleTimeWindow={this.getVisibleTimeWindow}
+                    height={canvasHeight}
+                    isInteractingWithItem={isInteractingWithItem}
+                    onHorizontalScroll={this.scrollHorizontally}
+                    onVerticalScrollBy={this.scrollVerticallyBy}
+                    onWheelZoom={this.handleWheelZoom}
+                    onZoom={this.changeZoom}
+                    scrollHorizontallyByTime={this.scrollHorizontallyByTime}
+                    scrollRef={this.getScrollElementRef}
+                    top={canvasTop}
+                    width={width}
+                    zoomSpeed={this.props.zoomSpeed}
+                  >
+                    <MarkerCanvas>
+                      {this.columns(
+                        canvasTimeStart,
+                        canvasTimeEnd,
+                        canvasWidth,
+                        minUnit,
+                        timeSteps,
+                        canvasHeight
+                      )}
+                      {this.rows(canvasWidth, canvasTop, canvasBottom, groupHeights, groups)}
+                      {this.items(
+                        canvasTimeStart,
+                        canvasTimeEnd,
+                        canvasWidth,
+                        canvasTop,
+                        canvasBottom,
+                        dimensionItems,
+                        groupTops
+                      )}
+                      {this.childrenWithProps(
+                        canvasTimeStart,
+                        canvasTimeEnd,
+                        canvasWidth,
+                        dimensionItems,
+                        groupHeights,
+                        groupTops,
+                        height,
+                        visibleTimeStart,
+                        visibleTimeEnd,
+                        minUnit,
+                        timeSteps
+                      )}
+                    </MarkerCanvas>
+                  </ScrollElement>
+                  {rightSidebarWidth > 0
+                    ? this.rightSidebar(groupHeights, canvasTop, canvasBottom)
+                    : null}
+                </div>
               </div>
-            </div>
-          </TimelineHeadersProvider>
-        </TimelineMarkersProvider>
-      </TimelineStateProvider>
+            </TimelineHeadersProvider>
+          </TimelineMarkersProvider>
+        </TimelineStateProvider>
+      </TimelineContext.Provider>
     );
   }
 }

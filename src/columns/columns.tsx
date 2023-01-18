@@ -1,6 +1,6 @@
 import { generateTimes } from "../utility/calendar";
 import { map } from "../utility/generators";
-import { TimelineStateConsumer } from "../timeline/TimelineStateContext";
+import { TimelineStateConsumer } from "../timeline/timeline-state-context";
 import React, { Component } from "react";
 import type { CompleteTimeSteps, TimeUnit } from "../types";
 

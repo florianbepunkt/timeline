@@ -19,7 +19,6 @@ import {
 import { millisecondsInPixel } from "../utility/calendar";
 import interact from "interactjs";
 import isEqual from "lodash.isequal";
-import PropTypes from "prop-types";
 import React from "react";
 import type {
   ClickType,
@@ -28,12 +27,12 @@ import type {
   MoveResizeValidator,
   ReactCalendarItemRendererProps,
   ResizeStyles,
-  TimelineContext,
   TimelineGroupBase,
   TimelineItemBase,
   TimelineItemEdge,
   TimelineItemProps,
 } from "../types";
+import { TimelineContext } from "../timeline/timeline-context";
 import type { Dimensions, GroupOrder } from "../utility/calendar";
 
 type ItemProps<TGroup extends TimelineGroupBase, TItem extends TimelineItemBase> = {
@@ -92,66 +91,21 @@ export default class Item<
   TGroup extends TimelineGroupBase,
   TItem extends TimelineItemBase
 > extends Component<ItemProps<TGroup, TItem>, ItemState> {
-  // removed prop type check for SPEED!
-  // they are coming from a trusted component anyway
-  // (this complicates performance debugging otherwise)
-  // static propTypes = {
-  //     canvasTimeStart: PropTypes.number.isRequired,
-  //     canvasTimeEnd: PropTypes.number.isRequired,
-  //     canvasWidth: PropTypes.number.isRequired,
-  //     order: PropTypes.object,
+  static contextType = TimelineContext;
 
-  //     dragSnap: PropTypes.number,
-  //     minResizeWidth: PropTypes.number,
-  //     selected: PropTypes.bool,
-
-  //     canChangeGroup: PropTypes.bool.isRequired,
-  //     canMove: PropTypes.bool.isRequired,
-  //     canResizeLeft: PropTypes.bool.isRequired,
-  //     canResizeRight: PropTypes.bool.isRequired,
-
-  //     item: PropTypes.object.isRequired,
-
-  //     onSelect: PropTypes.func,
-  //     onDrag: PropTypes.func,
-  //     onDrop: PropTypes.func,
-  //     onResizing: PropTypes.func,
-  //     onResized: PropTypes.func,
-  //     onContextMenu: PropTypes.func,
-  //     itemRenderer: PropTypes.func,
-
-  //     itemProps: PropTypes.object,
-  //     canSelect: PropTypes.bool,
-  //     dimensions: PropTypes.object,
-  //     groupTops: PropTypes.array,
-  //     useResizeHandle: PropTypes.bool,
-  //     moveResizeValidator: PropTypes.func,
-  //     onItemDoubleClick: PropTypes.func,
-
-  //     scrollRef: PropTypes.object,
-  // };
-
-  // static defaultProps = {
-  //     selected: false,
-  //     // itemRenderer: defaultItemRenderer,
-  // };
-
-  static contextTypes = {
-    getTimelineContext: PropTypes.func,
-  };
+  // TODO: storybook webpack freaks out... should be resolved once this component is refactored as function, using context hooks
+  // declare context: React.ContextType<typeof TimelineContext>;
 
   constructor(props: ItemProps<TGroup, TItem>) {
     super(props);
 
     this.state = {
       interactMounted: false,
-
       dragging: null,
       dragStart: null,
       preDragPosition: null,
       dragTime: null,
       dragGroupDelta: null,
-
       resizing: null,
       resizeEdge: null,
       resizeStart: null,
@@ -193,6 +147,7 @@ export default class Item<
   // TODO: Please make the optional `considerOffset` parameter required!
   dragTimeSnap(dragTime: number, considerOffset?: boolean) {
     const { dragSnap } = this.props;
+
     if (dragSnap) {
       const offset = considerOffset ? dateDriver().utcOffset() * 60 * 1000 : 0;
       return Math.round(dragTime / dragSnap) * dragSnap - (offset % dragSnap);
@@ -516,9 +471,8 @@ export default class Item<
     } else {
       interactMounted = false;
     }
-    this.setState({
-      interactMounted,
-    });
+
+    this.setState({ interactMounted });
   }
 
   private _startedClicking = false;
@@ -662,7 +616,7 @@ export default class Item<
       return null;
     }
 
-    const timelineContext: TimelineContext = (this.context as any).getTimelineContext(); // TODO
+    const timelineContext = this.context as TimelineContext;
     const itemContext: ItemContext<TGroup> = {
       dimensions: this.props.dimensions,
       useResizeHandle: this.props.useResizeHandle,
@@ -692,5 +646,3 @@ export default class Item<
     });
   }
 }
-
-// TODO: wrapper with the timeline context
