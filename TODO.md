@@ -15,20 +15,28 @@
   -- remove prop types package [x]
 - update dependencies (interactjs, classnames) [x]
 - refactor components to use functional approach []
+  -- items/\*.tsx [x]
+  -- columns/\*.tsx [x]
   -- interaction/PreventClickOnDrag.tsx [x]
   -- sidebar/sidebar.tsx []
   -- scroll/ScrollElement []
   -- marker context, canvas etc []
-  -- headers/\*\*.tsx []
-  -- items/\*\* [x]
-- move to lodash-es []
+  -- headers/\*.tsx []
 - use esm []
-- move to storybook 7 []
+  -- move to storybook 7 []
+  -- move to lodash-es []
+- get rid of date driver and commit to date-fns []
+- merge timeline contexts []
 - resolve types.ts as much as possible []
-
 - add a linter []
 - eliminate dead code []
 
 ## Bugs
 
 Header shows wrong format for large periods
+
+## Questions
+
+Markers: Public / Implementations... please explain structure and intent?
+Test (why the tests for statefull / stateless components?)
+Tests (do unexported utilites in utility folder need testing at all?)

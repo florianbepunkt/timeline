@@ -1,54 +1,34 @@
-import { calculateXPositionForTime, calculateTimeForXPosition } from "../utility/calendar";
+import { calculateXPositionForTime, calculateTimeForXPosition } from "../utility";
 import React from "react";
 import type { DateDriver } from "../utility";
 import type { TimeUnit } from "../types";
-
-export type ProvidedTimelineContext = {
-  getTimelineState: () => {
-    visibleTimeStart: number;
-    visibleTimeEnd: number;
-    canvasTimeStart: number;
-    canvasTimeEnd: number;
-    canvasWidth: number;
-    timelineUnit: TimeUnit;
-    timelineWidth: number;
-  };
-  getLeftOffsetFromDate: (date: number) => number;
-  getDateFromLeftOffsetPosition: (leftOffset: number) => number;
-  showPeriod: (startDate: DateDriver, endDate: DateDriver) => void;
-};
 
 /* this context will hold all information regarding timeline state:
   1. timeline width
   2. visible time start and end
   3. canvas time start and end
   4. helpers for calculating left offset of items (and really...anything)
+
+
+  TODO: this context and the timeline context should be merged
+  TODO: a useTimeline hook should be created that ensures it is called inside a provider
 */
-
-/* eslint-disable no-console */
-const defaultContextState: ProvidedTimelineContext = {
+export type ProvidedTimelineContext = {
   getTimelineState: () => {
-    console.warn('"getTimelineState" default func is being used');
-    throw new Error(`Timeline context is not initialized: getTimelineState is not available`);
-  },
-  getLeftOffsetFromDate: (_time: number) => {
-    console.warn('"getLeftOffsetFromDate" default func is being used');
-    throw new Error(`Timeline context is not initialized: getLeftOffsetFromDate is not available`);
-  },
-  getDateFromLeftOffsetPosition: () => {
-    console.warn('"getDateFromLeftOffsetPosition" default func is being used');
-    throw new Error(
-      `Timeline context is not initialized: getDateFromLeftOffsetPosition is not available`
-    );
-  },
-  showPeriod: () => {
-    console.warn('"showPeriod" default func is being used');
-    throw new Error(`Timeline context is not initialized: showPeriod is not available`);
-  },
+    canvasTimeEnd: number;
+    canvasTimeStart: number;
+    canvasWidth: number;
+    timelineUnit: TimeUnit;
+    timelineWidth: number;
+    visibleTimeEnd: number;
+    visibleTimeStart: number;
+  };
+  getLeftOffsetFromDate: (date: number) => number;
+  getDateFromLeftOffsetPosition: (leftOffset: number) => number;
+  showPeriod: (startDate: DateDriver, endDate: DateDriver) => void;
 };
-/* eslint-enable */
 
-const TimelineStateContext = React.createContext<ProvidedTimelineContext>(defaultContextState);
+export const TimelineStateContext = React.createContext<ProvidedTimelineContext>({} as any);
 const { Consumer, Provider } = TimelineStateContext;
 
 export type TimelineStateProviderProps = {

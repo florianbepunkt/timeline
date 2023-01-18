@@ -1,7 +1,6 @@
-import { generateTimes } from "../utility/calendar";
-import { map } from "../utility/generators";
-import { TimelineStateConsumer } from "../timeline/timeline-state-context";
-import React, { Component } from "react";
+import { generateTimes, map } from "../utility";
+import { TimelineStateContext } from "../timeline";
+import React from "react";
 import type { CompleteTimeSteps, TimeUnit } from "../types";
 
 export type ColumnsProps = {
@@ -15,11 +14,8 @@ export type ColumnsProps = {
   verticalLineClassNamesForTime: ((start: number, end: number) => string[]) | undefined;
 };
 
-type Props = ColumnsProps & {
-  getLeftOffsetFromDate: (time: number) => number;
-};
-
-class _Columns extends Component<Props> {
+/**
+ * TODO: Could be optimized with React.memo
   shouldComponentUpdate(nextProps: Props) {
     return !(
       nextProps.canvasTimeEnd === this.props.canvasTimeEnd &&
@@ -32,61 +28,53 @@ class _Columns extends Component<Props> {
       nextProps.verticalLineClassNamesForTime === this.props.verticalLineClassNamesForTime
     );
   }
+ * @returns 
+ */
 
-  render() {
-    const {
-      canvasTimeEnd,
-      canvasTimeStart,
-      getLeftOffsetFromDate,
-      height,
-      minUnit,
-      timeSteps,
-      verticalLineClassNamesForTime,
-    } = this.props;
-    const lines: React.ReactNode[] = Array.from(
-      map(generateTimes(canvasTimeStart, canvasTimeEnd, minUnit, timeSteps), ([time, nextTime]) => {
-        const minUnitValue = time.get(minUnit === "day" ? "date" : minUnit);
-        const firstOfType = minUnitValue === (minUnit === "day" ? 1 : 0);
-        const classNames: string[] = [
-          "rct-vl",
-          firstOfType ? " rct-vl-first" : "",
-          minUnit === "day" || minUnit === "hour" || minUnit === "minute"
-            ? ` rct-day-${time.day()} `
-            : "",
-          ...(verticalLineClassNamesForTime
-            ? verticalLineClassNamesForTime(
-                time.unix() * 1000, // turn into ms, which is what verticalLineClassNamesForTime expects
-                nextTime.unix() * 1000 - 1
-              ) ?? []
-            : []),
-        ];
+export const Columns: React.FC<ColumnsProps> = ({
+  canvasTimeEnd,
+  canvasTimeStart,
+  height,
+  minUnit,
+  timeSteps,
+  verticalLineClassNamesForTime,
+}) => {
+  const { getLeftOffsetFromDate } = React.useContext(TimelineStateContext);
 
-        const left = getLeftOffsetFromDate(time.valueOf());
-        const right = getLeftOffsetFromDate(nextTime.valueOf());
-        return (
-          <div
-            key={`line-${time.valueOf()}`}
-            className={classNames.join(" ")}
-            style={{
-              pointerEvents: "none",
-              top: "0px",
-              left: `${left}px`,
-              width: `${right - left}px`,
-              height: `${height}px`,
-            }}
-          />
-        );
-      })
-    );
+  const lines: React.ReactNode[] = Array.from(
+    map(generateTimes(canvasTimeStart, canvasTimeEnd, minUnit, timeSteps), ([time, nextTime]) => {
+      const minUnitValue = time.get(minUnit === "day" ? "date" : minUnit);
+      const firstOfType = minUnitValue === (minUnit === "day" ? 1 : 0);
+      const classNames: string[] = [
+        "rct-vl",
+        firstOfType ? " rct-vl-first" : "",
+        minUnit === "day" || minUnit === "hour" || minUnit === "minute" ? ` rct-day-${time.day()} ` : "",
+        ...(verticalLineClassNamesForTime
+          ? verticalLineClassNamesForTime(
+              time.unix() * 1000, // turn into ms, which is what verticalLineClassNamesForTime expects
+              nextTime.unix() * 1000 - 1
+            ) ?? []
+          : []),
+      ];
 
-    return <div className="rct-vertical-lines">{lines}</div>;
-  }
-}
+      const left = getLeftOffsetFromDate(time.valueOf());
+      const right = getLeftOffsetFromDate(nextTime.valueOf());
 
-export const Columns = (props: ColumnsProps) => (
-  <TimelineStateConsumer>
-    {({ getLeftOffsetFromDate }) => (
-      <_Columns getLeftOffsetFromDate={getLeftOffsetFromDate} {...props} />
-    )}
-  </TimelineStateConsumer>
-);
+      return (
+        <div
+          key={`line-${time.valueOf()}`}
+          className={classNames.join(" ")}
+          style={{
+            height: `${height}px`,
+            left: `${left}px`,
+            pointerEvents: "none",
+            top: "0px",
+            width: `${right - left}px`,
+          }}
+        />
+      );
+    })
+  );
+
+  return <div className="rct-vertical-lines">{lines}</div>;
+};
