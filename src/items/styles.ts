@@ -5,13 +5,19 @@ export const overridableStyles: CSSProperties = {
   color: "white",
   cursor: "pointer",
   background: "#2196f3",
-  border: "1px solid #1a6fb3",
+  borderColor: "#1a6fb3",
+  borderStyle: "solid",
+  borderTopWidth: "1px",
+  borderBottomWidth: "1px",
+  borderLeftWidth: "1px",
+  borderRightWidth: "1px",
   zIndex: 80,
 };
 
 export const selectedStyle: CSSProperties = {
   background: "#ffc107",
-  border: "1px solid #ff9800",
+  borderColor: "#ff9800",
+  // border: "1px solid #ff9800",
   zIndex: 82,
 };
 
