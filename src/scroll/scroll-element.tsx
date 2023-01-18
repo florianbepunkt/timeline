@@ -1,4 +1,4 @@
-import { millisecondsInPixel } from "../utility/calendar";
+import { millisecondsInPixel } from "../utility";
 import React, { Component } from "react";
 
 type ZoomSpeed = {

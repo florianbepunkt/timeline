@@ -18,8 +18,8 @@
   -- items/\*.tsx [x]
   -- columns/\*.tsx [x]
   -- interaction/PreventClickOnDrag.tsx [x]
-  -- sidebar/sidebar.tsx []
-  -- scroll/ScrollElement []
+  -- sidebar/sidebar.tsx [x]
+  -- scroll/ScrollElement [] >> naah, we need to fix the test first
   -- marker context, canvas etc []
   -- headers/\*.tsx []
 - use esm []
@@ -40,3 +40,8 @@ Header shows wrong format for large periods
 Markers: Public / Implementations... please explain structure and intent?
 Test (why the tests for statefull / stateless components?)
 Tests (do unexported utilites in utility folder need testing at all?)
+
+## Improvements
+
+- lightweight styling / theming solution? []
+- add tests for columns []
