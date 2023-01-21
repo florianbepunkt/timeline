@@ -15,30 +15,38 @@ export type DateDriver = {
   v: string;
 };
 
-const obscureKey = "reactCalendarTimelineDateDriver" as const;
+/**
+ * Basically we could implement an abstraction, allowing user to choose between several date libs
+ * However, this gets unneccessarily complicated. Let's stick with a low-level, modular, low-footprint
+ * date library that works with native JS dates/timestamps, e. g. date-fns
+ *
+ * Plan is to get rid of date driver alltogether
+ */
 
-// // @ts-ignore
-// if (!window[obscureKey]) {
-//   // @ts-ignore
-//   window[obscureKey] = (function () {
-//     let driver = jsDateDriver;
-//     const service = {
-//       get: () => {
-//         return driver;
-//       },
-//       set: (driver: (a: Date | number) => DateDriver) => {
-//         return driver;
-//       },
-//     };
-//     Object.freeze(service);
-//     return service;
-//   })();
-// }
+// const obscureKey = "reactCalendarTimelineDateDriver" as const;
 
-export const setDateDriver = (driver: DateDriver) => {
-  throw new Error("NOT IMPLEMENTED");
-  // // @ts-ignore
-  // window[obscureKey].set;
-};
+// // // @ts-ignore
+// // if (!window[obscureKey]) {
+// //   // @ts-ignore
+// //   window[obscureKey] = (function () {
+// //     let driver = jsDateDriver;
+// //     const service = {
+// //       get: () => {
+// //         return driver;
+// //       },
+// //       set: (driver: (a: Date | number) => DateDriver) => {
+// //         return driver;
+// //       },
+// //     };
+// //     Object.freeze(service);
+// //     return service;
+// //   })();
+// // }
+
+// export const setDateDriver = (driver: DateDriver) => {
+//   throw new Error("NOT IMPLEMENTED");
+//   // // @ts-ignore
+//   // window[obscureKey].set;
+// };
 
 export const dateDriver = jsDateDriver;

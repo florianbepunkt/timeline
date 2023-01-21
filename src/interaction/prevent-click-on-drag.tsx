@@ -1,15 +1,13 @@
 import React from "react";
 
-type RenderChildrenArgs = {
-  onClick: (event: React.MouseEvent) => void;
-  onMouseDown: (event: React.MouseEvent) => void;
-  onMouseUp: (event: React.MouseEvent) => void;
-};
-
 export type PreventClickOnDragProps = {
   clickTolerance: number;
   onClick: (event: React.MouseEvent) => void;
-  renderChildren: (args: RenderChildrenArgs) => React.ReactElement;
+  renderChildren: (args: {
+    onClick: (event: React.MouseEvent) => void;
+    onMouseDown: (event: React.MouseEvent) => void;
+    onMouseUp: (event: React.MouseEvent) => void;
+  }) => React.ReactElement;
 };
 
 export const PreventClickOnDrag: React.FC<PreventClickOnDragProps> = ({
