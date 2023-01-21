@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { items, groups } from "../../../__fixtures__/itemsAndGroups";
+import { items, groups } from "../../__fixtures__/itemsAndGroups";
 import {
   props,
   propsNoStack,
@@ -7,7 +7,7 @@ import {
   stateMoveItem,
   stateResizeItemLeft,
   stateResizeItemRight,
-} from "../../../__fixtures__/stateAndProps";
+} from "../../__fixtures__/stateAndProps";
 import { stackTimelineItems } from "./calendar";
 import type { TimelineItemEdge } from "../../types";
 
