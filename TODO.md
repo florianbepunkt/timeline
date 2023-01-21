@@ -24,6 +24,7 @@
   -- timeline... end boss style []
   -- headers/\*.tsx [x]
 - integrate PR https://github.com/namespace-ee/react-calendar-timeline/pull/893 [x]
+- add CI pipeline [x]
 - use esm []
   -- move to storybook 7 []
   -- move to lodash-es []
@@ -33,8 +34,6 @@
 - dissolve \_\_fixtures\_\_ folder []
 - add a linter []
 - eliminate dead code []
-
-
 
 ## Integrated / solved PRs
 
