@@ -33,6 +33,7 @@
 - resolve types.ts as much as possible []
 - dissolve \_\_fixtures\_\_ folder []
 - add a linter []
+- add living documentation in form of typescript docs and stories []
 - eliminate dead code []
 
 ## Integrated / solved PRs
