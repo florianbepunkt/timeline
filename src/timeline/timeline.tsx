@@ -21,7 +21,7 @@ import { GroupRows } from "../row/group-rows";
 import { ScrollElement } from "../scroll";
 import { Sidebar } from "../sidebar";
 import { TimelineContext } from "./timeline-context";
-import { TimelineHeadersProvider } from "../headers/headers-context";
+import { HeadersProvider } from "../headers/headers-context";
 import { TimelineMarkersProvider } from "../markers/TimelineMarkersContext";
 import { TimelineStateProvider } from "./timeline-state-context";
 import isEqual from "lodash.isequal";
@@ -1036,7 +1036,7 @@ export class Timeline<
           visibleTimeStart={visibleTimeStart}
         >
           <TimelineMarkersProvider>
-            <TimelineHeadersProvider
+            <HeadersProvider
               leftSidebarWidth={this.props.sidebarWidth ?? defaultSidebarWidth}
               registerScroll={this.handleHeaderRef}
               rightSidebarWidth={this.props.rightSidebarWidth ?? defaultRightSidebarWidth}
@@ -1103,7 +1103,7 @@ export class Timeline<
                     : null}
                 </div>
               </div>
-            </TimelineHeadersProvider>
+            </HeadersProvider>
           </TimelineMarkersProvider>
         </TimelineStateProvider>
       </TimelineContext.Provider>

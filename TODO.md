@@ -21,7 +21,7 @@
   -- sidebar/sidebar.tsx [x]
   -- scroll/ScrollElement [] >> naah, we need to fix the test first
   -- marker context, canvas etc []
-  -- headers/\*.tsx []
+  -- headers/\*.tsx [x]
 - use esm []
   -- move to storybook 7 []
   -- move to lodash-es []

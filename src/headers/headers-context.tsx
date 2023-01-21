@@ -2,18 +2,14 @@ import { noop } from "../utility/generic";
 import React from "react";
 import type { ITimeSteps } from "../types";
 
-export interface IHeaderContext {
-  timeSteps: ITimeSteps;
-  rightSidebarWidth: number;
+export type HeadersContext = {
   leftSidebarWidth: number;
   registerScroll: React.RefCallback<HTMLElement>;
-}
+  rightSidebarWidth: number;
+  timeSteps: ITimeSteps;
+};
 
-export interface ITimelineHeadersProviderProps extends IHeaderContext {
-  children: React.ReactNode;
-}
-
-const defaultContextState: IHeaderContext = {
+const defaultContextState: HeadersContext = {
   registerScroll: () => {
     // eslint-disable-next-line
     console.warn("default registerScroll header used");
@@ -24,18 +20,23 @@ const defaultContextState: IHeaderContext = {
   timeSteps: {},
 };
 
-const { Consumer, Provider } = React.createContext(defaultContextState);
+export const HeadersContext = React.createContext(defaultContextState);
 
-export class TimelineHeadersProvider extends React.Component<ITimelineHeadersProviderProps> {
-  render(): React.ReactNode {
-    const contextValue = {
-      rightSidebarWidth: this.props.rightSidebarWidth,
-      leftSidebarWidth: this.props.leftSidebarWidth,
-      timeSteps: this.props.timeSteps,
-      registerScroll: this.props.registerScroll,
-    };
-    return <Provider value={contextValue}>{this.props.children}</Provider>;
-  }
-}
+export type HeadersProviderProps = HeadersContext & { children: React.ReactNode };
 
-export const TimelineHeadersConsumer = Consumer;
+export const HeadersProvider: React.FC<HeadersProviderProps> = ({
+  children,
+  leftSidebarWidth,
+  registerScroll,
+  rightSidebarWidth,
+  timeSteps,
+}) => {
+  const value = {
+    rightSidebarWidth,
+    leftSidebarWidth,
+    timeSteps,
+    registerScroll,
+  };
+
+  return <HeadersContext.Provider value={value}>{children}</HeadersContext.Provider>;
+};

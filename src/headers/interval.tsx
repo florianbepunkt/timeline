@@ -5,7 +5,7 @@ import React from "react";
 import type { DateDriver } from "../utility";
 import type { GetIntervalProps, Interval, IntervalRenderer } from "../types";
 
-type IntervalProps<Data> = {
+export type IntervalProps<Data> = {
   getIntervalProps: (props?: GetIntervalProps) => GetIntervalProps & { key: string | number };
   intervalRenderer?: (props: IntervalRenderer<Data>) => React.ReactNode;
   showPeriod: (startDate: DateDriver, endDate: DateDriver) => void;
@@ -17,9 +17,17 @@ type IntervalProps<Data> = {
   unit: TimeUnit;
 };
 
-class IntervalComponent<Data> extends React.PureComponent<IntervalProps<Data>> {
-  onIntervalClick = () => {
-    const { primaryHeader, interval, unit, showPeriod } = this.props;
+export const IntervalComponent = <Data,>({
+  getIntervalProps: _getIntervalProps,
+  headerData,
+  interval,
+  intervalRenderer,
+  intervalText,
+  primaryHeader,
+  showPeriod,
+  unit,
+}: IntervalProps<Data>): JSX.Element => {
+  const onIntervalClick = () => {
     if (primaryHeader) {
       const nextUnit = getNextUnit(unit);
       const newStartTime = interval.startTime.clone().startOf(nextUnit);
@@ -30,39 +38,32 @@ class IntervalComponent<Data> extends React.PureComponent<IntervalProps<Data>> {
     }
   };
 
-  getIntervalProps = (props: GetIntervalProps = {}) => {
+  const getIntervalProps = (props: GetIntervalProps = {}) => {
     return {
-      ...this.props.getIntervalProps({
-        interval: this.props.interval,
-        ...props,
-      }),
-      onClick: composeEvents(this.onIntervalClick, props.onClick),
+      ..._getIntervalProps({ interval, ...props }),
+      onClick: composeEvents(onIntervalClick, props.onClick),
     };
   };
 
-  render() {
-    const { intervalText, interval, intervalRenderer, headerData } = this.props;
-    if (intervalRenderer) {
-      return intervalRenderer({
-        getIntervalProps: this.getIntervalProps,
-        intervalContext: {
-          interval,
-          intervalText,
-        },
-        data: headerData,
-      });
-    }
-
+  if (intervalRenderer) {
     return (
-      <div
-        data-testid="dateHeaderInterval"
-        {...this.getIntervalProps({})}
-        className={`rct-dateHeader ${this.props.primaryHeader ? "rct-dateHeader-primary" : ""}`}
-      >
-        <span>{intervalText}</span>
-      </div>
+      <React.Fragment>
+        {intervalRenderer({
+          data: headerData,
+          getIntervalProps,
+          intervalContext: { interval, intervalText },
+        })}
+      </React.Fragment>
     );
   }
-}
 
-export default IntervalComponent;
+  return (
+    <div
+      data-testid="dateHeaderInterval"
+      {...getIntervalProps({})}
+      className={`rct-dateHeader ${primaryHeader ? "rct-dateHeader-primary" : ""}`}
+    >
+      <span>{intervalText}</span>
+    </div>
+  );
+};
