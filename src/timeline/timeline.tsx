@@ -45,19 +45,19 @@ type ReactNodeWithPossibleTypeAndSecretKey = React.ReactNode & { type?: { secret
 type ReactElementWithPossibleTypeAndSecretKey = React.ReactElement & { type?: { secretKey?: unknown } };
 
 type ReactCalendarTimelineState<CustomGroup extends TimelineGroupBase> = {
-  canvasTop: number;
   canvasBottom: number;
-  width: number;
-  visibleTimeStart: number;
-  visibleTimeEnd: number;
-  canvasTimeStart: number;
   canvasTimeEnd: number;
-  selectedItem: null | Id;
-  dragTime: number | null;
+  canvasTimeStart: number;
+  canvasTop: number;
   dragGroupTitle: React.ReactNode | null;
+  dragTime: number | null;
   resizeTime: number | null;
-  resizingItem: Id | null;
   resizingEdge: TimelineItemEdge | null;
+  resizingItem: Id | null;
+  selectedItem: null | Id;
+  visibleTimeEnd: number;
+  visibleTimeStart: number;
+  width: number;
 
   // Hidden props without initial values (at least in the original implementation)
   dimensionItems: {
@@ -974,6 +974,7 @@ export class Timeline<
       canvasTop,
       draggingItem,
       resizingItem,
+      selectedItem,
       visibleTimeEnd,
       visibleTimeStart,
       width,
@@ -984,7 +985,7 @@ export class Timeline<
     const canvasWidth = getCanvasWidth(width);
     const canvasHeight = canvasBottom - canvasTop;
     const minUnit = getMinUnit(zoom, width, timeSteps);
-    const isInteractingWithItem = !!draggingItem || !!resizingItem;
+    const isInteractingWithItem = !!draggingItem || !!resizingItem || !!selectedItem;
 
     if (isInteractingWithItem) {
       const stackResults = stackTimelineItems({
