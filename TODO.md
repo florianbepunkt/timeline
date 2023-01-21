@@ -32,6 +32,7 @@
 - merge timeline contexts []
 - resolve types.ts as much as possible []
 - dissolve \_\_fixtures\_\_ folder []
+- TodayMarker should be renamed to NowMarker []
 - add a linter []
 - add living documentation in form of typescript docs and stories []
 - eliminate dead code []
