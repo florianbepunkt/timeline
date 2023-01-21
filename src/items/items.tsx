@@ -1,5 +1,5 @@
 import { getGroupOrders, getVisibleItems } from "../utility/calendar";
-import { Item } from "./2item";
+import { Item } from "./item";
 import { keyBy } from "../utility/generic";
 import React from "react";
 import type {

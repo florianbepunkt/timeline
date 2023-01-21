@@ -1,1 +1,1 @@
-export { Items } from "./2items";
+export { Items } from "./items";
