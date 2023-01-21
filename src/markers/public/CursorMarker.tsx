@@ -20,7 +20,6 @@ class _CursorMarker extends React.Component<WrappedCursorMarkerProps> {
       renderer: this.props.children,
     });
 
-    console.log("typeof unsubscribe", typeof unsubscribe);
     this._unsubscribe = unsubscribe;
   }
 

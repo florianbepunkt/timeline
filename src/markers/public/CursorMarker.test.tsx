@@ -1,9 +1,10 @@
-import { act, cleanup, fireEvent, render } from "@testing-library/react";
+import { act, cleanup, render } from "@testing-library/react";
 import { afterEach, describe, expect, test, vi } from "vitest";
 import { CursorMarker } from "./CursorMarker";
 import { MarkerCanvasProvider } from "../MarkerCanvasContext";
 import { RenderWrapper } from "../../test-helpers";
 import React from "react";
+import userEvent from "@testing-library/user-event";
 
 /**
  * CursorMarker implementation relies on MarkerCanvas to notify it when the user
@@ -18,10 +19,9 @@ describe("<CursorMarker />", () => {
   const defaultCursorMarkerTestId = "default-cursor-marker";
 
   test("renders one", async () => {
-    const subscribeToMouseOverMock = vi.fn();
-
+    const subscribeToMouseOver = vi.fn();
     const { getByTestId } = render(
-      <MarkerCanvasProvider value={{ subscribeToMouseOver: subscribeToMouseOverMock }}>
+      <MarkerCanvasProvider value={{ subscribeToMouseOver }}>
         <RenderWrapper>
           <CursorMarker />
         </RenderWrapper>
@@ -29,9 +29,7 @@ describe("<CursorMarker />", () => {
     );
 
     act(() => {
-      subscribeToMouseOverMock.mock.calls[0][0]({
-        isCursorOverCanvas: true,
-      });
+      subscribeToMouseOver.mock.calls[0][0]({ isCursorOverCanvas: true });
     });
 
     expect(getByTestId(defaultCursorMarkerTestId)).toBeInTheDocument();
@@ -39,9 +37,9 @@ describe("<CursorMarker />", () => {
 
   test("renders with custom renderer", async () => {
     const customDataIdSelector = "my-custom-marker-cursor";
-    const subscribeToMouseOverMock = vi.fn();
+    const subscribeToMouseOver = vi.fn();
     const { getByTestId } = render(
-      <MarkerCanvasProvider value={{ subscribeToMouseOver: subscribeToMouseOverMock }}>
+      <MarkerCanvasProvider value={{ subscribeToMouseOver }}>
         <RenderWrapper>
           <CursorMarker>{() => <div data-testid={customDataIdSelector} />}</CursorMarker>
         </RenderWrapper>
@@ -49,9 +47,7 @@ describe("<CursorMarker />", () => {
     );
 
     act(() => {
-      subscribeToMouseOverMock.mock.calls[0][0]({
-        isCursorOverCanvas: true,
-      });
+      subscribeToMouseOver.mock.calls[0][0]({ isCursorOverCanvas: true });
     });
 
     expect(getByTestId(customDataIdSelector)).toBeInTheDocument();
@@ -107,27 +103,29 @@ describe("<CursorMarker />", () => {
   });
 
   test("is removed after unmount", async () => {
-    const subscribeToMouseOverMock = vi.fn();
-
+    const user = userEvent.setup();
+    const subscribeToMouseOver = vi.fn();
     const RemoveCursorMarker: React.FC = () => {
       const [isShowing, setIsShowing] = React.useState(true);
       const toggleCustomMarker = () => setIsShowing(false);
       return (
-        <RenderWrapper>
-          <button onClick={toggleCustomMarker}>Hide Custom Marker</button>
-          {isShowing && <CursorMarker />}
-        </RenderWrapper>
+        <MarkerCanvasProvider value={{ subscribeToMouseOver }}>
+          <RenderWrapper>
+            <button onClick={toggleCustomMarker}>Hide Custom Marker</button>
+            {isShowing && <CursorMarker />}
+          </RenderWrapper>
+        </MarkerCanvasProvider>
       );
     };
 
-    const { queryByTestId, getByText } = render(<RemoveCursorMarker />);
+    const { getByRole, getByTestId, queryByTestId } = render(<RemoveCursorMarker />);
     act(() => {
-      subscribeToMouseOverMock.mock.calls[0][0]({
+      subscribeToMouseOver.mock.calls[0][0]({
         isCursorOverCanvas: true,
       });
     });
-    expect(queryByTestId(defaultCursorMarkerTestId)).toBeInTheDocument();
-    fireEvent.click(getByText("Hide Cursor Marker"));
+    expect(getByTestId(defaultCursorMarkerTestId)).toBeInTheDocument();
+    await user.click(getByRole("button"));
     expect(queryByTestId(defaultCursorMarkerTestId)).not.toBeInTheDocument();
   });
 });
