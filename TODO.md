@@ -28,6 +28,7 @@
 - get rid of date driver and commit to date-fns []
 - merge timeline contexts []
 - resolve types.ts as much as possible []
+- dissolve \_\_fixtures\_\_ folder []
 - add a linter []
 - eliminate dead code []
 
@@ -40,6 +41,7 @@ Header shows wrong format for large periods
 Markers: Public / Implementations... please explain structure and intent?
 Test (why the tests for statefull / stateless components?)
 Tests (do unexported utilites in utility folder need testing at all?)
+Are these Component.secretKey stuff needed anymore?
 
 ## Improvements
 
