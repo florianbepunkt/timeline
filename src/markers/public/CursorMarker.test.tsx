@@ -17,7 +17,7 @@ describe("<CursorMarker />", () => {
 
   const defaultCursorMarkerTestId = "default-cursor-marker";
 
-  test.only("renders one", async () => {
+  test("renders one", async () => {
     const subscribeToMouseOverMock = vi.fn();
 
     const { getByTestId } = render(
