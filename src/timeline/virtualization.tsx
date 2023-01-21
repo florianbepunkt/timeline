@@ -10,9 +10,8 @@ import type { TimelineGroupBase } from "../types";
  *
  * @returns  The index of the first fully visible group.
  */
-export function findFirstFullyVisibleGroupIndex(groupTops: number[], visibleTop: number) {
-  return binarySearch(groupTops, (groupTop) => (groupTop >= visibleTop ? 0 : -1), "leftmost");
-}
+export const findFirstFullyVisibleGroupIndex = (groupTops: number[], visibleTop: number) =>
+  binarySearch(groupTops, (groupTop) => (groupTop >= visibleTop ? 0 : -1), "leftmost");
 
 /**
  * Calculates new vertical canvas dimensions to comfortably cover the visible area.
@@ -22,12 +21,12 @@ export function findFirstFullyVisibleGroupIndex(groupTops: number[], visibleTop:
  *
  * @returns  The top and the bottom of the new canvas in pixels.
  */
-export function getNewVerticalCanvasDimensions(visibleTop: number, visibleHeight: number) {
+export const getNewVerticalCanvasDimensions = (visibleTop: number, visibleHeight: number) => {
   const visibleBottom = visibleTop + visibleHeight;
   const top = visibleTop - visibleHeight;
   const bottom = visibleBottom + visibleHeight;
   return { top, bottom };
-}
+};
 
 /**
  * Checks whether a new vertical canvas should be drawn.
@@ -39,16 +38,16 @@ export function getNewVerticalCanvasDimensions(visibleTop: number, visibleHeight
  *
  * @returns  True if the visible part of the chart is too close to the edge of the canvas.
  */
-export function needNewVerticalCanvas(
+export const needNewVerticalCanvas = (
   visibleTop: number,
   visibleHeight: number,
   canvasTop: number,
   canvasBottom: number
-) {
+) => {
   const treshold = visibleHeight * 0.5;
   const visibleBottom = visibleTop + visibleHeight;
   return visibleTop - canvasTop < treshold || canvasBottom - visibleBottom < treshold;
-}
+};
 
 /**
  * Calculates the possibly visible groups. It will overshoot the actual number of visible
@@ -69,13 +68,13 @@ export function needNewVerticalCanvas(
  * @param canvasTop  The top position of the current vertical canvas in pixels.
  * @param canvasBottom  The bottom position of the current vertical canvas in pixels.
  */
-export function calculateVisibleGroups<CustomGroup extends TimelineGroupBase>(
+export const calculateVisibleGroups = <CustomGroup extends TimelineGroupBase>(
   groups: CustomGroup[],
   groupTops: number[],
   lineHeight: number,
   canvasTop: number,
   canvasBottom: number
-) {
+) => {
   // The previous group may also be partially visible, unless there is no
   // previous group.
   const firstGroupIndex = Math.max(0, findFirstFullyVisibleGroupIndex(groupTops, canvasTop));
@@ -96,4 +95,4 @@ export function calculateVisibleGroups<CustomGroup extends TimelineGroupBase>(
   );
 
   return visibleGroupIds;
-}
+};
