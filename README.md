@@ -1,6 +1,7 @@
 # Timeline
 
-** CAUTION **
+## CAUTION
+
 This package is not production ready. It is a fork of react-calendar-timeline that borrows heavily from multiple forks of it and some of the open PRs. This project is in flux and the aim is to merge this back as new major version to the parent project.
 
 ## Demo
