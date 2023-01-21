@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import { cleanup, fireEvent, render } from "@testing-library/react";
 import { ScrollElement, ScrollElementProps } from "./scroll-element";
 import { sel, noop } from "../test-helpers";
-import { visibleTimeStart, visibleTimeEnd } from "../../__fixtures__/stateAndProps";
+import { visibleTimeStart, visibleTimeEnd } from "../__fixtures__/stateAndProps";
 
 const makeSut = (props: Partial<ScrollElementProps> = {}) => {
   const defaultProps: ScrollElementProps = {

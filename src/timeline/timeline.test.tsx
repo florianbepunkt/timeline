@@ -2,7 +2,7 @@ import { beforeAll, describe, expect, test, vi } from "vitest";
 import { noop } from "../test-helpers";
 import { render } from "@testing-library/react";
 import { Timeline } from "./timeline";
-import { visibleTimeStart, visibleTimeEnd } from "../../__fixtures__/stateAndProps";
+import { visibleTimeStart, visibleTimeEnd } from "../__fixtures__/stateAndProps";
 
 describe("<Timeline />", () => {
   beforeAll(() => {

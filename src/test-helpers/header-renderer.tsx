@@ -1,7 +1,7 @@
 import { DateDriver } from "../utility";
 import { defaultTimeSteps } from "../default-config";
 import { HeadersProviderProps, HeadersProvider } from "../headers/headers-context";
-import { state } from "../../__fixtures__/stateAndProps";
+import { state } from "../__fixtures__/stateAndProps";
 import { TimelineStateProvider, TimelineStateProviderProps } from "../timeline/timeline-state-context";
 import React from "react";
 

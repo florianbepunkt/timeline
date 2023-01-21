@@ -18,13 +18,13 @@ import { Columns } from "../columns";
 import { DateHeader, TimelineHeaders, HeadersProvider } from "../headers";
 import { defaultTimeSteps } from "../default-config";
 import { GroupRows } from "../row";
+import { isEqual } from "lodash-es"
 import { Items } from "../items";
 import { ScrollElement } from "../scroll";
 import { Sidebar } from "../sidebar";
 import { TimelineContext } from "./timeline-context";
 import { TimelineMarkersProvider } from "../markers/TimelineMarkersContext";
 import { TimelineStateProvider } from "./timeline-state-context";
-import isEqual from "lodash.isequal";
 import MarkerCanvas from "../markers/MarkerCanvas";
 import React, { Component } from "react";
 import type {

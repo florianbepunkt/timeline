@@ -1,12 +1,15 @@
 import { BasicTimeline } from "./timeline";
-import { ComponentStory, ComponentMeta } from "@storybook/react";
 import React from "react";
+import type { Meta, StoryObj } from "@storybook/react";
 
-// More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
-export default {
-  title: "Basic",
+const meta = {
+  title: "Timeline",
   component: BasicTimeline,
-} as ComponentMeta<typeof BasicTimeline>;
+  tags: ["autodocs"],
+  argTypes: {},
+} satisfies Meta<typeof BasicTimeline>;
 
-// More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
-export const Timline: ComponentStory<typeof BasicTimeline> = () => <BasicTimeline />;
+export default meta;
+type Story = StoryObj<typeof BasicTimeline>;
+
+export const Simple: Story = {};

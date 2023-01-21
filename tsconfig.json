@@ -2,6 +2,7 @@
   "compilerOptions": {
     "allowJs": false,
     "allowSyntheticDefaultImports": true,
+    "declaration": true,
     "esModuleInterop": false,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
@@ -18,5 +19,5 @@
     "useDefineForClassFields": true
   },
   "include": ["src"],
-  "exclude": ["node_modules", "**/node_modules", "**/*.test.ts", "__fixtures__"]
+  "exclude": ["node_modules", "**/node_modules", "**/*.test.ts"]
 }

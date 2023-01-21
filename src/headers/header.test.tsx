@@ -1,7 +1,7 @@
 import { afterEach, beforeAll, describe, expect, test } from "vitest";
 import { cleanup, render } from "@testing-library/react";
-import { items, groups } from "../../__fixtures__/itemsAndGroups";
-import { props as defaultProps } from "../../__fixtures__/stateAndProps";
+import { items, groups } from "../__fixtures__/itemsAndGroups";
+import { props as defaultProps } from "../__fixtures__/stateAndProps";
 import { Timeline } from "../timeline";
 import type { ReactCalendarTimelineProps } from "../types";
 

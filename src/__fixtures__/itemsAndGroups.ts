@@ -1,4 +1,4 @@
-import type { TimelineGroupBase, TimelineItemBase } from "../src";
+import type { TimelineGroupBase, TimelineItemBase } from "../types";
 
 export const items: TimelineItemBase[] = [
   {
