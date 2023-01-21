@@ -4,7 +4,7 @@ import { TimelineMarkerType } from "./markerType";
 
 type CustomMarkerChildrenProps = {
   styles: React.CSSProperties;
-  date: number;
+  date: Date | number;
 };
 
 type TodayMarker = {
@@ -24,7 +24,7 @@ type CustomMarker = {
   id?: number;
   type: TimelineMarkerType.Custom;
   renderer?: (props: CustomMarkerChildrenProps) => React.ReactNode;
-  date: number;
+  date: Date | number;
 };
 
 export type Marker = TodayMarker | CursorMarker | CustomMarker;

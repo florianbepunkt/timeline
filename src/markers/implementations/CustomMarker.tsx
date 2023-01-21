@@ -3,13 +3,13 @@ import { createMarkerStylesWithLeftOffset, createDefaultRenderer } from "./share
 
 type CustomMarkerChildrenProps = {
   styles: React.CSSProperties;
-  date: number;
+  date: Date | number;
 };
 
 type CustomMarkerProps = {
   getLeftOffsetFromDate: (date: number) => number;
   renderer?: (props: CustomMarkerChildrenProps) => React.ReactNode;
-  date: number;
+  date: Date | number;
 };
 
 const defaultCustomMarkerRenderer = createDefaultRenderer("default-customer-marker-id");
@@ -20,7 +20,8 @@ const defaultCustomMarkerRenderer = createDefaultRenderer("default-customer-mark
 class CustomMarker extends React.Component<CustomMarkerProps> {
   render() {
     const { date } = this.props;
-    const leftOffset = this.props.getLeftOffsetFromDate(date);
+    const value = new Date(date).valueOf();
+    const leftOffset = this.props.getLeftOffsetFromDate(value);
 
     const styles = createMarkerStylesWithLeftOffset(leftOffset);
     const renderer = this.props.renderer ?? defaultCustomMarkerRenderer;

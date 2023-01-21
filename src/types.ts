@@ -229,11 +229,11 @@ export type DateHeaderProps<Data> = {
 
 export type CustomMarkerChildrenProps = {
   styles: React.CSSProperties;
-  date: number;
+  date: Date | number;
 };
 
 export type MarkerProps = {
-  date: number; // Originally this was `number | Date` but we can not use `Date` for markers
+  date: Date | number;
   children?: (props: CustomMarkerChildrenProps) => React.ReactNode;
 };
 
