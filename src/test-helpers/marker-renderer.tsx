@@ -1,20 +1,20 @@
 import { TimelineMarkersProvider } from "../markers/TimelineMarkersContext";
-import { TimelineStateProvider } from "../timeline/timeline-state-context";
+import { TimelineProvider } from "../timeline/timeline-context";
 import React from "react";
 import TimelineMarkersRenderer from "../markers/TimelineMarkersRenderer";
-import type { TimelineStateProviderProps } from "../timeline/timeline-state-context";
+import type { TimelineProviderProps } from "../timeline/timeline-context";
 
 const ONE_DAY = 1000 * 60 * 60 * 24;
 
 // eslint-disable-next-line
 export const RenderWrapper: React.FC<{
   children: React.ReactNode;
-  timelineState?: Omit<TimelineStateProviderProps, "children">;
+  timelineState?: Omit<TimelineProviderProps, "children">;
 }> = ({ children, timelineState }) => {
   const now = Date.now();
   const visibleTimeStart = now - ONE_DAY;
   const visibleTimeEnd = now + ONE_DAY;
-  const defaultTimelineState: Omit<TimelineStateProviderProps, "children"> = {
+  const defaultTimelineState: Omit<TimelineProviderProps, "children"> = {
     visibleTimeStart,
     visibleTimeEnd,
     canvasTimeStart: visibleTimeStart - ONE_DAY,
@@ -30,14 +30,14 @@ export const RenderWrapper: React.FC<{
 
   return (
     <div>
-      <TimelineStateProvider {...timelineState}>
+      <TimelineProvider {...timelineState}>
         <TimelineMarkersProvider>
           <div>
             {children}
             <TimelineMarkersRenderer />
           </div>
         </TimelineMarkersProvider>
-      </TimelineStateProvider>
+      </TimelineProvider>
     </div>
   );
 };

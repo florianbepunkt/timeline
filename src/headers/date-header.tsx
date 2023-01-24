@@ -3,7 +3,7 @@ import { CustomHeader } from "./custom-header";
 import { DateDriver } from "../utility";
 import { defaultHeaderFormats } from "../default-config";
 import { getNextUnit } from "../utility/calendar";
-import { TimelineStateContext } from "../timeline";
+import { TimelineContext } from "../timeline";
 import memoize from "memoize-one";
 import React from "react";
 import type { DateHeaderProps, IntervalRenderer, TimeUnit } from "../types";
@@ -17,9 +17,7 @@ export const DateHeader = <Data,>({
   style,
   unit,
 }: DateHeaderProps<Data>) => {
-  const { getTimelineState } = React.useContext(TimelineStateContext);
-  const { timelineUnit } = getTimelineState();
-
+  const { timelineUnit } = React.useContext(TimelineContext);
   const getHeaderUnit = (): TimeUnit => {
     if (unit === "primaryHeader") {
       return getNextUnit(timelineUnit);

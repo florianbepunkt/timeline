@@ -1,5 +1,5 @@
 import { generateTimes, map } from "../utility";
-import { TimelineStateContext } from "../timeline";
+import { TimelineContext } from "../timeline";
 import React from "react";
 import type { CompleteTimeSteps, TimeUnit } from "../types";
 
@@ -39,7 +39,7 @@ export const Columns: React.FC<ColumnsProps> = ({
   timeSteps,
   verticalLineClassNamesForTime,
 }) => {
-  const { getLeftOffsetFromDate } = React.useContext(TimelineStateContext);
+  const { getLeftOffsetFromDate } = React.useContext(TimelineContext);
 
   const lines: React.ReactNode[] = Array.from(
     map(generateTimes(canvasTimeStart, canvasTimeEnd, minUnit, timeSteps), ([time, nextTime]) => {

@@ -1,7 +1,7 @@
-import React from "react";
 import { MarkerCanvasProvider } from "./MarkerCanvasContext";
+import { TimelineContext } from "../timeline/timeline-context";
+import React from "react";
 import TimelineMarkersRenderer from "./TimelineMarkersRenderer";
-import { TimelineStateConsumer } from "../timeline/timeline-state-context";
 
 // expand to fill entire parent container (ScrollElement)
 const staticStyles: React.CSSProperties = {
@@ -107,11 +107,11 @@ const MarkerCanvasWrapper = (
     /* empty */
   }>
 ) => (
-  <TimelineStateConsumer>
+  <TimelineContext.Consumer>
     {({ getDateFromLeftOffsetPosition }) => (
       <MarkerCanvas getDateFromLeftOffsetPosition={getDateFromLeftOffsetPosition} {...props} />
     )}
-  </TimelineStateConsumer>
+  </TimelineContext.Consumer>
 );
 
 export default MarkerCanvasWrapper;

@@ -1,6 +1,6 @@
 import { HeadersContext } from "./headers-context";
 import { iterateTimes } from "../utility";
-import { TimelineStateContext } from "../timeline";
+import { TimelineContext } from "../timeline";
 import memoize from "memoize-one";
 import React from "react";
 import type {
@@ -32,8 +32,6 @@ export const CustomHeader = <Data,>({
   headerData,
   height = 30,
 }: CustomHeaderProps<Data>): JSX.Element => {
-  const { getLeftOffsetFromDate, getTimelineState, showPeriod } = React.useContext(TimelineStateContext);
-  const { timeSteps } = React.useContext(HeadersContext);
   const {
     canvasTimeEnd,
     canvasTimeStart,
@@ -42,8 +40,10 @@ export const CustomHeader = <Data,>({
     timelineWidth,
     visibleTimeEnd,
     visibleTimeStart,
-  } = getTimelineState();
-
+    getLeftOffsetFromDate,
+    showPeriod,
+  } = React.useContext(TimelineContext);
+  const { timeSteps } = React.useContext(HeadersContext);
   const intervals = memoize(
     (
       canvasTimeStart: number,

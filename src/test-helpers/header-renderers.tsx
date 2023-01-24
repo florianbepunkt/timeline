@@ -2,7 +2,7 @@ import { CustomHeader, DateHeader, SidebarHeader, TimelineHeaders } from "../hea
 import { HeadersProviderProps } from "../headers/headers-context";
 import { render } from "@testing-library/react";
 import { RenderHeadersWrapper } from "./header-renderer";
-import { TimelineStateProviderProps } from "../timeline/timeline-state-context";
+import { TimelineProviderProps } from "../timeline/timeline-context";
 import { TimeUnit } from "../types";
 
 export const renderSidebarHeaderWithCustomValues = ({
@@ -15,7 +15,7 @@ export const renderSidebarHeaderWithCustomValues = ({
   extraProps?: any; // TODO: don't understand the model here...
   headersState?: Partial<HeadersProviderProps>;
   props?: { style: React.CSSProperties };
-  timelineState?: Partial<TimelineStateProviderProps>;
+  timelineState?: Partial<TimelineProviderProps>;
   variant?: "left" | "right";
 } = {}) =>
   render(
@@ -44,7 +44,7 @@ export const renderTwoSidebarHeadersWithCustomValues = ({
 }: {
   headersState?: Partial<HeadersProviderProps>;
   props?: any; // TODO: don't understand the model here...
-  timelineState?: Partial<TimelineStateProviderProps>;
+  timelineState?: Partial<TimelineProviderProps>;
 } = {}) =>
   render(
     <RenderHeadersWrapper timelineState={timelineState} headersState={headersState}>
@@ -83,7 +83,7 @@ export const renderTimelineWithLeftAndRightSidebar = ({
   className?: string;
   headersState?: Partial<HeadersProviderProps>;
   style?: React.CSSProperties;
-  timelineState?: Partial<TimelineStateProviderProps>;
+  timelineState?: Partial<TimelineProviderProps>;
 } = {}) =>
   render(
     <RenderHeadersWrapper timelineState={timelineState} headersState={headersState}>
@@ -117,7 +117,7 @@ export const renderTimelineWithVariantSidebar = ({
   variant,
 }: {
   headersState?: Partial<HeadersProviderProps>;
-  timelineState?: Partial<TimelineStateProviderProps>;
+  timelineState?: Partial<TimelineProviderProps>;
   variant?: "left" | "right";
 } = {}) =>
   render(
@@ -146,7 +146,7 @@ export const getCustomHeadersInTimeline = ({
   headersState?: Partial<HeadersProviderProps>;
   intervalStyle?: React.CSSProperties;
   props?: any; // TODO: don't understand the model here...
-  timelineState?: Partial<TimelineStateProviderProps>;
+  timelineState?: Partial<TimelineProviderProps>;
   unit?: TimeUnit;
 } = {}) => (
   <RenderHeadersWrapper timelineState={timelineState} headersState={headersState}>

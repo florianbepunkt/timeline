@@ -29,7 +29,7 @@
   -- move to storybook 7 [x]
   -- move to lodash-es [x]
 - get rid of date driver and commit to date-fns []
-- merge timeline contexts []
+- merge timeline contexts [x]
 - resolve types.ts as much as possible []
 - dissolve \_\_fixtures\_\_ folder []
 - TodayMarker should be renamed to NowMarker []

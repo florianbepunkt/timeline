@@ -2,6 +2,8 @@ import type { DateDriver } from "./utility";
 import type { TimelineContext } from "./timeline";
 import type React from "react";
 
+// TODO: this is a big ball of mud... this should be split up and colocated to where it is used
+
 type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>;
 
 export type Id = number | string;
@@ -194,7 +196,10 @@ export type IntervalRenderer<Data> = {
 };
 
 export type CustomHeaderPropsChildrenFnProps<Data> = {
-  timelineContext: TimelineContext;
+  timelineContext: Pick<
+    TimelineContext,
+    "canvasTimeEnd" | "canvasTimeStart" | "timelineWidth" | "visibleTimeEnd" | "visibleTimeStart"
+  >;
   headerContext: HeaderContext;
   getIntervalProps: (props?: GetIntervalProps) => GetIntervalProps & { key: string | number };
   getRootProps: (propsToOverride?: { style: React.CSSProperties }) => { style: React.CSSProperties };
@@ -237,7 +242,6 @@ export type MarkerProps = {
   children?: (props: CustomMarkerChildrenProps) => React.ReactNode;
 };
 
-// TODO: make date optional here, as we default to today....
 export type TodayMarkerProps = Optional<MarkerProps, "date"> & {
   interval?: number;
 };
@@ -314,7 +318,12 @@ export type ReactCalendarTimelineProps<
   onCanvasContextMenu?(groupId: Id, time: number, e: React.SyntheticEvent): void;
   onCanvasDoubleClick?(groupId: Id, time: number, e: React.SyntheticEvent): void;
   onCanvasDrop?(groupId: Id, time: number, e: React.DragEvent): void;
-  onZoom?(timelineContext: TimelineContext): void;
+  onZoom?(
+    timelineContext: Pick<
+      TimelineContext,
+      "canvasTimeEnd" | "canvasTimeStart" | "timelineWidth" | "visibleTimeEnd" | "visibleTimeStart"
+    >
+  ): void;
   moveResizeValidator?: MoveResizeValidator<CustomItem>;
   onTimeChange?(
     visibleTimeStart: number,

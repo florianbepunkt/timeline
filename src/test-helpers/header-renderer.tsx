@@ -2,7 +2,7 @@ import { DateDriver } from "../utility";
 import { defaultTimeSteps } from "../default-config";
 import { HeadersProviderProps, HeadersProvider } from "../headers/headers-context";
 import { state } from "../__fixtures__/stateAndProps";
-import { TimelineStateProvider, TimelineStateProviderProps } from "../timeline/timeline-state-context";
+import { TimelineProvider, TimelineProviderProps } from "../timeline/timeline-context";
 import React from "react";
 
 // eslint-disable-next-line
@@ -11,7 +11,7 @@ export const RenderHeadersWrapper: React.FC<{
   headersState?: Partial<HeadersProviderProps>;
   registerScroll?: React.RefCallback<HTMLElement>;
   showPeriod?: (startDate: DateDriver, endDate: DateDriver) => void;
-  timelineState?: Partial<TimelineStateProviderProps>;
+  timelineState?: Partial<TimelineProviderProps>;
 }> = ({
   children,
   timelineState = {},
@@ -45,11 +45,11 @@ export const RenderHeadersWrapper: React.FC<{
 
   return (
     <div>
-      <TimelineStateProvider {...timelineStateProps}>
+      <TimelineProvider {...timelineStateProps}>
         <div>
           <HeadersProvider {...headersStateProps}>{children}</HeadersProvider>
         </div>
-      </TimelineStateProvider>
+      </TimelineProvider>
     </div>
   );
 };
