@@ -37,7 +37,7 @@ export const defaultHeaderFormats = {
   },
   hour: {
     long: "dddd, LL, HH:00",
-    mediumLong: "L, HH:00",
+    mediumLong: "HH:00",
     medium: "HH:00",
     short: "HH",
   },
@@ -47,38 +47,4 @@ export const defaultHeaderFormats = {
     medium: "HH:mm",
     short: "mm",
   },
-};
-
-//TODO: delete this
-export const defaultHeaderLabelFormats = {
-  yearShort: "YY",
-  yearLong: "YYYY",
-  monthShort: "MM/YY",
-  monthMedium: "MM/YYYY",
-  monthMediumLong: "MMM YYYY",
-  monthLong: "MMMM YYYY",
-  dayShort: "L",
-  dayLong: "dddd, LL",
-  hourShort: "HH",
-  hourMedium: "HH:00",
-  hourMediumLong: "L, HH:00",
-  hourLong: "dddd, LL, HH:00",
-  time: "LLL",
-};
-
-//TODO: delete this
-export const defaultSubHeaderLabelFormats = {
-  yearShort: "YY",
-  yearLong: "YYYY",
-  monthShort: "MM",
-  monthMedium: "MMM",
-  monthLong: "MMMM",
-  dayShort: "D",
-  dayMedium: "dd D",
-  dayMediumLong: "ddd, Do",
-  dayLong: "dddd, Do",
-  hourShort: "HH",
-  hourLong: "HH:00",
-  minuteShort: "mm",
-  minuteLong: "HH:mm",
 };

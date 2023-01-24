@@ -29,7 +29,7 @@
   -- move to storybook 7 [x]
   -- move to lodash-es [x]
 - merge timeline contexts [x]
-- get rid of date driver and commit to date-fns []
+- get rid of date driver and commit to date-fns [] >> probably not easily done
 - resolve types.ts as much as possible []
 - dissolve \_\_fixtures\_\_ folder []
 - TodayMarker should be renamed to NowMarker []
@@ -49,7 +49,7 @@
 
 ## Bugs
 
-Header shows wrong format for large periods
+Header shows wrong format for large periods [x]
 
 ## Questions
 
