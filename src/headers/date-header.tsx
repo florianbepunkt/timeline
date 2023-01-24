@@ -1,7 +1,7 @@
 import { CustomDateHeader } from "./custom-date-header";
 import { CustomHeader } from "./custom-header";
-import { DateDriver } from "../utility";
 import { defaultHeaderFormats } from "../default-config";
+import { format } from "date-fns";
 import { getNextUnit } from "../utility/calendar";
 import { TimelineContext } from "../timeline";
 import memoize from "memoize-one";
@@ -33,13 +33,13 @@ export const DateHeader = <Data,>({
   );
 
   const getLabelFormat = (
-    interval: [DateDriver, DateDriver],
+    interval: [Date | number, Date | number],
     unit: TimeUnit,
     labelWidth: number
   ): string => {
     if (typeof labelFormat === "string") {
       const startTime = interval[0];
-      return startTime.format(labelFormat);
+      return format(startTime, labelFormat);
     } else if (typeof labelFormat === "function") {
       return labelFormat(interval, unit, labelWidth);
     } else {
@@ -52,7 +52,11 @@ export const DateHeader = <Data,>({
       intervalRenderer: ((props: IntervalRenderer<Data>) => React.ReactNode) | undefined,
       style: React.CSSProperties,
       className: string | undefined,
-      getLabelFormat: (interval: [DateDriver, DateDriver], unit: TimeUnit, labelWidth: number) => string,
+      getLabelFormat: (
+        interval: [Date | number, Date | number],
+        unit: TimeUnit,
+        labelWidth: number
+      ) => string,
       unitProp: TimeUnit | "primaryHeader" | undefined,
       headerData: Data | undefined
     ) => ({
@@ -84,26 +88,28 @@ export const DateHeader = <Data,>({
 };
 
 const formatLabel = (
-  [timeStart, _timeEnd]: [DateDriver, DateDriver],
+  [timeStart, _timeEnd]: [Date | number, Date | number],
   unit: TimeUnit,
   labelWidth: number,
   formatOptions = defaultHeaderFormats
 ) => {
-  let format;
+  // TODO: we could swap this out for date-fns rather easily
+
+  let dateFnsFormat;
   if (unit === "second") {
     // TODO: Please check this and the default values!
     throw new Error(`The "second" unit is not available in the default header formats`);
   }
 
   if (labelWidth >= 150) {
-    format = formatOptions[unit]["long"];
+    dateFnsFormat = formatOptions[unit]["long"];
   } else if (labelWidth >= 100) {
-    format = formatOptions[unit]["mediumLong"];
+    dateFnsFormat = formatOptions[unit]["mediumLong"];
   } else if (labelWidth >= 50) {
-    format = formatOptions[unit]["medium"];
+    dateFnsFormat = formatOptions[unit]["medium"];
   } else {
-    format = formatOptions[unit]["short"];
+    dateFnsFormat = formatOptions[unit]["short"];
   }
 
-  return timeStart.format(format);
+  return format(timeStart, dateFnsFormat);
 };

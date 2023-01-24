@@ -1,4 +1,5 @@
 import { generateTimes, map } from "../utility";
+import { getByUnit } from "../utility/date";
 import { TimelineContext } from "../timeline";
 import React from "react";
 import type { CompleteTimeSteps, TimeUnit } from "../types";
@@ -43,16 +44,18 @@ export const Columns: React.FC<ColumnsProps> = ({
 
   const lines: React.ReactNode[] = Array.from(
     map(generateTimes(canvasTimeStart, canvasTimeEnd, minUnit, timeSteps), ([time, nextTime]) => {
-      const minUnitValue = time.get(minUnit === "day" ? "date" : minUnit);
+      const minUnitValue = getByUnit(time, minUnit);
       const firstOfType = minUnitValue === (minUnit === "day" ? 1 : 0);
       const classNames: string[] = [
         "rct-vl",
         firstOfType ? " rct-vl-first" : "",
-        minUnit === "day" || minUnit === "hour" || minUnit === "minute" ? ` rct-day-${time.day()} ` : "",
+        minUnit === "day" || minUnit === "hour" || minUnit === "minute"
+          ? ` rct-day-${getByUnit(time, "day")} `
+          : "",
         ...(verticalLineClassNamesForTime
           ? verticalLineClassNamesForTime(
-              time.unix() * 1000, // turn into ms, which is what verticalLineClassNamesForTime expects
-              nextTime.unix() * 1000 - 1
+              time.valueOf(), // verticalLineClassNamesForTime expects time in ms
+              nextTime.valueOf() - 1
             ) ?? []
           : []),
       ];

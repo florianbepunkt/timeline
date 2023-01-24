@@ -1,8 +1,8 @@
-import { DateDriver, dateDriver } from "../date-driver";
+import { addByUnit, getByUnit, setByUnit, startOf } from "../date";
 import type {
   CompleteTimeSteps,
   Id,
-  ITimeSteps,
+  ITimeSteps as TimeSteps,
   TimelineGroupBase,
   TimelineItemBase,
   TimelineItemEdge,
@@ -120,22 +120,22 @@ export function* generateTimes(
   start: number,
   end: number,
   unit: TimeUnit,
-  timeSteps: ITimeSteps
-): Generator<[DateDriver, DateDriver], void, void> {
-  let time = dateDriver(start).startOf(unit);
+  timeSteps: TimeSteps
+): Generator<[Date | number, Date | number], void, void> {
+  let time = startOf(start, unit);
   const steps = timeSteps[unit] ?? 1;
 
   // If we need to go more steps in an iteration (like iterate every 30 minutes), we need to find the
   // last "whole" time before the start. So if start is at 2022.05.05.10:34, we will iterate like
   // 2022.05.05.10:30, 2022.05.05.11:00 and so on (and not 2022.05.05.10:34, 2022.05.05.11:04, ...).
   if (steps > 1) {
-    const value = time.get(unit);
-    time.set(unit, value - (value % steps));
+    const value = getByUnit(time, unit);
+    time = setByUnit(time, unit, value - (value % steps));
   }
 
   // The actual iteration
   while (time.valueOf() < end) {
-    const nextTime = dateDriver(time.valueOf()).add(steps, unit);
+    const nextTime = addByUnit(time, unit, steps);
     yield [time, nextTime];
     time = nextTime;
   }
@@ -158,8 +158,8 @@ export function iterateTimes(
   start: number,
   end: number,
   unit: TimeUnit,
-  timeSteps: ITimeSteps,
-  callback: (time: DateDriver, nextTime: DateDriver) => void
+  timeSteps: TimeSteps,
+  callback: (time: Date | number, nextTime: Date | number) => void
 ): void {
   for (const [time, nextTime] of generateTimes(start, end, unit, timeSteps)) {
     callback(time, nextTime);
@@ -185,7 +185,7 @@ const millisecondsIn: CompleteTimeSteps = {
  * @param width Width of timeline canvas (in pixels).
  * @param timeSteps Map of time units with number to indicate step of each unit.
  */
-export function getMinUnit(zoom: number, width: number, timeSteps: ITimeSteps) {
+export function getMinUnit(zoom: number, width: number, timeSteps: TimeSteps) {
   let currentUnit: TimeUnit = "second";
 
   do {

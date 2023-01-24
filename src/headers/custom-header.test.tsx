@@ -3,13 +3,8 @@ import { cleanup, render } from "@testing-library/react";
 import { CustomHeader } from "./custom-header";
 import { CustomHeaderPropsChildrenFnProps } from "../types";
 import { DateHeader } from "./date-header";
-import { differenceInMonths, parse, parseISO } from "date-fns";
-import {
-  expectDateDriver,
-  getCustomHeadersInTimeline,
-  RenderHeadersWrapper,
-  parsePxToNumbers,
-} from "../test-helpers";
+import { differenceInMonths, format, parse, parseISO } from "date-fns";
+import { getCustomHeadersInTimeline, RenderHeadersWrapper, parsePxToNumbers } from "../test-helpers";
 import { SidebarHeader } from "./sidebar-header";
 import { TimelineHeaders } from "./timeline-headers";
 
@@ -183,8 +178,8 @@ describe("<CustomHeader />", () => {
     expect(intervals).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          startTime: expect.objectContaining(expectDateDriver),
-          endTime: expect.objectContaining(expectDateDriver),
+          startTime: expect.any(Date),
+          endTime: expect.any(Date),
           labelWidth: expect.any(Number),
           left: expect.any(Number),
         }),
@@ -308,7 +303,7 @@ describe("<CustomHeader />", () => {
                       }}
                       {...getIntervalProps({ interval, style })}
                     >
-                      <div className="sticky">{interval.startTime.format("YYYY")}</div>
+                      <div className="sticky">{format(interval.startTime, "yyyy")}</div>
                     </div>
                   );
                 })}

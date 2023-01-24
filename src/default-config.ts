@@ -12,22 +12,22 @@ export const defaultTimeSteps: CompleteTimeSteps = {
 
 export const defaultHeaderFormats = {
   year: {
-    long: "YYYY",
-    mediumLong: "YYYY",
-    medium: "YYYY",
-    short: "YY",
+    long: "yyyy",
+    mediumLong: "yyyy",
+    medium: "yyyy",
+    short: "yy",
   },
   month: {
-    long: "MMMM YYYY",
-    mediumLong: "MMMM YYYY",
+    long: "MMMM yyyy",
+    mediumLong: "MMMM yyyy",
     medium: "MMMM",
-    short: "M/YYYY",
+    short: "M/yyyy",
   },
   week: {
-    long: "MMMM YYYY, \\W\\e\\e\\k W",
-    mediumLong: "M/YYYY, \\W W",
-    medium: "\\W W",
-    short: "W",
+    long: "MMMM yyyy, Io",
+    mediumLong: "M/yyyy, Io",
+    medium: "Io",
+    short: "I",
   },
   day: {
     long: "dddd, LL",

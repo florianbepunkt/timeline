@@ -1,4 +1,3 @@
-import { DateDriver } from "../utility";
 import { defaultTimeSteps } from "../default-config";
 import { HeadersProviderProps, HeadersProvider } from "../headers/headers-context";
 import { state } from "../__fixtures__/stateAndProps";
@@ -10,7 +9,7 @@ export const RenderHeadersWrapper: React.FC<{
   children: React.ReactNode;
   headersState?: Partial<HeadersProviderProps>;
   registerScroll?: React.RefCallback<HTMLElement>;
-  showPeriod?: (startDate: DateDriver, endDate: DateDriver) => void;
+  showPeriod?: (startDate: Date | number, endDate: Date | number) => void;
   timelineState?: Partial<TimelineProviderProps>;
 }> = ({
   children,

@@ -1,12 +1,10 @@
-import { jsDateDriver } from "../src/utility";
+import { addHours } from "date-fns";
 import type { TimelineGroupBase, TimelineItemBase } from "../src/types";
 
 type RelativeTimeWindow = {
   startOffset: number;
   duration: number;
 };
-
-const dateDriver = jsDateDriver;
 
 const generateGroups = (amount = 2000): TimelineGroupBase[] => {
   const groups: TimelineGroupBase[] = [];
@@ -47,8 +45,8 @@ const generateItems = (groups: TimelineGroupBase[]) => {
     const rowDefinition = rowDefinitions[group % rowDefinitions.length];
     for (let item = 0; item < rowDefinition.length; item++) {
       const itemDefinition = rowDefinition[item];
-      const start = dateDriver().add(itemDefinition.startOffset, "hour").valueOf();
-      const end = dateDriver(start).add(itemDefinition.duration, "hour").valueOf();
+      const start = addHours(new Date(), itemDefinition.startOffset).valueOf();
+      const end = addHours(start, itemDefinition.duration).valueOf();
       items.push({
         id: `${group}-${item}`,
         group: group.toString(),
@@ -66,23 +64,9 @@ export const makeDemoData = () => {
   const groups = generateGroups();
   const items = generateItems(groups);
   return {
-    defaultTimeEnd: dateDriver().add(12, "hour").valueOf(),
-    defaultTimeStart: dateDriver().add(-12, "hour").valueOf(),
+    defaultTimeEnd: addHours(new Date(), 12).valueOf(),
+    defaultTimeStart: addHours(new Date(), -12).valueOf(),
     groups,
     items,
   } as const;
 };
-
-// export const BasicTimeline = (): JSX.Element => (
-//   <div style={{ height: "100vh" }}>
-//     <Timeline
-//       defaultTimeEnd={dateDriver().add(12, "hour").valueOf()}
-//       defaultTimeStart={dateDriver().add(-12, "hour").valueOf()}
-//       groups={groups}
-//       itemHeight={34}
-//       items={items}
-//       lineHeight={42}
-//       stackItems
-//     />
-//   </div>
-// );

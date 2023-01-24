@@ -1,6 +1,5 @@
 import { calculateXPositionForTime, calculateTimeForXPosition } from "../utility";
 import React from "react";
-import type { DateDriver } from "../utility";
 import type { TimeUnit } from "../types";
 
 /* this context will hold all information regarding timeline state:
@@ -23,7 +22,7 @@ export type TimelineContext = {
 
   getLeftOffsetFromDate: (date: number) => number;
   getDateFromLeftOffsetPosition: (leftOffset: number) => number;
-  showPeriod: (startDate: DateDriver, endDate: DateDriver) => void;
+  showPeriod: (startDate: Date | number, endDate: Date | number) => void;
 };
 
 export const TimelineContext = React.createContext<TimelineContext>({} as any);
@@ -38,7 +37,7 @@ export type TimelineProviderProps = {
   visibleTimeEnd: number;
   visibleTimeStart: number;
 
-  showPeriod: (startDate: DateDriver, endDate: DateDriver) => void;
+  showPeriod: (startDate: Date | number, endDate: Date | number) => void;
 };
 
 export const TimelineProvider: React.FC<TimelineProviderProps> = ({

@@ -1,4 +1,3 @@
-import type { DateDriver } from "./utility";
 import type { TimelineContext } from "./timeline";
 import type React from "react";
 
@@ -160,14 +159,15 @@ export type ReactCalendarItemRendererProps<
 > = {
   item: TItem;
   itemContext: ItemContext<TGroup>;
+  timelineContext: TimelineContext;
+
   getItemProps: (props?: Partial<Omit<TimelineItemProps, "key" | "ref">>) => TimelineItemProps;
   getResizeProps: (styles?: ResizeStyles) => ItemRendererResizeProps;
-  timelineContext: TimelineContext;
 };
 
 export type Interval = {
-  startTime: DateDriver;
-  endTime: DateDriver;
+  startTime: Date | number;
+  endTime: Date | number;
   labelWidth: number;
   left: number;
 };
@@ -203,7 +203,7 @@ export type CustomHeaderPropsChildrenFnProps<Data> = {
   headerContext: HeaderContext;
   getIntervalProps: (props?: GetIntervalProps) => GetIntervalProps & { key: string | number };
   getRootProps: (propsToOverride?: { style: React.CSSProperties }) => { style: React.CSSProperties };
-  showPeriod: (startDate: DateDriver, endDate: DateDriver) => void;
+  showPeriod: (startDate: Date | number, endDate: Date | number) => void;
   data: Data;
 };
 
@@ -225,7 +225,11 @@ export type DateHeaderProps<Data> = {
   unit?: TimeUnit | "primaryHeader";
   labelFormat?:
     | string
-    | (([startTime, endTime]: [DateDriver, DateDriver], unit: TimeUnit, labelWidth: number) => string);
+    | ((
+        [startTime, endTime]: [Date | number, Date | number],
+        unit: TimeUnit,
+        labelWidth: number
+      ) => string);
   intervalRenderer?: (props: IntervalRenderer<Data>) => React.ReactNode;
   headerData?: Data;
   height?: number;

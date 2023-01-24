@@ -1,4 +1,5 @@
 import { CustomHeader, DateHeader, SidebarHeader, TimelineHeaders } from "../headers";
+import { format } from "date-fns";
 import { HeadersProviderProps } from "../headers/headers-context";
 import { render } from "@testing-library/react";
 import { RenderHeadersWrapper } from "./header-renderer";
@@ -173,7 +174,7 @@ export const getCustomHeadersInTimeline = ({
                       style: intervalStyle,
                     })}
                   >
-                    <div className="sticky">{interval.startTime.format("DD/MM/YYYY")}</div>
+                    <div className="sticky">{format(interval.startTime, "dd/MM/yyyy")}</div>
                   </div>
                 );
               })}

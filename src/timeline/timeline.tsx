@@ -37,7 +37,6 @@ import type {
   TimelineItemEdge,
   TimeUnit,
 } from "../types";
-import type { DateDriver } from "../utility";
 
 type ReactNodeWithPossibleTypeAndSecretKey = React.ReactNode & { type?: { secretKey?: unknown } };
 type ReactElementWithPossibleTypeAndSecretKey = React.ReactElement & { type?: { secretKey?: unknown } };
@@ -543,7 +542,7 @@ export class Timeline<
     this.onTimeChange(newVisibleTimeStart, newVisibleTimeStart + newZoom, this.updateScrollCanvas);
   };
 
-  showPeriod = (from: DateDriver, to: DateDriver) => {
+  showPeriod = (from: Date | number, to: Date | number) => {
     const visibleTimeStart = from.valueOf();
     const visibleTimeEnd = to.valueOf();
     const zoom = visibleTimeEnd - visibleTimeStart;

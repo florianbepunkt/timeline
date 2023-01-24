@@ -1,9 +1,9 @@
 import { afterEach, describe, expect, test, vi } from "vitest";
 import { cleanup, render, within } from "@testing-library/react";
-import { DateDriver } from "../utility";
 import { DateHeader } from "./date-header";
 import { differenceInDays, differenceInMonths, parse } from "date-fns";
-import { expectDateDriver, RenderHeadersWrapper } from "../test-helpers";
+import { format } from "date-fns";
+import { RenderHeadersWrapper } from "../test-helpers";
 import { SidebarHeader } from "./sidebar-header";
 import { TimelineHeaders } from "./timeline-headers";
 import type { IntervalRenderer, TimeUnit } from "../types";
@@ -12,7 +12,6 @@ import userEvent from "@testing-library/user-event";
 describe("<DateHeader />", () => {
   afterEach(cleanup);
 
-  const format = "MM/DD/YYYY hh:mm a";
   const dateFnsFormat = "MM/dd/yyyy hh:mm a";
 
   test("renders correctly in the timeLine", () => {
@@ -40,14 +39,14 @@ describe("<DateHeader />", () => {
     afterEach(cleanup);
 
     test("renders intervals with given string typed labelFormat", () => {
-      const { getAllByTestId } = render(dateHeaderComponent({ unit: "day", labelFormat: "MM/DD" }));
+      const { getAllByTestId } = render(dateHeaderComponent({ unit: "day", labelFormat: "MM/dd" }));
       expect(getAllByTestId("dateHeader")[1]).toHaveTextContent("10/25");
       expect(getAllByTestId("dateHeader")[1]).toHaveTextContent("10/26");
       expect(getAllByTestId("dateHeader")[1]).toHaveTextContent("10/27");
     });
 
     test("renders intervals with given function typed labelFormat", () => {
-      const formatlabel = vi.fn((interval) => interval[0].format("MM/DD/YYYY"));
+      const formatlabel = vi.fn((interval) => format(interval[0], "MM/dd/yyyy"));
       const { getAllByTestId } = render(dateHeaderComponent({ unit: "day", labelFormat: formatlabel }));
 
       expect(formatlabel).toHaveBeenCalled();
@@ -59,16 +58,16 @@ describe("<DateHeader />", () => {
 
     test("function types labelFormat is called with params 'interval', 'label' width and 'unit'", () => {
       const formatlabel = vi.fn(
-        (interval: [DateDriver, DateDriver], unit: TimeUnit, labelWidth: number) =>
-          interval[0].format("MM/DD/YYYY")
+        (interval: [Date | number, Date | number], unit: TimeUnit, labelWidth: number) =>
+          format(interval[0], "MM/dd/yyyy")
       );
 
       render(dateHeaderComponent({ unit: "day", labelFormat: formatlabel }));
       expect(formatlabel).toHaveBeenCalled();
       formatlabel.mock.calls.forEach((param) => {
         const [[start, end], unit, labelWidth] = param;
-        expect(start).toStrictEqual(expectDateDriver);
-        expect(end).toStrictEqual(expectDateDriver);
+        expect(start).toStrictEqual(expect.any(Date));
+        expect(end).toStrictEqual(expect.any(Date));
         expect(differenceInDays(end.valueOf(), start.valueOf())).toBe(1);
         expect(unit).toBe("day");
         expect(labelWidth).toEqual(expect.any(Number));
@@ -80,7 +79,7 @@ describe("<DateHeader />", () => {
   // but clicking on the secondary header works
   test.skip("user click on the primary header changes unit", async () => {
     const user = userEvent.setup();
-    const formatlabel = vi.fn((interval) => interval[0].format("MM/DD/YYYY"));
+    const formatlabel = vi.fn((interval) => interval[0].format("MM/dd/yyyy"));
     const showPeriod = vi.fn();
     const sut = dateHeaderComponent({ unit: "day", labelFormat: formatlabel, showPeriod });
     const { getAllByTestId } = render(sut);
@@ -90,14 +89,14 @@ describe("<DateHeader />", () => {
 
     expect(showPeriod).toBeCalled();
     const [start, end] = showPeriod.mock.calls[0];
-    expect(start.format("DD/MM/YYYY hh:mm a")).toBe("01/01/2018 12:00 am");
-    expect(end.format("DD/MM/YYYY hh:mm a")).toBe("31/12/2018 11:59 pm");
+    expect(start.format("dd/MM/yyyy hh:mm a")).toBe("01/01/2018 12:00 am");
+    expect(end.format("dd/MM/yyyy hh:mm a")).toBe("31/12/2018 11:59 pm");
   });
 
   test("className us applied to <DateHeader />", () => {
     const { getAllByTestId } = render(
       dateHeaderComponent({
-        labelFormat: "MM/DD/YYYY",
+        labelFormat: "MM/dd/yyyy",
         className: "test-class-name",
       })
     );
@@ -107,7 +106,7 @@ describe("<DateHeader />", () => {
   test("style does not overridde default values for 'width', 'left' and 'position'", () => {
     const { getAllByTestId } = render(
       dateHeaderComponent({
-        labelFormat: "MM/DD/YYYY",
+        labelFormat: "MM/dd/yyyy",
         props: { style: { width: 100, position: "fixed", left: 2342 } },
       })
     );
@@ -120,7 +119,7 @@ describe("<DateHeader />", () => {
   test("styles other than 'width', 'left' and 'position' are applied", () => {
     const { getAllByTestId } = render(
       dateHeaderComponent({
-        labelFormat: "MM/DD/YYYY",
+        labelFormat: "MM/dd/yyyy",
         props: { style: { display: "flex" } },
       })
     );
@@ -147,7 +146,7 @@ describe("<DateHeader />", () => {
       const { getAllByTestId } = render(
         <RenderHeadersWrapper timelineState={{ timelineUnit: "day" }}>
           <TimelineHeaders>
-            <DateHeader labelFormat={(interval) => interval[0].format(format)} />
+            <DateHeader labelFormat={(interval) => format(interval[0], dateFnsFormat)} />
           </TimelineHeaders>
         </RenderHeadersWrapper>
       );
@@ -168,7 +167,7 @@ describe("<DateHeader />", () => {
       const { getAllByTestId } = render(
         <RenderHeadersWrapper timelineState={{ timelineUnit: "month" }}>
           <TimelineHeaders>
-            <DateHeader unit="day" labelFormat={(interval) => interval[0].format(format)} />
+            <DateHeader unit="day" labelFormat={(interval) => format(interval[0], dateFnsFormat)} />
           </TimelineHeaders>
         </RenderHeadersWrapper>
       );
@@ -189,7 +188,10 @@ describe("<DateHeader />", () => {
       const { getAllByTestId } = render(
         <RenderHeadersWrapper timelineState={{ timelineUnit: "day" }}>
           <TimelineHeaders>
-            <DateHeader unit="primaryHeader" labelFormat={(interval) => interval[0].format(format)} />
+            <DateHeader
+              unit="primaryHeader"
+              labelFormat={(interval) => format(interval[0], dateFnsFormat)}
+            />
           </TimelineHeaders>
         </RenderHeadersWrapper>
       );
@@ -197,8 +199,8 @@ describe("<DateHeader />", () => {
       for (let index = 0; index < intervals.length - 1; index++) {
         const a = intervals[index]!;
         const b = intervals[index + 1]!;
-        const timeStampA = parse(a, format, new Date());
-        const timeStampB = parse(b, format, new Date());
+        const timeStampA = parse(a, dateFnsFormat, new Date());
+        const timeStampB = parse(b, dateFnsFormat, new Date());
         const diff = differenceInMonths(timeStampB, timeStampA);
         expect(diff).toBe(1);
       }
@@ -262,8 +264,8 @@ describe("<DateHeader />", () => {
       expect(renderer.mock.calls[0][0].intervalContext).toEqual(
         expect.objectContaining({
           interval: expect.objectContaining({
-            startTime: expect.objectContaining(expectDateDriver),
-            endTime: expect.objectContaining(expectDateDriver),
+            startTime: expect.any(Date),
+            endTime: expect.any(Date),
             labelWidth: expect.any(Number),
             left: expect.any(Number),
           }),
@@ -353,8 +355,12 @@ const dateHeaderComponent = ({
   props?: any;
   labelFormat?:
     | string
-    | (([startTime, endTime]: [DateDriver, DateDriver], unit: TimeUnit, labelWidth: number) => string);
-  showPeriod?: (startDate: DateDriver, endDate: DateDriver) => void;
+    | ((
+        [startTime, endTime]: [Date | number, Date | number],
+        unit: TimeUnit,
+        labelWidth: number
+      ) => string);
+  showPeriod?: (startDate: Date | number, endDate: Date | number) => void;
   style?: React.CSSProperties;
   unit?: TimeUnit;
 }) => (
@@ -393,7 +399,7 @@ const dateHeaderWithIntervalRenderer = ({
       <DateHeader
         headerData={props}
         intervalRenderer={intervalRenderer}
-        labelFormat={"MM/DD/YYYY"}
+        labelFormat={"MM/dd/yyyy"}
         unit={"day"}
       />
       <DateHeader />

@@ -1,10 +1,13 @@
 import { IntervalComponent } from "./interval";
 import React from "react";
-import type { DateDriver } from "../utility";
 import type { GetIntervalProps, HeaderContext, IntervalRenderer, TimeUnit } from "../types";
 
 type HeaderData<Data> = {
-  getLabelFormat: (interval: [DateDriver, DateDriver], unit: TimeUnit, labelWidth: number) => string;
+  getLabelFormat: (
+    interval: [Date | number, Date | number],
+    unit: TimeUnit,
+    labelWidth: number
+  ) => string;
   intervalRenderer?: (props: IntervalRenderer<Data>) => React.ReactNode;
 
   className?: string | undefined;
@@ -16,7 +19,7 @@ type HeaderData<Data> = {
 export type CustomDateHeaderProps<Data> = {
   getRootProps: (propsToOverride?: { style: React.CSSProperties }) => { style: React.CSSProperties };
   getIntervalProps: (props?: GetIntervalProps) => GetIntervalProps & { key: string | number };
-  showPeriod: (startDate: DateDriver, endDate: DateDriver) => void;
+  showPeriod: (startDate: Date | number, endDate: Date | number) => void;
 
   data: HeaderData<Data>;
   headerContext: HeaderContext;

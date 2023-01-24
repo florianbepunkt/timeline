@@ -1,7 +1,6 @@
 import {
   binarySearch,
   composeEvents,
-  dateDriver,
   getSumScroll,
   getSumOffset,
   millisecondsInPixel,
@@ -124,7 +123,7 @@ export const Item = <TGroup extends TimelineGroupBase, TItem extends TimelineIte
 
   const dragTimeSnap = (dragTime: number, considerOffset?: boolean) => {
     if (dragSnap) {
-      const offset = considerOffset ? dateDriver().utcOffset() * 60 * 1000 : 0;
+      const offset = considerOffset ? new Date().getTimezoneOffset() * 60 * 1000 : 0;
       return Math.round(dragTime / dragSnap) * dragSnap - (offset % dragSnap);
     } else {
       return dragTime;
@@ -141,7 +140,7 @@ export const Item = <TGroup extends TimelineGroupBase, TItem extends TimelineIte
   };
 
   const getDragTime = (e: DragEvent): number => {
-    const startTime = dateDriver(item.startTime);
+    const startTime = new Date(item.startTime);
     if (dragStart.current === null) throw new Error(`Invalid state`);
     return dragging.current
       ? dragTimeSnap(timeFor(e) + dragStart.current.offset, true)

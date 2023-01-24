@@ -1,7 +1,7 @@
+import { addHours } from "date-fns";
 import { calculateTimeForXPosition } from "./calendar";
 import { describe, expect, test } from "vitest";
 import { parseISO } from "date-fns";
-import { jsDateDriver } from "../js-date-driver";
 
 describe("calculate time for x position", () => {
   test("calculates point in middle of timeline", () => {
@@ -31,7 +31,7 @@ describe("calculate time for x position", () => {
       canvasWidthInPixels,
       currentXPositionInPixels
     );
-    const expected = jsDateDriver(parseISO("2018-01-01")).add(6, "hour").valueOf();
+    const expected = addHours(parseISO("2018-01-01"), 6).valueOf();
     expect(actual).toBe(expected);
   });
 
@@ -46,7 +46,7 @@ describe("calculate time for x position", () => {
       canvasWidthInPixels,
       currentXPositionInPixels
     );
-    const expected = jsDateDriver(parseISO("2018-01-01")).add(18, "hour").valueOf();
+    const expected = addHours(parseISO("2018-01-01"), 18).valueOf();
     expect(actual).toBe(expected);
   });
 });
