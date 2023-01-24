@@ -5,12 +5,12 @@ import React from "react";
 import type { DateDriver } from "../utility";
 import type { GetIntervalProps, Interval, IntervalRenderer } from "../types";
 
-export type IntervalProps<Data> = {
+export type IntervalProps<HeaderData> = {
   getIntervalProps: (props?: GetIntervalProps) => GetIntervalProps & { key: string | number };
-  intervalRenderer?: (props: IntervalRenderer<Data>) => React.ReactNode;
+  intervalRenderer?: (props: IntervalRenderer<HeaderData>) => React.ReactNode;
   showPeriod: (startDate: DateDriver, endDate: DateDriver) => void;
 
-  headerData?: Data;
+  headerData?: HeaderData;
   interval: Interval;
   intervalText: string;
   primaryHeader: boolean;

@@ -1,7 +1,6 @@
-export function getSumScroll(node: HTMLElement | null): { scrollLeft: number; scrollTop: number } {
-  if (node === null) {
+export const getSumScroll = (node: HTMLElement | null): { scrollLeft: number; scrollTop: number } => {
+  if (node === null)
     throw new Error(`This should never happen> the node to calculate sum scroll is null`);
-  }
 
   if (node === document.body) {
     return { scrollLeft: 0, scrollTop: 0 };
@@ -12,12 +11,11 @@ export function getSumScroll(node: HTMLElement | null): { scrollLeft: number; sc
       scrollTop: node.scrollTop + parent.scrollTop,
     };
   }
-}
+};
 
-export function getSumOffset(node: HTMLElement | null): { offsetLeft: number; offsetTop: number } {
-  if (node === null) {
+export const getSumOffset = (node: HTMLElement | null): { offsetLeft: number; offsetTop: number } => {
+  if (node === null)
     throw new Error(`This should never happen> the node to calculate sum offset is null`);
-  }
 
   if (node === document.body || !node.offsetParent) {
     return { offsetLeft: 0, offsetTop: 0 };
@@ -28,4 +26,4 @@ export function getSumOffset(node: HTMLElement | null): { offsetLeft: number; of
       offsetTop: node.offsetTop + parent.offsetTop,
     };
   }
-}
+};
