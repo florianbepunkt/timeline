@@ -35,27 +35,37 @@ export type TimelineProps<
   calculateExtraSpace?: boolean;
 
   /**
-   * Can items be moved between groups? Can be overridden in the items array. Defaults to true
+   * Can items be moved between groups? Can be overridden in the items array.
+   * @default true
    */
   canChangeGroup?: boolean;
 
   /**
-   * Can items be dragged around? Can be overridden in the items array. Defaults to true
+   * Can items be dragged around? Can be overridden in the items array.
+   * @default true
    */
   canMove?: boolean;
 
   /**
-   * Can items be resized? Can be overridden in the items array. Accepted values: false, "left", "right", "both". Defaults to "right". If you pass true, it will be treated as "right" to not break compatibility with versions 0.9 and below.
+   * Can items be resized? Can be overridden in the items array. Accepted values: false, "left", "right", "both".
+   * @default right
    */
   canResize?: ResizeOptions;
 
   /**
-   * Additional class names as a string for the root Timeline element.
+   * Can item be selected? Can be overriden at the item level
+   * @default true
+   */
+  canSelect?: boolean;
+
+  /**
+   * Additional class names for the root Timeline element.
    */
   className?: string;
 
   /**
-   * How many pixels we can drag the background for it to be counted as a click on the background. Default 3
+   * How many pixels we can drag the background for it to be counted as a click on the background.
+   * @default 3
    */
   clickTolerance?: number;
 
@@ -72,19 +82,22 @@ export type TimelineProps<
   defaultTimeStart?: Date | number;
 
   /**
-   * Snapping unit when dragging items. Defaults to 15 * 60 * 1000 or 15min. When so, the items will snap to 15min intervals when dragging.
+   * Snapping unit when dragging items. When so, the items will snap to 15min intervals when dragging.
+   * @default 15 * 60 * 1000 or 15min
    */
   dragSnap?: number;
 
   itemHeight?: number;
 
   /**
-   * Normally tapping (touching) an item selects it. If this is set to true, a tap will have the same effect, as selecting with the first click and then clicking again to open and send the onItemClick event. Defaults to false.
+   * Normally tapping (touching) an item selects it. If this is set to true, a tap will have the same effect, as selecting with the first click and then clicking again to open and send the onItemClick event.
+   * @default false
    */
   itemTouchSendsClick?: boolean;
 
   /**
    * Height of one line in the calendar in pixels. Default 30
+   * @default 30
    */
   lineHeight?: number;
 
@@ -100,18 +113,21 @@ export type TimelineProps<
   locale?: Locale;
 
   /**
-   * Largest time the calendar can zoom to in milliseconds. Default 5 * 365.24 * 86400 * 1000 (5 years)
+   * Largest time the calendar can zoom to in milliseconds.
+   * @default 5 * 365.24 * 86400 * 1000 (5 years)
    */
   maxZoom?: number;
 
   /**
-   * The minimum width, in pixels, of a timeline entry when it's possible to resize. If not reached, you must zoom in to resize more. Default to 20.
+   * The minimum width, in pixels, of a timeline entry when it's possible to resize. If not reached, you must zoom in to resize more.
+   * @default 20
    */
   minResizeWidth?: number;
 
   /**
-   * Smallest time the calendar can zoom to in milliseconds. Default 60 * 60 * 1000 (1 hour)
-   * Please note than second won't show up unless you change this to 60 * 1000
+   * Smallest time the calendar can zoom to in milliseconds.
+   * Please note than second won't show up unless you change this to 60 * 1000.
+   * @default 60 * 60 * 1000 (1 hour)
    */
   minZoom?: number;
 
@@ -142,12 +158,14 @@ export type TimelineProps<
   moveResizeValidator?: MoveResizeValidator<CustomItem>;
 
   /**
-   * Everything passed here will be displayed above the right sidebar. Use this to display small filters or so. Defaults to null.
+   * Everything passed here will be displayed above the right sidebar. Use this to display small filters or so.
+   * @default null
    */
   rightSidebarContent?: React.ReactNode;
 
   /**
-   * Width of the right sidebar in pixels. If set to 0, the right sidebar is not rendered. Defaults to 0.
+   * Width of the right sidebar in pixels. If set to 0, the right sidebar is not rendered.
+   * @default 0
    */
   rightSidebarWidth?: number;
 
@@ -162,12 +180,14 @@ export type TimelineProps<
   selected?: Id[];
 
   /**
-   * Everything passed here will be displayed above the left sidebar. Use this to display small filters or so. Defaults to null.
+   * Everything passed here will be displayed above the left sidebar. Use this to display small filters or so.
+   * @default null
    */
   sidebarContent?: React.ReactNode;
 
   /**
-   * Width of the sidebar in pixels. If set to 0, the sidebar is not rendered. Defaults to 150.
+   * Width of the sidebar in pixels. If set to 0, the sidebar is not rendered.
+   * @default 150
    */
   sidebarWidth?: number;
 
@@ -182,7 +202,8 @@ export type TimelineProps<
   timeSteps?: TimeSteps;
 
   /**
-   * Append a special .rct-drag-right handle to the elements and only resize if dragged from there. Defaults to false
+   * Append a special .rct-drag-right handle to the elements and only resize if dragged from there.
+   * @default false
    */
   useResizeHandle?: boolean;
 
@@ -217,12 +238,13 @@ export type TimelineProps<
    * You need to provide either defaultTimeStart/End or visibleTimeStart/End for the timeline to function.
    */
   visibleTimeStart?: number;
+
   zoomSpeed?: { alt: number; ctrl: number; meta: number };
 
   // Fields that are in propTypes but not documented
   headerRef?: React.RefCallback<HTMLElement>;
-  canSelect?: boolean; // This was missing from the original type
-  style?: React.CSSProperties; // This was missing from the original type
+
+  style?: React.CSSProperties;
 
   /**
    * React component that will be used to render the content of groups in the sidebar. Will be passed the group and isRightSidebar as props.

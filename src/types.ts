@@ -11,7 +11,7 @@ export type ClickType = "touch" | "click";
 
 export type TimelineItemEdge = "left" | "right";
 
-export type ResizeOptions = boolean | TimelineItemEdge | "both";
+export type ResizeOptions = TimelineItemEdge | "both";
 
 export type CompleteTimeSteps = {
   second: number;
@@ -60,17 +60,64 @@ export type TimelineGroupBase = {
 };
 
 export type TimelineItemBase = {
+  /**
+   * Can item be moved between groups?
+   */
   canChangeGroup?: boolean;
+
+  /**
+   * Can item be dragged around?
+   */
   canMove?: boolean;
+
+  /**
+   * Can items be resized?
+   */
   canResize?: ResizeOptions;
+
+  /**
+   * Can item be selected?
+   */
   canSelect?: boolean;
+
+  /**
+   * Additional class names
+   */
   className?: string;
+
+  /**
+   * End time as timestamp
+   */
   endTime: number;
+
+  /**
+   * Group this item belongs to
+   */
   group: Id;
+
+  /**
+   * Unique item id
+   */
   id: Id;
+
+  /**
+   * These optional attributes are passed to the root <div /> of each item as <div {...itemProps} />
+   */
   itemProps?: React.HTMLAttributes<HTMLDivElement>;
+
+  /**
+   * Start time as timestamp
+   */
   startTime: number;
+
+  /**
+   * Additionals styles
+   */
   style?: React.CSSProperties;
+
+  /**
+   * Title
+   */
   title?: string;
 };
 

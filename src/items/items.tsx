@@ -149,5 +149,5 @@ const canResizeLeft = (item: TimelineItemBase, canResize: ResizeOptions) => {
 
 const canResizeRight = (item: TimelineItemBase, canResize: ResizeOptions) => {
   const value = item.canResize ?? canResize;
-  return value === "right" || value === "both" || value === true;
+  return value === "right" || value === "both";
 };
