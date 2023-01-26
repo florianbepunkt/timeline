@@ -30,17 +30,16 @@ import type {
   ClickType,
   CompleteTimeSteps,
   Id,
-  ITimeSteps,
-  ReactCalendarTimelineProps,
+  TimeSteps,
   TimelineGroupBase,
   TimelineItemBase,
   TimelineItemEdge,
   TimeUnit,
 } from "../types";
+import { TimelineProps } from "./props";
 
 type ReactNodeWithPossibleTypeAndSecretKey = React.ReactNode & { type?: { secretKey?: unknown } };
 type ReactElementWithPossibleTypeAndSecretKey = React.ReactElement & { type?: { secretKey?: unknown } };
-
 type ReactCalendarTimelineState<CustomGroup extends TimelineGroupBase> = {
   canvasBottom: number;
   canvasTimeEnd: number;
@@ -93,10 +92,7 @@ const defaultWidthState = 1000;
 export class Timeline<
   CustomItem extends TimelineItemBase = TimelineItemBase,
   CustomGroup extends TimelineGroupBase = TimelineGroupBase
-> extends Component<
-  ReactCalendarTimelineProps<CustomItem, CustomGroup>,
-  ReactCalendarTimelineState<CustomGroup>
-> {
+> extends Component<TimelineProps<CustomItem, CustomGroup>, ReactCalendarTimelineState<CustomGroup>> {
   getTimelineContext = () => {
     const { width, visibleTimeStart, visibleTimeEnd, canvasTimeStart, canvasTimeEnd } = this.state;
     return {
@@ -115,7 +111,7 @@ export class Timeline<
   // Keep track of the visible groups (on the canvas)
   private _visibleGroupIds: Id[];
 
-  constructor(props: ReactCalendarTimelineProps<CustomItem, CustomGroup>) {
+  constructor(props: TimelineProps<CustomItem, CustomGroup>) {
     super(props);
 
     this.getSelected = this.getSelected.bind(this);
@@ -284,7 +280,7 @@ export class Timeline<
     CustomItem extends TimelineItemBase = TimelineItemBase,
     CustomGroup extends TimelineGroupBase = TimelineGroupBase
   >(
-    nextProps: Readonly<ReactCalendarTimelineProps<CustomItem, CustomGroup>>,
+    nextProps: Readonly<TimelineProps<CustomItem, CustomGroup>>,
     prevState: Readonly<ReactCalendarTimelineState<CustomGroup>> & {
       items?: CustomItem[];
       groups?: CustomGroup[];
@@ -349,7 +345,7 @@ export class Timeline<
   }
 
   componentDidUpdate(
-    prevProps: Readonly<ReactCalendarTimelineProps<CustomItem, CustomGroup>>,
+    prevProps: Readonly<TimelineProps<CustomItem, CustomGroup>>,
     prevState: Readonly<ReactCalendarTimelineState<CustomGroup>>
   ) {
     const newZoom = this.state.visibleTimeEnd - this.state.visibleTimeStart;
@@ -872,7 +868,7 @@ export class Timeline<
     visibleTimeStart: number | Date,
     visibleTimeEnd: number | Date,
     minUnit: TimeUnit,
-    timeSteps: ITimeSteps | undefined
+    timeSteps: TimeSteps | undefined
   ) {
     if (!this.props.children) {
       return null;
@@ -1013,15 +1009,6 @@ export class Timeline<
     };
 
     return (
-      // <TimelineContext.Provider
-      //   value={{
-      //     canvasTimeEnd,
-      //     canvasTimeStart,
-      //     timelineWidth: width,
-      //     visibleTimeEnd,
-      //     visibleTimeStart,
-      //   }}
-      // >
       <TimelineProvider
         canvasTimeEnd={canvasTimeEnd}
         canvasTimeStart={canvasTimeStart}
@@ -1101,7 +1088,6 @@ export class Timeline<
           </HeadersProvider>
         </TimelineMarkersProvider>
       </TimelineProvider>
-      // </TimelineContext.Provider>
     );
   }
 }

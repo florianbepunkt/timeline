@@ -1,12 +1,12 @@
 import { noop } from "../utility/generic";
 import React from "react";
-import type { ITimeSteps } from "../types";
+import type { TimeSteps } from "../types";
 
 export type HeadersContext = {
   leftSidebarWidth: number;
   registerScroll: React.RefCallback<HTMLElement>;
   rightSidebarWidth: number;
-  timeSteps: ITimeSteps;
+  timeSteps: TimeSteps;
 };
 
 const defaultContextState: HeadersContext = {

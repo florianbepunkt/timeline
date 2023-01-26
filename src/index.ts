@@ -4,6 +4,7 @@ export { CustomMarker } from "./markers/public/CustomMarker";
 export { defaultTimeSteps, defaultHeaderFormats } from "./default-config";
 export { Timeline, TimelineContext } from "./timeline";
 export { TodayMarker } from "./markers/public/TodayMarker";
+export type { TimelineProps } from "./timeline";
 
 export type {
   CompleteTimeSteps,
@@ -20,15 +21,12 @@ export type {
   IntervalRenderer,
   ItemContext,
   ItemRendererResizeProps,
-  ITimeSteps,
+  TimeSteps as ITimeSteps,
   LabelFormat,
   MarkerProps,
-  OnItemDragObjectBase,
-  OnItemDragObjectMove,
-  OnItemDragObjectResize,
   ReactCalendarGroupRendererProps,
   ReactCalendarItemRendererProps,
-  ReactCalendarTimelineProps,
+  // ReactCalendarTimelineProps,
   ResizeOptions,
   ResizeStyles,
   SidebarHeaderChildrenFnProps,

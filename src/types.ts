@@ -23,7 +23,7 @@ export type CompleteTimeSteps = {
   year: number;
 };
 
-export type ITimeSteps = Partial<CompleteTimeSteps>;
+export type TimeSteps = Partial<CompleteTimeSteps>;
 
 export type TimeUnit = keyof CompleteTimeSteps;
 
@@ -195,6 +195,7 @@ export type IntervalRenderer<Data> = {
   data?: Data;
 };
 
+// HEADERS
 export type CustomHeaderPropsChildrenFnProps<Data> = {
   timelineContext: Pick<
     TimelineContext,
@@ -205,11 +206,6 @@ export type CustomHeaderPropsChildrenFnProps<Data> = {
   getRootProps: (propsToOverride?: { style: React.CSSProperties }) => { style: React.CSSProperties };
   showPeriod: (startDate: Date | number, endDate: Date | number) => void;
   data: Data;
-};
-
-export type SidebarHeaderChildrenFnProps<Data> = {
-  getRootProps: (propsToOverride?: { style: React.CSSProperties }) => { style: React.CSSProperties };
-  data?: Data;
 };
 
 export type CustomHeaderProps<Data> = {
@@ -236,6 +232,24 @@ export type DateHeaderProps<Data> = {
   children?: (props: SidebarHeaderChildrenFnProps<Data>) => React.ReactNode; // TODO: is this used anywhere???
 };
 
+// SIDEBAR
+export type SidebarHeaderChildrenFnProps<Data> = {
+  getRootProps: (propsToOverride?: { style: React.CSSProperties }) => { style: React.CSSProperties };
+  data?: Data;
+};
+
+export type ReactCalendarGroupRendererProps<CustomGroup extends TimelineGroupBase> = {
+  group: CustomGroup;
+  isRightSidebar?: boolean;
+};
+
+export type SidebarHeaderProps<Data> = {
+  variant?: "left" | "right";
+  headerData?: Data;
+  children?: (props: SidebarHeaderChildrenFnProps<Data>) => JSX.Element;
+};
+
+// MARKERS
 export type CustomMarkerChildrenProps = {
   styles: React.CSSProperties;
   date: Date | number;
@@ -251,105 +265,3 @@ export type TodayMarkerProps = Optional<MarkerProps, "date"> & {
 };
 
 export type CursorMarkerProps = Omit<MarkerProps, "date">;
-
-export type ReactCalendarGroupRendererProps<CustomGroup extends TimelineGroupBase> = {
-  group: CustomGroup;
-  isRightSidebar?: boolean;
-};
-
-export type OnItemDragObjectBase = {
-  eventType: "move" | "resize";
-  itemId: Id;
-  time: number;
-};
-
-export type OnItemDragObjectMove = OnItemDragObjectBase & {
-  eventType: "move";
-  newGroupOrder: number;
-};
-
-export type OnItemDragObjectResize = OnItemDragObjectBase & {
-  eventType: "resize";
-  edge?: TimelineItemEdge;
-};
-
-export type ReactCalendarTimelineProps<
-  CustomItem extends TimelineItemBase = TimelineItemBase,
-  CustomGroup extends TimelineGroupBase = TimelineGroupBase
-> = {
-  groups: CustomGroup[];
-  items: CustomItem[];
-  children?: React.ReactElement | React.ReactElement[];
-
-  // Whether to calculate extra space to the right and left of an item. The calculated value is
-  // returned as part of the item context.
-  calculateExtraSpace?: boolean;
-  className?: string;
-  defaultTimeStart?: Date | number;
-  defaultTimeEnd?: Date | number;
-  visibleTimeStart?: number;
-  visibleTimeEnd?: number;
-  selected?: number[];
-  sidebarWidth?: number;
-  sidebarContent?: React.ReactNode;
-  rightSidebarWidth?: number;
-  rightSidebarContent?: React.ReactNode;
-  dragSnap?: number;
-  minResizeWidth?: number;
-  lineHeight?: number;
-  itemHeight?: number;
-  minZoom?: number;
-  maxZoom?: number;
-  clickTolerance?: number;
-  canMove?: boolean;
-  canChangeGroup?: boolean;
-  canResize?: ResizeOptions;
-  useResizeHandle?: boolean;
-  stackItems?: boolean;
-  itemTouchSendsClick?: boolean;
-  timeSteps?: ITimeSteps;
-  scrollRef?: React.RefCallback<HTMLElement>;
-  zoomSpeed?: { alt: number; ctrl: number; meta: number };
-  onItemDrag?(itemDragObject: OnItemDragObjectMove | OnItemDragObjectResize): void;
-  onItemMove?(itemId: Id, dragTime: number, newGroupOrder: number): void;
-  onItemResize?(itemId: Id, endTimeOrStartTime: number, edge: TimelineItemEdge): void;
-  onItemSelect?(itemId: Id, e: any, time: number): void;
-  onItemDeselect?(e: React.SyntheticEvent): void;
-  onItemClick?(itemId: Id, e: React.SyntheticEvent, time: number): void;
-  onItemDoubleClick?(itemId: Id, e: React.SyntheticEvent, time: number): void;
-  onItemContextMenu?(itemId: Id, e: React.SyntheticEvent, time: number): void;
-  onCanvasClick?(groupId: Id, time: number, e: React.SyntheticEvent): void;
-  onCanvasContextMenu?(groupId: Id, time: number, e: React.SyntheticEvent): void;
-  onCanvasDoubleClick?(groupId: Id, time: number, e: React.SyntheticEvent): void;
-  onCanvasDrop?(groupId: Id, time: number, e: React.DragEvent): void;
-  onZoom?(
-    timelineContext: Pick<
-      TimelineContext,
-      "canvasTimeEnd" | "canvasTimeStart" | "timelineWidth" | "visibleTimeEnd" | "visibleTimeStart"
-    >
-  ): void;
-  moveResizeValidator?: MoveResizeValidator<CustomItem>;
-  onTimeChange?(
-    visibleTimeStart: number,
-    visibleTimeEnd: number,
-    updateScrollCanvas: (start: number, end: number) => void
-  ): any;
-  onBoundsChange?(canvasTimeStart: number, canvasTimeEnd: number): any;
-  onVisibleGroupsChanged?(visibleGroupIds: Id[]): void;
-  itemRenderer?: (props: ReactCalendarItemRendererProps<CustomItem, CustomGroup>) => React.ReactElement;
-  groupRenderer?: (props: ReactCalendarGroupRendererProps<CustomGroup>) => React.ReactNode;
-  verticalLineClassNamesForTime?: ((start: number, end: number) => string[]) | undefined;
-  horizontalLineClassNamesForGroup?: (group: CustomGroup) => string[];
-
-  // Fields that are in propTypes but not documented
-  headerRef?: React.RefCallback<HTMLElement>;
-
-  canSelect?: boolean; // This was missing from the original type
-  style?: React.CSSProperties; // This was missing from the original type
-};
-
-export type SidebarHeaderProps<Data> = {
-  variant?: "left" | "right";
-  headerData?: Data;
-  children?: (props: SidebarHeaderChildrenFnProps<Data>) => JSX.Element;
-};

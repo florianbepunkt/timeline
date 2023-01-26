@@ -3,9 +3,9 @@ import { cleanup, render } from "@testing-library/react";
 import { items, groups } from "../__fixtures__/itemsAndGroups";
 import { props as defaultProps } from "../__fixtures__/stateAndProps";
 import { Timeline } from "../timeline";
-import type { ReactCalendarTimelineProps } from "../types";
+import { TimelineProps } from "../timeline/props";
 
-const makeSut = (props: Partial<ReactCalendarTimelineProps> = {}) => {
+const makeSut = (props: Partial<TimelineProps> = {}) => {
   return [render(<Timeline {...defaultProps} items={items} groups={groups} {...props} />)] as const;
 };
 

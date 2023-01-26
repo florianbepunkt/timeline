@@ -2,7 +2,7 @@ import { addByUnit, getByUnit, setByUnit, startOf } from "../date";
 import type {
   CompleteTimeSteps,
   Id,
-  ITimeSteps as TimeSteps,
+  TimeSteps as TimeSteps,
   TimelineGroupBase,
   TimelineItemBase,
   TimelineItemEdge,
