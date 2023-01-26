@@ -30,7 +30,7 @@
   -- move to lodash-es [x]
 - merge timeline contexts [x]
 - get rid of date driver and commit to date-fns [x]
-- date localization context []
+- date localization context [x]
 - resolve types.ts as much as possible []
 - dissolve \_\_fixtures\_\_ folder []
 - TodayMarker should be renamed to NowMarker []

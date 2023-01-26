@@ -75,6 +75,7 @@ export type TimelineProps<
    * Snapping unit when dragging items. Defaults to 15 * 60 * 1000 or 15min. When so, the items will snap to 15min intervals when dragging.
    */
   dragSnap?: number;
+
   itemHeight?: number;
 
   /**
@@ -89,6 +90,12 @@ export type TimelineProps<
 
   /**
    * Locale for formatting dates
+   * Must be a date-fns locale
+   *
+   * ```ts
+   * import { de } from "date-fns/locale"
+   * <Timeline locale={de} />
+   * ```
    */
   locale?: Locale;
 

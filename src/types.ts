@@ -215,6 +215,7 @@ export type CustomHeaderProps<Data> = {
   children: (props: CustomHeaderPropsChildrenFnProps<Data>) => JSX.Element;
 };
 
+// TODO -> move to date-header.tsx
 export type DateHeaderProps<Data> = {
   style?: React.CSSProperties;
   className?: string;

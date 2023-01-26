@@ -3,7 +3,7 @@ import { CustomHeader } from "./custom-header";
 import { defaultHeaderFormats } from "../default-config";
 import { format } from "date-fns";
 import { getNextUnit } from "../utility/calendar";
-import { TimelineContext } from "../timeline";
+import { LocalizationContext, TimelineContext } from "../timeline";
 import memoize from "memoize-one";
 import React from "react";
 import type { DateHeaderProps, IntervalRenderer, TimeUnit } from "../types";
@@ -13,11 +13,38 @@ export const DateHeader = <Data,>({
   headerData,
   height,
   intervalRenderer,
-  labelFormat = formatLabel,
+  labelFormat,
   style,
   unit,
 }: DateHeaderProps<Data>) => {
+  const { locale } = React.useContext(LocalizationContext);
   const { timelineUnit } = React.useContext(TimelineContext);
+  const defaultFormatter = React.useCallback(
+    (
+      [timeStart, _timeEnd]: [Date | number, Date | number],
+      unit: TimeUnit,
+      labelWidth: number,
+      formatOptions = defaultHeaderFormats
+    ) => {
+      let dateFnsFormat;
+      if (unit === "second")
+        throw new Error(`The "second" unit is not available in the default header formats`);
+
+      if (labelWidth >= 150) {
+        dateFnsFormat = formatOptions[unit]["long"];
+      } else if (labelWidth >= 100) {
+        dateFnsFormat = formatOptions[unit]["mediumLong"];
+      } else if (labelWidth >= 50) {
+        dateFnsFormat = formatOptions[unit]["medium"];
+      } else {
+        dateFnsFormat = formatOptions[unit]["short"];
+      }
+
+      return format(timeStart, dateFnsFormat, { locale });
+    },
+    [locale]
+  );
+
   const getHeaderUnit = (): TimeUnit => {
     if (unit === "primaryHeader") {
       return getNextUnit(timelineUnit);
@@ -37,11 +64,13 @@ export const DateHeader = <Data,>({
     unit: TimeUnit,
     labelWidth: number
   ): string => {
-    if (typeof labelFormat === "string") {
+    const formatter = labelFormat ?? defaultFormatter;
+
+    if (typeof formatter === "string") {
       const startTime = interval[0];
-      return format(startTime, labelFormat);
-    } else if (typeof labelFormat === "function") {
-      return labelFormat(interval, unit, labelWidth);
+      return format(startTime, formatter, { locale });
+    } else if (typeof formatter === "function") {
+      return formatter(interval, unit, labelWidth);
     } else {
       throw new Error("labelFormat should be function or string");
     }
@@ -85,31 +114,4 @@ export const DateHeader = <Data,>({
       {CustomDateHeader}
     </CustomHeader>
   );
-};
-
-const formatLabel = (
-  [timeStart, _timeEnd]: [Date | number, Date | number],
-  unit: TimeUnit,
-  labelWidth: number,
-  formatOptions = defaultHeaderFormats
-) => {
-  // TODO: we could swap this out for date-fns rather easily
-
-  let dateFnsFormat;
-  if (unit === "second") {
-    // TODO: Please check this and the default values!
-    throw new Error(`The "second" unit is not available in the default header formats`);
-  }
-
-  if (labelWidth >= 150) {
-    dateFnsFormat = formatOptions[unit]["long"];
-  } else if (labelWidth >= 100) {
-    dateFnsFormat = formatOptions[unit]["mediumLong"];
-  } else if (labelWidth >= 50) {
-    dateFnsFormat = formatOptions[unit]["medium"];
-  } else {
-    dateFnsFormat = formatOptions[unit]["short"];
-  }
-
-  return format(timeStart, dateFnsFormat);
 };

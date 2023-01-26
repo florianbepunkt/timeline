@@ -30,8 +30,8 @@ export const defaultHeaderFormats = {
     short: "I",
   },
   day: {
-    long: "PPpp",
-    mediumLong: "PPpp",
+    long: "PPPP",
+    mediumLong: "PPP",
     medium: "PP",
     short: "P",
   },
