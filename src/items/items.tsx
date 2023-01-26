@@ -1,12 +1,11 @@
 import { getGroupOrders, getVisibleItems } from "../utility/calendar";
-import { Item } from "./item";
+import { Item, ItemRendererProps } from "./item";
 import { keyBy } from "../utility/generic";
 import React from "react";
 import type {
   ClickType,
   Id,
   MoveResizeValidator,
-  ReactCalendarItemRendererProps,
   ResizeOptions,
   TimelineGroupBase,
   TimelineItemBase,
@@ -38,7 +37,7 @@ type ItemsProps<TGroup extends TimelineGroupBase, TItem extends TimelineItemBase
 
   itemDrag: (item: Id, dragTime: number, newGroupIndex: number) => void;
   itemDrop: (item: Id, dragTime: number, newGroupIndex: number) => void;
-  itemRenderer?: (props: ReactCalendarItemRendererProps<TItem, TGroup>) => React.ReactElement;
+  itemRenderer?: (props: ItemRendererProps<TItem, TGroup>) => React.ReactElement;
   itemResized: (item: Id, resizeTime: number, edge: TimelineItemEdge, timeDelta: number) => void;
   itemResizing: (item: Id, resizeTime: number, edge: TimelineItemEdge) => void;
   itemSelect: (item: Id, clickType: ClickType, event: React.MouseEvent | React.TouchEvent) => void;

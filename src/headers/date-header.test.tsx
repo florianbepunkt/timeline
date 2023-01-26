@@ -1,12 +1,12 @@
 import { afterEach, describe, expect, test, vi } from "vitest";
 import { cleanup, render, within } from "@testing-library/react";
 import { DateHeader } from "./date-header";
-import { differenceInDays, differenceInMonths, parse } from "date-fns";
-import { format } from "date-fns";
+import { differenceInDays, differenceInMonths, format, parse } from "date-fns";
 import { RenderHeadersWrapper } from "../test-helpers";
 import { SidebarHeader } from "./sidebar-header";
 import { TimelineHeaders } from "./timeline-headers";
-import type { IntervalRenderer, TimeUnit } from "../types";
+import type { IntervalRenderer } from "./interval";
+import type { TimeUnit } from "../types";
 import userEvent from "@testing-library/user-event";
 
 describe("<DateHeader />", () => {

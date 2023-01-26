@@ -6,8 +6,9 @@ import { getNextUnit } from "../utility/calendar";
 import { LocalizationContext, TimelineContext } from "../timeline";
 import memoize from "memoize-one";
 import React from "react";
-import type { IntervalRenderer, TimeUnit } from "../types";
+import type { IntervalRenderer } from "./interval";
 import type { SidebarHeaderChildrenFnProps } from "./sidebar-header";
+import type { TimeUnit } from "../types";
 
 export type DateHeaderProps<Data> = {
   children?: (props: SidebarHeaderChildrenFnProps<Data>) => React.ReactNode; // TODO: is this used anywhere???

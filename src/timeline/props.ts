@@ -1,17 +1,17 @@
+import React from "react";
+import type { GroupRendererProps } from "../sidebar";
 import type {
   Id,
   MoveResizeValidator,
-  ReactCalendarGroupRendererProps,
-  ReactCalendarItemRendererProps,
   ResizeOptions,
   TimelineGroupBase,
   TimelineItemBase,
   TimelineItemEdge,
   TimeSteps,
 } from "../types";
-import React from "react";
+import type { ItemRendererProps } from "../items";
 import type { Locale } from "date-fns";
-import type { TimelineContext } from ".";
+import type { TimelineContext } from "./timeline-context";
 
 export type TimelineProps<
   CustomItem extends TimelineItemBase = TimelineItemBase,
@@ -248,7 +248,7 @@ export type TimelineProps<
    * @param props
    * @returns
    */
-  groupRenderer?: (props: ReactCalendarGroupRendererProps<CustomGroup>) => React.ReactNode;
+  groupRenderer?: (props: GroupRendererProps<CustomGroup>) => React.ReactNode;
 
   /**
    * This function is called when the horizontal line is rendered. group is the group which will be rendered into the current row. The function should return an array of strings containing the classNames which should be applied to the row. This makes it possible to visually highlight categories or important items. An example could look like:
@@ -269,7 +269,7 @@ export type TimelineProps<
    * @param props
    * @returns
    */
-  itemRenderer?: (props: ReactCalendarItemRendererProps<CustomItem, CustomGroup>) => React.ReactElement;
+  itemRenderer?: (props: ItemRendererProps<CustomItem, CustomGroup>) => React.ReactElement;
 
   /**
    * Called when the bounds in the calendar's canvas change. Use it for example to load new data to display. (see "Behind the scenes" below). `canvasTimeStart` and `canvasTimeEnd` are unix timestamps in milliseconds.

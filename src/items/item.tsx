@@ -26,10 +26,7 @@ import React from "react";
 import type {
   ClickType,
   Id,
-  ItemContext,
   MoveResizeValidator,
-  ReactCalendarItemRendererProps,
-  ResizeStyles,
   TimelineGroupBase,
   TimelineItemBase,
   TimelineItemEdge,
@@ -37,7 +34,7 @@ import type {
 } from "../types";
 import type { Dimensions, GroupOrder } from "../utility";
 
-type ItemProps<TGroup extends TimelineGroupBase, TItem extends TimelineItemBase> = {
+export type ItemProps<TGroup extends TimelineGroupBase, TItem extends TimelineItemBase> = {
   canChangeGroup: boolean;
   canMove: boolean;
   canResizeLeft: boolean;
@@ -59,7 +56,7 @@ type ItemProps<TGroup extends TimelineGroupBase, TItem extends TimelineItemBase>
   selected: boolean; // This had a default value but never would be empty, so I removed the default value completely
   useResizeHandle: boolean;
 
-  itemRenderer?: (props: ReactCalendarItemRendererProps<TItem, TGroup>) => React.ReactElement;
+  itemRenderer?: (props: ItemRendererProps<TItem, TGroup>) => React.ReactElement;
   onContextMenu: (item: Id, event: React.MouseEvent) => void;
   onDrag: (item: Id, dragTime: number, newGroupIndex: number) => void;
   onDrop: (item: Id, dragTime: number, newGroupIndex: number) => void;
@@ -69,25 +66,69 @@ type ItemProps<TGroup extends TimelineGroupBase, TItem extends TimelineItemBase>
   onSelect: (item: Id, clickType: ClickType, event: React.MouseEvent | React.TouchEvent) => void;
 };
 
-type ItemState = {
-  interactMounted: boolean;
+export type ItemContext<TGroup extends TimelineGroupBase> = {
+  canMove: boolean;
+  canResizeLeft: boolean;
+  canResizeRight: boolean;
+  dimensions: {
+    collisionLeft: number;
+    collisionWidth: number;
+    height: number;
+    left: number;
+    order: { group: TGroup; index: number };
+    stack: boolean;
+    top: number | null;
+    width: number;
 
-  // Wheter a dragging is active
-  dragging: boolean | null; // TODO: this could be false instead of null
-  dragStart: {
-    x: number;
-    y: number;
-    offset: number; // This was a hidden value...
-  } | null;
-  preDragPosition: { x: number; y: number } | null;
-  dragTime: number | null;
+    /**
+     * Free space to the right of the item in pixels, or null if the space is not limited.
+     */
+    extraSpaceRight: number | null;
+
+    /**
+     * Free space to the left of the item in pixels, or null if the space is not limited.
+     */
+    extraSpaceLeft: number | null;
+  };
+  dragging: boolean | null;
   dragGroupDelta: number | null;
-
-  // Wheter a resizing is active
-  resizing: boolean | null; // TODO: this could be false instead of null
-  resizeEdge: TimelineItemEdge | null;
+  dragStart: { x: number; y: number } | null;
+  dragTime: number | null;
+  resizeEdge: TimelineItemEdge | undefined;
   resizeStart: number | null;
   resizeTime: number | null;
+  resizing: boolean | null;
+  selected: boolean;
+  title: string | undefined;
+  useResizeHandle: boolean;
+  width: number;
+};
+
+export type ItemRendererProps<TItem extends TimelineItemBase, TGroup extends TimelineGroupBase> = {
+  item: TItem;
+  itemContext: ItemContext<TGroup>;
+  timelineContext: TimelineContext;
+
+  getItemProps: (props?: Partial<Omit<TimelineItemProps, "key" | "ref">>) => TimelineItemProps;
+  getResizeProps: (styles?: ResizeStyles) => ItemRendererResizeProps;
+};
+
+export type ItemRendererResizeProps = Partial<
+  Record<
+    TimelineItemEdge,
+    {
+      className: string;
+      ref: React.Ref<any>;
+      style: React.CSSProperties;
+    }
+  >
+>;
+
+export type ResizeStyles = {
+  leftStyle?: React.CSSProperties;
+  rightStyle?: React.CSSProperties;
+  leftClassName?: string;
+  rightClassName?: string;
 };
 
 export const Item = <TGroup extends TimelineGroupBase, TItem extends TimelineItemBase>(
@@ -99,7 +140,6 @@ export const Item = <TGroup extends TimelineGroupBase, TItem extends TimelineIte
   const itemRenderer = props.itemRenderer ?? defaultItemRenderer;
 
   const [interactMounted, setInteractMounted] = React.useState(false);
-
   const [dragging, setDragging] = useRefState(false);
   const [dragTime, setDragTime] = React.useState<number | null>(null);
   const [dragGroupDelta, setDragGroupDelta] = useRefState<number | null>(null);

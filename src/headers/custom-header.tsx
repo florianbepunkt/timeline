@@ -3,13 +3,19 @@ import { iterateTimes } from "../utility";
 import { TimelineContext } from "../timeline";
 import memoize from "memoize-one";
 import React from "react";
-import type { CompleteTimeSteps, GetIntervalProps, HeaderContext, Interval, TimeUnit } from "../types";
+import type { CompleteTimeSteps, TimeUnit } from "../types";
+import type { GetIntervalProps, Interval } from "./interval";
 
 export type CustomHeaderProps<Data> = {
   children: (props: CustomHeaderPropsChildrenFnProps<Data>) => JSX.Element;
   headerData: Data;
   height?: number;
   unit?: TimeUnit;
+};
+
+export type HeaderContext = {
+  intervals: Interval[];
+  unit: TimeUnit;
 };
 
 export type CustomHeaderPropsChildrenFnProps<Data> = {

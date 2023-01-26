@@ -1,5 +1,10 @@
 import React from "react";
-import type { ReactCalendarGroupRendererProps, TimelineGroupBase } from "../types";
+import type { TimelineGroupBase } from "../types";
+
+export type GroupRendererProps<CustomGroup extends TimelineGroupBase> = {
+  group: CustomGroup;
+  isRightSidebar?: boolean;
+};
 
 export type SidebarProps<CustomGroup extends TimelineGroupBase = TimelineGroupBase> = {
   canvasBottom: number;
@@ -8,7 +13,7 @@ export type SidebarProps<CustomGroup extends TimelineGroupBase = TimelineGroupBa
   groups: CustomGroup[];
   isRightSidebar?: boolean;
   width: number;
-  groupRenderer?: (props: ReactCalendarGroupRendererProps<CustomGroup>) => React.ReactNode;
+  groupRenderer?: (props: GroupRendererProps<CustomGroup>) => React.ReactNode;
 };
 
 /**

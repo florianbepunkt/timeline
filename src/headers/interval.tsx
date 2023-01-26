@@ -3,7 +3,29 @@ import { endOf, startOf } from "../utility/date";
 import { getNextUnit } from "../utility/calendar";
 import { TimeUnit } from "../types";
 import React from "react";
-import type { GetIntervalProps, Interval, IntervalRenderer } from "../types";
+
+export type Interval = {
+  endTime: Date | number;
+  labelWidth: number;
+  left: number;
+  startTime: Date | number;
+};
+
+export type IntervalRenderer<Data> = {
+  data?: Data;
+  intervalContext: {
+    interval: Interval;
+    intervalText: string;
+  };
+
+  getIntervalProps: (props?: GetIntervalProps) => GetIntervalProps & { key: string | number };
+};
+
+export type GetIntervalProps = {
+  interval?: Interval;
+  onClick?: React.MouseEventHandler;
+  style?: React.CSSProperties;
+};
 
 export type IntervalProps<HeaderData> = {
   getIntervalProps: (props?: GetIntervalProps) => GetIntervalProps & { key: string | number };

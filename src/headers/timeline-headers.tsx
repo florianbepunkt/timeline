@@ -1,19 +1,14 @@
 import { HeadersContext } from "./headers-context";
 import { SidebarHeader } from "./sidebar-header";
-import { TimelineHeaderProps } from "../types";
 import classNames from "classnames";
 import React from "react";
 
-export type TimelineHeadersProps = {
-  registerScroll: React.RefCallback<HTMLElement>;
-  leftSidebarWidth: number;
-  rightSidebarWidth: number;
-  style?: React.CSSProperties;
-  children?: React.ReactNode;
-  className?: string;
-  calendarHeaderStyle?: React.CSSProperties;
+export type TimelineHeaderProps = {
   calendarHeaderClassName?: string;
-  headerRef?: (ref?: HTMLDivElement) => unknown;
+  calendarHeaderStyle?: React.CSSProperties;
+  className?: string;
+  headerRef?: React.Ref<any>;
+  style?: React.CSSProperties;
 };
 
 export const TimelineHeaders = ({

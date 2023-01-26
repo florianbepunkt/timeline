@@ -1,11 +1,5 @@
-import type {
-  ItemContext,
-  ItemRendererResizeProps,
-  ResizeStyles,
-  TimelineGroupBase,
-  TimelineItemBase,
-  TimelineItemProps,
-} from "../types";
+import type { ItemContext, ItemRendererResizeProps, ResizeStyles } from "./item";
+import type { TimelineGroupBase, TimelineItemBase, TimelineItemProps } from "../types";
 
 type DefaultItemRendererProps<TGroup extends TimelineGroupBase, TItem extends TimelineItemBase> = {
   item: TItem;
