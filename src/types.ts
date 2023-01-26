@@ -28,27 +28,50 @@ export type TimeSteps = Partial<CompleteTimeSteps>;
 export type TimeUnit = keyof CompleteTimeSteps;
 
 export type TimelineGroupBase = {
-  id: Id;
-  title: React.ReactNode;
-  rightTitle?: React.ReactNode;
-  height?: number;
-  stackItems?: boolean;
+  /**
+   * Whether to calculate extra space to the right and left of an item. The calculated value is returned as part of the item context.
+   */
   calculateExtraSpace?: boolean;
+
+  /**
+   * Height of one line in the calendar in pixels. Default 30
+   */
+  height?: number;
+
+  /**
+   * Unique id for group
+   */
+  id: Id;
+
+  /**
+   * Title in the right sidebar
+   */
+  rightTitle?: React.ReactNode;
+
+  /**
+   * Stack items under each other, so there is no visual overlap when times collide. Can be overridden in the groups array. Defaults to false. Requires millisecond or Moment timestamps, not native JavaScript Date objects.
+   */
+  stackItems?: boolean;
+
+  /**
+   * Title in the sidebar
+   */
+  title: React.ReactNode;
 };
 
 export type TimelineItemBase = {
-  id: Id;
-  group: Id;
-  title?: string;
-  startTime: number;
-  endTime: number;
+  canChangeGroup?: boolean;
   canMove?: boolean;
   canResize?: ResizeOptions;
-  canChangeGroup?: boolean;
   canSelect?: boolean;
   className?: string;
-  style?: React.CSSProperties;
+  endTime: number;
+  group: Id;
+  id: Id;
   itemProps?: React.HTMLAttributes<HTMLDivElement>;
+  startTime: number;
+  style?: React.CSSProperties;
+  title?: string;
 };
 
 export type TimelineItemProps = {
