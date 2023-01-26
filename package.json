@@ -15,6 +15,7 @@
     "build-storybook": "storybook build",
     "format": "prettier --write \"./**/*.{ts,tsx,json}\"",
     "test": "vitest",
+    "test:coverage": "vitest run --coverage",
     "test:ci": "vitest --reporter=verbose",
     "typecheck": "tsc --noEmit",
     "typecheck:watch": "tsc --watch --noEmit"
@@ -49,6 +50,7 @@
     "@types/react": "18.0.27",
     "@types/react-dom": "18.0.10",
     "@vitejs/plugin-react": "3.0.1",
+    "@vitest/coverage-c8": "0.28.2",
     "date-fns": "2.29.3",
     "jsdom": "21.1.0",
     "prettier": "2.8.3",
