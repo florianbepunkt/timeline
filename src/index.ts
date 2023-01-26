@@ -6,6 +6,7 @@ export { Timeline, TimelineContext } from "./timeline";
 export { TodayMarker } from "./markers/public/TodayMarker";
 export type { TimelineProps } from "./timeline";
 
+// TODO: remove these completely
 export type {
   CompleteTimeSteps,
   CursorMarkerProps,

@@ -34,6 +34,7 @@
 - resolve types.ts as much as possible [x]
 - dissolve \_\_fixtures\_\_ folder []
 - TodayMarker should be renamed to NowMarker []
+- remove all the todos []
 - add a linter []
 - add living documentation in form of typescript docs and stories []
 - eliminate dead code []
