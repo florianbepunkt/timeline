@@ -6,7 +6,25 @@ import { getNextUnit } from "../utility/calendar";
 import { LocalizationContext, TimelineContext } from "../timeline";
 import memoize from "memoize-one";
 import React from "react";
-import type { DateHeaderProps, IntervalRenderer, TimeUnit } from "../types";
+import type { IntervalRenderer, TimeUnit } from "../types";
+import type { SidebarHeaderChildrenFnProps } from "./sidebar-header";
+
+export type DateHeaderProps<Data> = {
+  children?: (props: SidebarHeaderChildrenFnProps<Data>) => React.ReactNode; // TODO: is this used anywhere???
+  className?: string;
+  headerData?: Data;
+  height?: number;
+  intervalRenderer?: (props: IntervalRenderer<Data>) => React.ReactNode;
+  labelFormat?:
+    | string
+    | ((
+        [startTime, endTime]: [Date | number, Date | number],
+        unit: TimeUnit,
+        labelWidth: number
+      ) => string);
+  style?: React.CSSProperties;
+  unit?: TimeUnit | "primaryHeader";
+};
 
 export const DateHeader = <Data,>({
   className,

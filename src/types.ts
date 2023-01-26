@@ -195,59 +195,9 @@ export type IntervalRenderer<Data> = {
   data?: Data;
 };
 
-// HEADERS
-export type CustomHeaderPropsChildrenFnProps<Data> = {
-  timelineContext: Pick<
-    TimelineContext,
-    "canvasTimeEnd" | "canvasTimeStart" | "timelineWidth" | "visibleTimeEnd" | "visibleTimeStart"
-  >;
-  headerContext: HeaderContext;
-  getIntervalProps: (props?: GetIntervalProps) => GetIntervalProps & { key: string | number };
-  getRootProps: (propsToOverride?: { style: React.CSSProperties }) => { style: React.CSSProperties };
-  showPeriod: (startDate: Date | number, endDate: Date | number) => void;
-  data: Data;
-};
-
-export type CustomHeaderProps<Data> = {
-  unit?: TimeUnit;
-  headerData: Data;
-  height?: number;
-  children: (props: CustomHeaderPropsChildrenFnProps<Data>) => JSX.Element;
-};
-
-// TODO -> move to date-header.tsx
-export type DateHeaderProps<Data> = {
-  style?: React.CSSProperties;
-  className?: string;
-  unit?: TimeUnit | "primaryHeader";
-  labelFormat?:
-    | string
-    | ((
-        [startTime, endTime]: [Date | number, Date | number],
-        unit: TimeUnit,
-        labelWidth: number
-      ) => string);
-  intervalRenderer?: (props: IntervalRenderer<Data>) => React.ReactNode;
-  headerData?: Data;
-  height?: number;
-  children?: (props: SidebarHeaderChildrenFnProps<Data>) => React.ReactNode; // TODO: is this used anywhere???
-};
-
-// SIDEBAR
-export type SidebarHeaderChildrenFnProps<Data> = {
-  getRootProps: (propsToOverride?: { style: React.CSSProperties }) => { style: React.CSSProperties };
-  data?: Data;
-};
-
 export type ReactCalendarGroupRendererProps<CustomGroup extends TimelineGroupBase> = {
   group: CustomGroup;
   isRightSidebar?: boolean;
-};
-
-export type SidebarHeaderProps<Data> = {
-  variant?: "left" | "right";
-  headerData?: Data;
-  children?: (props: SidebarHeaderChildrenFnProps<Data>) => JSX.Element;
 };
 
 // MARKERS

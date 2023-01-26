@@ -1,6 +1,16 @@
 import { HeadersContext } from "./headers-context";
-import { SidebarHeaderChildrenFnProps, SidebarHeaderProps } from "../types";
 import React from "react";
+
+export type SidebarHeaderProps<Data> = {
+  children?: (props: SidebarHeaderChildrenFnProps<Data>) => JSX.Element;
+  headerData?: Data;
+  variant?: "left" | "right";
+};
+
+export type SidebarHeaderChildrenFnProps<Data> = {
+  data?: Data;
+  getRootProps: (propsToOverride?: { style: React.CSSProperties }) => { style: React.CSSProperties };
+};
 
 const defaultSidebarHeaderChildren = ({ getRootProps }: SidebarHeaderChildrenFnProps<unknown>) => (
   <div data-testid="sidebarHeader" {...getRootProps({ style: {} })} />

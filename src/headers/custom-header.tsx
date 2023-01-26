@@ -3,13 +3,26 @@ import { iterateTimes } from "../utility";
 import { TimelineContext } from "../timeline";
 import memoize from "memoize-one";
 import React from "react";
-import type {
-  CompleteTimeSteps,
-  CustomHeaderProps,
-  GetIntervalProps,
-  Interval,
-  TimeUnit,
-} from "../types";
+import type { CompleteTimeSteps, GetIntervalProps, HeaderContext, Interval, TimeUnit } from "../types";
+
+export type CustomHeaderProps<Data> = {
+  children: (props: CustomHeaderPropsChildrenFnProps<Data>) => JSX.Element;
+  headerData: Data;
+  height?: number;
+  unit?: TimeUnit;
+};
+
+export type CustomHeaderPropsChildrenFnProps<Data> = {
+  data: Data;
+  getIntervalProps: (props?: GetIntervalProps) => GetIntervalProps & { key: string | number };
+  getRootProps: (propsToOverride?: { style: React.CSSProperties }) => { style: React.CSSProperties };
+  headerContext: HeaderContext;
+  showPeriod: (startDate: Date | number, endDate: Date | number) => void;
+  timelineContext: Pick<
+    TimelineContext,
+    "canvasTimeEnd" | "canvasTimeStart" | "timelineWidth" | "visibleTimeEnd" | "visibleTimeStart"
+  >;
+};
 
 /**
  * TODO: We could improve performance with React.memo, but seems premature at the moment

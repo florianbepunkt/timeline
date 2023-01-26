@@ -1,7 +1,6 @@
 import { afterEach, describe, expect, test, vi } from "vitest";
 import { cleanup, render } from "@testing-library/react";
-import { CustomHeader } from "./custom-header";
-import { CustomHeaderPropsChildrenFnProps } from "../types";
+import { CustomHeader, CustomHeaderPropsChildrenFnProps } from "./custom-header";
 import { DateHeader } from "./date-header";
 import { differenceInMonths, format, parse, parseISO } from "date-fns";
 import { getCustomHeadersInTimeline, RenderHeadersWrapper, parsePxToNumbers } from "../test-helpers";
