@@ -1,7 +1,7 @@
 import { act, cleanup, render } from "@testing-library/react";
 import { afterEach, describe, expect, test, vi } from "vitest";
-import { CursorMarker } from "./CursorMarker";
-import { MarkerCanvasProvider } from "../MarkerCanvasContext";
+import { CursorMarker } from "./cursor-marker";
+import { MarkerCanvasContext } from "../marker-canvas-context";
 import { RenderWrapper } from "../../test-helpers";
 import React from "react";
 import userEvent from "@testing-library/user-event";
@@ -21,11 +21,11 @@ describe("<CursorMarker />", () => {
   test("renders one", async () => {
     const subscribeToMouseOver = vi.fn();
     const { getByTestId } = render(
-      <MarkerCanvasProvider value={{ subscribeToMouseOver }}>
+      <MarkerCanvasContext.Provider value={{ subscribeToMouseOver }}>
         <RenderWrapper>
-          <CursorMarker />
+          <CursorMarker id="test" />
         </RenderWrapper>
-      </MarkerCanvasProvider>
+      </MarkerCanvasContext.Provider>
     );
 
     act(() => {
@@ -39,11 +39,11 @@ describe("<CursorMarker />", () => {
     const customDataIdSelector = "my-custom-marker-cursor";
     const subscribeToMouseOver = vi.fn();
     const { getByTestId } = render(
-      <MarkerCanvasProvider value={{ subscribeToMouseOver }}>
+      <MarkerCanvasContext.Provider value={{ subscribeToMouseOver }}>
         <RenderWrapper>
-          <CursorMarker>{() => <div data-testid={customDataIdSelector} />}</CursorMarker>
+          <CursorMarker id="test">{() => <div data-testid={customDataIdSelector} />}</CursorMarker>
         </RenderWrapper>
-      </MarkerCanvasProvider>
+      </MarkerCanvasContext.Provider>
     );
 
     act(() => {
@@ -56,11 +56,11 @@ describe("<CursorMarker />", () => {
   test("styles.left based on callback leftOffset", async () => {
     const subscribeToMouseOverMock = vi.fn();
     const { getByTestId } = render(
-      <MarkerCanvasProvider value={{ subscribeToMouseOver: subscribeToMouseOverMock }}>
+      <MarkerCanvasContext.Provider value={{ subscribeToMouseOver: subscribeToMouseOverMock }}>
         <RenderWrapper>
-          <CursorMarker />
+          <CursorMarker id="test" />
         </RenderWrapper>
-      </MarkerCanvasProvider>
+      </MarkerCanvasContext.Provider>
     );
 
     const leftOffset = 1000;
@@ -78,13 +78,13 @@ describe("<CursorMarker />", () => {
 
   test("child function is passed in date from callback", async () => {
     const subscribeToMouseOverMock = vi.fn();
-    const rendererMock = vi.fn(() => null);
+    const rendererMock = vi.fn(() => <React.Fragment />);
     render(
-      <MarkerCanvasProvider value={{ subscribeToMouseOver: subscribeToMouseOverMock }}>
+      <MarkerCanvasContext.Provider value={{ subscribeToMouseOver: subscribeToMouseOverMock }}>
         <RenderWrapper>
-          <CursorMarker>{rendererMock}</CursorMarker>
+          <CursorMarker id="test">{rendererMock}</CursorMarker>
         </RenderWrapper>
-      </MarkerCanvasProvider>
+      </MarkerCanvasContext.Provider>
     );
 
     const now = Date.now();
@@ -109,12 +109,12 @@ describe("<CursorMarker />", () => {
       const [isShowing, setIsShowing] = React.useState(true);
       const toggleCustomMarker = () => setIsShowing(false);
       return (
-        <MarkerCanvasProvider value={{ subscribeToMouseOver }}>
+        <MarkerCanvasContext.Provider value={{ subscribeToMouseOver }}>
           <RenderWrapper>
             <button onClick={toggleCustomMarker}>Hide Custom Marker</button>
-            {isShowing && <CursorMarker />}
+            {isShowing && <CursorMarker id="test" />}
           </RenderWrapper>
-        </MarkerCanvasProvider>
+        </MarkerCanvasContext.Provider>
       );
     };
 

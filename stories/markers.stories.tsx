@@ -4,7 +4,7 @@ import {
   CursorMarker as CursorMarkerComponent,
   CustomMarker as CustomMarkerComponent,
   Timeline,
-  TodayMarker as TodayMarkerComponent,
+  NowMarker as NowMarkerComponent,
 } from "../src/index";
 import { makeDemoData } from "./make-demo-data";
 import React from "react";
@@ -30,7 +30,7 @@ const SUT = ({ children }: { children: React.ReactElement }): JSX.Element => (
 export const CursorMarker: Story = {
   render: () => (
     <SUT>
-      <CursorMarkerComponent />
+      <CursorMarkerComponent id="cursor-marker-example" />
     </SUT>
   ),
 };
@@ -38,7 +38,7 @@ export const CursorMarker: Story = {
 export const CustomMarker: Story = {
   render: () => (
     <SUT>
-      <CustomMarkerComponent date={addDays(new Date(), 1)}>
+      <CustomMarkerComponent date={addDays(new Date(), 1)} id="custom-marker-example">
         {({ styles }) => {
           const customStyles = {
             ...styles,
@@ -52,10 +52,10 @@ export const CustomMarker: Story = {
   ),
 };
 
-export const TodayMarker: Story = {
+export const NowMarker: Story = {
   render: () => (
     <SUT>
-      <TodayMarkerComponent />
+      <NowMarkerComponent id="now-marker-example" />
     </SUT>
   ),
 };

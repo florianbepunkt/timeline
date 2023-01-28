@@ -140,20 +140,3 @@ export type MoveResizeValidator<TItem extends TimelineItemBase> = (
   time: number,
   resizeEdge?: TimelineItemEdge // This value is only available for resize
 ) => number;
-
-// MARKERS
-export type CustomMarkerChildrenProps = {
-  styles: React.CSSProperties;
-  date: Date | number;
-};
-
-export type MarkerProps = {
-  date: Date | number;
-  children?: (props: CustomMarkerChildrenProps) => React.ReactNode;
-};
-
-export type TodayMarkerProps = Optional<MarkerProps, "date"> & {
-  interval?: number;
-};
-
-export type CursorMarkerProps = Omit<MarkerProps, "date">;

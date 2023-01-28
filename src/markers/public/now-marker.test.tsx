@@ -1,15 +1,14 @@
 import { afterEach, describe, expect, test, vi } from "vitest";
 import { cleanup, render, fireEvent } from "@testing-library/react";
 import { RenderWrapper } from "../../test-helpers";
-import { TodayMarker } from "./TodayMarker";
+import { NowMarker, NowMarkerProps } from "./now-marker";
 import React from "react";
-import type { TodayMarkerProps } from "../../types";
 
-const makeSut = (props: Partial<TodayMarkerProps> = {}) => {
+const makeSut = (props: Partial<NowMarkerProps> = {}) => {
   return [
     render(
       <RenderWrapper>
-        <TodayMarker {...props} />
+        <NowMarker id="test" {...props} />
       </RenderWrapper>
     ),
     {
@@ -33,7 +32,7 @@ describe("<TodayMarker />", () => {
       return (
         <RenderWrapper>
           <button onClick={toggleTodayMarker}>Hide Today</button>
-          {isShowing && <TodayMarker date={Date.now()} />}
+          {isShowing && <NowMarker id="test" date={Date.now()} />}
         </RenderWrapper>
       );
     };
@@ -51,7 +50,7 @@ describe("<TodayMarker />", () => {
   });
 
   test("custom renderer is passed styles and date", () => {
-    const renderMock = vi.fn(() => null);
+    const renderMock = vi.fn(() => <React.Fragment />);
     makeSut({ children: renderMock });
     expect(renderMock).toHaveBeenCalledWith({
       date: expect.any(Number),

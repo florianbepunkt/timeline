@@ -1,7 +1,6 @@
-import { TimelineMarkersProvider } from "../markers/TimelineMarkersContext";
+import { MarkersProvider, MarkersRenderer } from "../markers";
 import { TimelineProvider } from "../timeline/timeline-context";
 import React from "react";
-import TimelineMarkersRenderer from "../markers/TimelineMarkersRenderer";
 import type { TimelineProviderProps } from "../timeline/timeline-context";
 
 const ONE_DAY = 1000 * 60 * 60 * 24;
@@ -31,12 +30,12 @@ export const RenderWrapper: React.FC<{
   return (
     <div>
       <TimelineProvider {...timelineState}>
-        <TimelineMarkersProvider>
+        <MarkersProvider>
           <div>
             {children}
-            <TimelineMarkersRenderer />
+            <MarkersRenderer />
           </div>
-        </TimelineMarkersProvider>
+        </MarkersProvider>
       </TimelineProvider>
     </div>
   );

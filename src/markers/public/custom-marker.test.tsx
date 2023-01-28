@@ -1,6 +1,6 @@
-import { afterEach, describe, expect, test, vi } from "vitest";
+import { afterEach, describe, expect, test } from "vitest";
 import { cleanup, render, fireEvent } from "@testing-library/react";
-import { CustomMarker } from "./CustomMarker";
+import { CustomMarker } from "./custom-marker";
 import { RenderWrapper } from "../../test-helpers";
 import React from "react";
 
@@ -10,7 +10,7 @@ describe("<CustomMarker />", () => {
   test("renders one", () => {
     const { getByTestId } = render(
       <RenderWrapper>
-        <CustomMarker date={1000} />
+        <CustomMarker id="test" date={1000} />
       </RenderWrapper>
     );
     expect(getByTestId("default-customer-marker-id")).toBeInTheDocument();
@@ -19,9 +19,9 @@ describe("<CustomMarker />", () => {
   test("render multiple", () => {
     const { queryAllByTestId } = render(
       <RenderWrapper>
-        <CustomMarker date={1000} />
-        <CustomMarker date={1010} />
-        <CustomMarker date={1020} />
+        <CustomMarker id="test1" date={1000} />
+        <CustomMarker id="test2" date={1010} />
+        <CustomMarker id="test3" date={1020} />
       </RenderWrapper>
     );
 
@@ -32,7 +32,9 @@ describe("<CustomMarker />", () => {
     const customDataIdSelector = "my-custom-marker";
     const { getByTestId } = render(
       <RenderWrapper>
-        <CustomMarker date={1000}>{() => <div data-testid={customDataIdSelector} />}</CustomMarker>
+        <CustomMarker id="test" date={1000}>
+          {() => <div data-testid={customDataIdSelector} />}
+        </CustomMarker>
       </RenderWrapper>
     );
     expect(getByTestId(customDataIdSelector)).toBeInTheDocument();
@@ -58,7 +60,7 @@ describe("<CustomMarker />", () => {
     const markerDate = now + oneDay / 2;
     const { getByTestId } = render(
       <RenderWrapper timelineState={timelineState}>
-        <CustomMarker date={markerDate} />
+        <CustomMarker id="test" date={markerDate} />
       </RenderWrapper>
     );
 
@@ -73,7 +75,7 @@ describe("<CustomMarker />", () => {
       return (
         <RenderWrapper>
           <button onClick={toggleCustomMarker}>Hide Custom Marker</button>
-          {isShowing && <CustomMarker date={1000} />}
+          {isShowing && <CustomMarker id="test" date={1000} />}
         </RenderWrapper>
       );
     };
@@ -87,7 +89,7 @@ describe("<CustomMarker />", () => {
   test("updates marker location after passing new date", () => {
     const { getByTestId, rerender } = render(
       <RenderWrapper>
-        <CustomMarker date={1000} />
+        <CustomMarker id="test" date={1000} />
       </RenderWrapper>
     );
 
@@ -95,7 +97,7 @@ describe("<CustomMarker />", () => {
 
     rerender(
       <RenderWrapper>
-        <CustomMarker date={2000} />
+        <CustomMarker id="test" date={2000} />
       </RenderWrapper>
     );
 

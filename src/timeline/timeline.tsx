@@ -21,11 +21,10 @@ import { GroupRows } from "../row";
 import { isEqual } from "lodash-es";
 import { Items } from "../items";
 import { LocalizationContext } from "./localization";
+import { MarkerCanvas, MarkersProvider } from "../markers";
 import { ScrollElement } from "../scroll";
 import { Sidebar } from "../sidebar";
-import { TimelineMarkersProvider } from "../markers/TimelineMarkersContext";
 import { TimelineProvider } from "./timeline-context";
-import MarkerCanvas from "../markers/MarkerCanvas";
 import React, { Component } from "react";
 import type {
   ClickType,
@@ -1021,7 +1020,7 @@ export class Timeline<
           visibleTimeEnd={visibleTimeEnd}
           visibleTimeStart={visibleTimeStart}
         >
-          <TimelineMarkersProvider>
+          <MarkersProvider>
             <HeadersProvider
               leftSidebarWidth={this.props.sidebarWidth ?? defaultSidebarWidth}
               registerScroll={this.handleHeaderRef}
@@ -1090,7 +1089,7 @@ export class Timeline<
                 </div>
               </div>
             </HeadersProvider>
-          </TimelineMarkersProvider>
+          </MarkersProvider>
         </TimelineProvider>
       </LocalizationContext.Provider>
     );
