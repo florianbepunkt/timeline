@@ -2,8 +2,6 @@
 
 - dissolve \_\_fixtures\_\_ folder []
 - refactor timeline as functional ... end boss style []
-- remove all the todos [x]
-- add a linter []
 - add living documentation in form of typescript docs and stories []
 
 ## Integrated / solved PRs
@@ -67,3 +65,5 @@ Are these Component.secretKey stuff needed anymore?
 - resolve types.ts as much as possible [x]
 - TodayMarker should be renamed to NowMarker [x]
 - eliminate dead code [x]
+- remove all the todos [x]
+- add a linter [x]
