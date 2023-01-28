@@ -6,7 +6,7 @@ export type MarkerCanvasContext = {
 };
 
 export const MarkerCanvasContext = React.createContext<MarkerCanvasContext>({
-  subscribeToMouseOver: (_) => {
+  subscribeToMouseOver: () => {
     throw new Error(`"subscribeToMouseOver" default func is being used`);
   },
 });

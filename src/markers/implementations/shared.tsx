@@ -24,8 +24,7 @@ export const createMarkerStylesWithLeftOffset = memoize(
   })
 );
 
-export const createDefaultRenderer = (dataTestidValue: string) => {
-  return function DefaultMarkerRenderer({ styles }: { styles: React.CSSProperties }) {
+export const createDefaultRenderer = (dataTestidValue: string) =>
+  function DefaultMarkerRenderer({ styles }: { styles: React.CSSProperties }) {
     return <div style={styles} data-testid={dataTestidValue} />;
   };
-};

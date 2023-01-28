@@ -2,7 +2,7 @@ import { addByUnit, getByUnit, setByUnit, startOf } from "../date";
 import type {
   CompleteTimeSteps,
   Id,
-  TimeSteps as TimeSteps,
+  TimeSteps,
   TimelineGroupBase,
   TimelineItemBase,
   TimelineItemEdge,
@@ -376,20 +376,18 @@ function getGroupedItems<TGroup extends TimelineGroupBase>(
  *
  * @returns The filtered list of timeline items.
  */
-export function getVisibleItems<TGroup extends TimelineGroupBase, TItem extends TimelineItemBase>(
+export const getVisibleItems = <TGroup extends TimelineGroupBase, TItem extends TimelineItemBase>(
   items: TItem[],
   canvasTimeStart: number,
   canvasTimeEnd: number,
   groupOrders: GroupOrders<TGroup>
-) {
-  return items.filter((item) => {
-    return (
+) =>
+  items.filter(
+    (item) =>
       groupOrders[item.group] !== undefined &&
       item.startTime <= canvasTimeEnd &&
       item.endTime >= canvasTimeStart
-    );
-  });
-}
+  );
 
 const EPSILON = 0.001;
 
@@ -956,7 +954,9 @@ export function calculateScrollCanvas<TGroup extends TimelineGroupBase, TItem ex
   forceUpdateDimensions: boolean,
   items: TItem[],
   groups: TGroup[],
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   props: any,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   state: any
 ) {
   const oldCanvasTimeStart = state.canvasTimeStart;

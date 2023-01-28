@@ -168,199 +168,222 @@ export const Item = <TGroup extends TimelineGroupBase, TItem extends TimelineIte
   const _dragLeft = React.useRef<HTMLDivElement | null>(null);
   const _dragRight = React.useRef<HTMLDivElement | null>(null);
 
-  const getTimeRatio = () => {
+  const getTimeRatio = React.useCallback(() => {
     const { canvasTimeStart, canvasTimeEnd, canvasWidth } = props;
     return millisecondsInPixel(canvasTimeStart, canvasTimeEnd, canvasWidth);
-  };
+  }, [props]);
 
-  const dragTimeSnap = (dragTime: number, considerOffset?: boolean) => {
-    if (dragSnap) {
-      const offset = considerOffset ? new Date().getTimezoneOffset() * 60 * 1000 : 0;
-      return Math.round(dragTime / dragSnap) * dragSnap - (offset % dragSnap);
-    } else {
-      return dragTime;
-    }
-  };
+  const dragTimeSnap = React.useCallback(
+    (dragTime: number, considerOffset?: boolean) => {
+      if (dragSnap) {
+        const offset = considerOffset ? new Date().getTimezoneOffset() * 60 * 1000 : 0;
+        return Math.round(dragTime / dragSnap) * dragSnap - (offset % dragSnap);
+      } else {
+        return dragTime;
+      }
+    },
+    [dragSnap]
+  );
 
-  const resizeTimeSnap = (dragTime: number) => {
-    if (dragSnap) {
-      const endTime = item.endTime % dragSnap;
-      return Math.round((dragTime - endTime) / dragSnap) * dragSnap + endTime;
-    } else {
-      return dragTime;
-    }
-  };
+  const resizeTimeSnap = React.useCallback(
+    (dragTime: number) => {
+      if (dragSnap) {
+        const endTime = item.endTime % dragSnap;
+        return Math.round((dragTime - endTime) / dragSnap) * dragSnap + endTime;
+      } else {
+        return dragTime;
+      }
+    },
+    [dragSnap, item.endTime]
+  );
 
-  const getDragTime = (e: DragEvent): number => {
-    const startTime = new Date(item.startTime);
-    if (dragStart.current === null) throw new Error(`Invalid state`);
-    return dragging.current
-      ? dragTimeSnap(timeFor(e) + dragStart.current.offset, true)
-      : startTime.valueOf();
-  };
+  const timeFor = React.useCallback(
+    (e: DragEvent | ResizeEvent) => {
+      const ratio = millisecondsInPixel(canvasTimeStart, canvasTimeEnd, canvasWidth);
+      const offset = getSumOffset(scrollRef).offsetLeft;
+      const scrolls = getSumScroll(scrollRef);
+      return (e.pageX - offset + scrolls.scrollLeft) * ratio + canvasTimeStart;
+    },
+    [canvasTimeEnd, canvasTimeStart, canvasWidth, scrollRef]
+  );
 
-  const timeFor = (e: DragEvent | ResizeEvent) => {
-    const ratio = millisecondsInPixel(canvasTimeStart, canvasTimeEnd, canvasWidth);
-    const offset = getSumOffset(scrollRef).offsetLeft;
-    const scrolls = getSumScroll(scrollRef);
-    return (e.pageX - offset + scrolls.scrollLeft) * ratio + canvasTimeStart;
-  };
+  const getDragTime = React.useCallback(
+    (e: DragEvent): number => {
+      const startTime = new Date(item.startTime);
+      if (dragStart.current === null) throw new Error(`Invalid state`);
+      return dragging.current
+        ? dragTimeSnap(timeFor(e) + dragStart.current.offset, true)
+        : startTime.valueOf();
+    },
+    [dragStart, dragTimeSnap, dragging, item.startTime, timeFor]
+  );
 
-  const getDragGroupDelta = (e: DragEvent) => {
-    const { canvasTop, canChangeGroup, groupTops, order } = props;
-    if (!(dragging.current && canChangeGroup)) return 0;
-    const offset = getSumOffset(scrollRef).offsetTop;
-    const scrollTop = getSumScroll(scrollRef).scrollTop;
-    const correctedEventY = e.pageY + canvasTop - offset + scrollTop;
-    const lastGroupIndex = groupTops.length - 1;
-    const eventGroupIndex = binarySearch(groupTops, (groupTop, groupIndex): number =>
-      groupIndex < lastGroupIndex
-        ? correctedEventY < groupTop
-          ? 1
-          : correctedEventY < groupTops[groupIndex + 1]
-          ? 0
-          : -1
-        : 0
-    );
+  const getDragGroupDelta = React.useCallback(
+    (e: DragEvent) => {
+      const { canvasTop, canChangeGroup, groupTops, order } = props;
+      if (!(dragging.current && canChangeGroup)) return 0;
+      const offset = getSumOffset(scrollRef).offsetTop;
+      const scrollTop = getSumScroll(scrollRef).scrollTop;
+      const correctedEventY = e.pageY + canvasTop - offset + scrollTop;
+      const lastGroupIndex = groupTops.length - 1;
+      const eventGroupIndex = binarySearch(groupTops, (groupTop, groupIndex): number =>
+        groupIndex < lastGroupIndex
+          ? correctedEventY < groupTop
+            ? 1
+            : correctedEventY < groupTops[groupIndex + 1]
+            ? 0
+            : -1
+          : 0
+      );
 
-    return eventGroupIndex < 0 ? 0 : eventGroupIndex - order.index;
-  };
+      return eventGroupIndex < 0 ? 0 : eventGroupIndex - order.index;
+    },
+    [dragging, props, scrollRef]
+  );
 
-  const resizeTimeDelta = (e: ResizeEvent, resizeEdge: TimelineItemEdge | null) => {
-    const length = item.endTime - item.startTime;
-    if (resizeStart.current === null) throw new Error(`Illegal state`);
-    const timeDelta = dragTimeSnap((e.pageX - resizeStart.current) * getTimeRatio());
+  const resizeTimeDelta = React.useCallback(
+    (e: ResizeEvent, resizeEdge: TimelineItemEdge | null) => {
+      const length = item.endTime - item.startTime;
+      if (resizeStart.current === null) throw new Error(`Illegal state`);
+      const timeDelta = dragTimeSnap((e.pageX - resizeStart.current) * getTimeRatio());
 
-    if (length + (resizeEdge === "left" ? -timeDelta : timeDelta) < (dragSnap || 1000)) {
-      return resizeEdge === "left" ? length - (dragSnap || 1000) : (dragSnap || 1000) - length;
-    } else {
-      return timeDelta;
-    }
-  };
+      if (length + (resizeEdge === "left" ? -timeDelta : timeDelta) < (dragSnap || 1000)) {
+        return resizeEdge === "left" ? length - (dragSnap || 1000) : (dragSnap || 1000) - length;
+      } else {
+        return timeDelta;
+      }
+    },
+    [dragSnap, dragTimeSnap, getTimeRatio, item.endTime, item.startTime, resizeStart]
+  );
 
   // drag handlers
-  const handleDragStart = (e: DragEvent) => {
-    if (!props.selected) return false;
-    const clickTime = timeFor(e);
-    setDragging(true);
-    setDragStart({ x: e.pageX, y: e.pageY, offset: item.startTime - clickTime });
-    setDragTime(item.startTime);
-    setDragGroupDelta(0);
-    return;
-  };
+  const handleDragStart = React.useCallback(
+    (e: DragEvent) => {
+      if (!props.selected) return false;
+      const clickTime = timeFor(e);
+      setDragging(true);
+      setDragStart({ x: e.pageX, y: e.pageY, offset: item.startTime - clickTime });
+      setDragTime(item.startTime);
+      setDragGroupDelta(0);
+      return;
+    },
+    [item.startTime, props.selected, setDragGroupDelta, setDragStart, setDragging, timeFor]
+  );
 
-  const handleDragMove = (e: DragEvent) => {
-    if (!dragging.current) return;
-    let newDragTime = getDragTime(e);
-    const dragGroupDelta = getDragGroupDelta(e);
-    if (props.moveResizeValidator) newDragTime = props.moveResizeValidator("move", item, newDragTime);
-    if (props.onDrag) props.onDrag(item.id, newDragTime, props.order.index + dragGroupDelta);
-    setDragTime(newDragTime);
-    setDragGroupDelta(dragGroupDelta);
-  };
+  const handleDragMove = React.useCallback(
+    (e: DragEvent) => {
+      if (!dragging.current) return;
+      let newDragTime = getDragTime(e);
+      const dragGroupDelta = getDragGroupDelta(e);
+      if (props.moveResizeValidator) newDragTime = props.moveResizeValidator("move", item, newDragTime);
+      if (props.onDrag) props.onDrag(item.id, newDragTime, props.order.index + dragGroupDelta);
+      setDragTime(newDragTime);
+      setDragGroupDelta(dragGroupDelta);
+    },
+    [dragging, getDragGroupDelta, getDragTime, item, props, setDragGroupDelta]
+  );
 
-  const handleDragEnd = (e: DragEvent) => {
-    if (!dragging.current) return;
-    if (props.onDrop) {
-      let dragTime = getDragTime(e);
-      if (props.moveResizeValidator) dragTime = props.moveResizeValidator("move", item, dragTime);
-      props.onDrop(item.id, dragTime, props.order.index + getDragGroupDelta(e));
-    }
-    setDragging(false);
-    setDragStart(null);
-    setDragTime(null);
-    setDragGroupDelta(null);
-  };
+  const handleDragEnd = React.useCallback(
+    (e: DragEvent) => {
+      if (!dragging.current) return;
+      if (props.onDrop) {
+        let dragTime = getDragTime(e);
+        if (props.moveResizeValidator) dragTime = props.moveResizeValidator("move", item, dragTime);
+        props.onDrop(item.id, dragTime, props.order.index + getDragGroupDelta(e));
+      }
+      setDragging(false);
+      setDragStart(null);
+      setDragTime(null);
+      setDragGroupDelta(null);
+    },
+    [dragging, getDragGroupDelta, getDragTime, item, props, setDragGroupDelta, setDragStart, setDragging]
+  );
 
   // resize handlers
-  const handleResizeStart = (e: ResizeEvent) => {
-    if (!props.selected) return false;
-    setResizing(true);
-    setResizeEdge(undefined);
-    setResizeStart(e.pageX);
-    setResizeTime(0);
-  };
+  const handleResizeStart = React.useCallback(
+    (e: ResizeEvent) => {
+      if (!props.selected) return false;
+      setResizing(true);
+      setResizeEdge(undefined);
+      setResizeStart(e.pageX);
+      setResizeTime(0);
+    },
+    [props.selected, setResizeEdge, setResizeStart, setResizing]
+  );
 
-  const handleResizeMove = (e: ResizeEvent) => {
-    if (!resizing.current) return;
-    let currentResizeEdge = resizeEdge.current;
-    if (!currentResizeEdge) {
-      const fallback = e.deltaRect?.left !== 0 ? "left" : "right";
-      setResizeEdge(fallback);
-      currentResizeEdge = fallback;
-    }
+  const handleResizeMove = React.useCallback(
+    (e: ResizeEvent) => {
+      if (!resizing.current) return;
+      let currentResizeEdge = resizeEdge.current;
+      if (!currentResizeEdge) {
+        const fallback = e.deltaRect?.left !== 0 ? "left" : "right";
+        setResizeEdge(fallback);
+        currentResizeEdge = fallback;
+      }
 
-    let resizeTime = resizeTimeSnap(timeFor(e));
-    if (props.moveResizeValidator) {
-      resizeTime = props.moveResizeValidator("resize", item, resizeTime, currentResizeEdge);
-    }
+      let resizeTime = resizeTimeSnap(timeFor(e));
+      if (props.moveResizeValidator) {
+        resizeTime = props.moveResizeValidator("resize", item, resizeTime, currentResizeEdge);
+      }
 
-    if (props.onResizing) props.onResizing(item.id, resizeTime, currentResizeEdge!);
-    setResizeTime(resizeTime);
-  };
+      if (props.onResizing) props.onResizing(item.id, resizeTime, currentResizeEdge);
+      setResizeTime(resizeTime);
+    },
+    [item, props, resizeEdge, resizeTimeSnap, resizing, setResizeEdge, timeFor]
+  );
 
-  const handleResizeEnd = (e: ResizeEvent) => {
-    if (!resizing.current) return;
-    let resizeTime = resizeTimeSnap(timeFor(e));
-    if (props.moveResizeValidator) {
-      if (!resizeEdge.current) throw new Error(`Illegal state`);
-      resizeTime = props.moveResizeValidator("resize", item, resizeTime, resizeEdge.current);
-    }
+  const handleResizeEnd = React.useCallback(
+    (e: ResizeEvent) => {
+      if (!resizing.current) return;
+      let resizeTime = resizeTimeSnap(timeFor(e));
+      if (props.moveResizeValidator) {
+        if (!resizeEdge.current) throw new Error(`Illegal state`);
+        resizeTime = props.moveResizeValidator("resize", item, resizeTime, resizeEdge.current);
+      }
 
-    if (props.onResized) {
-      if (!resizeEdge.current) throw new Error(`Illegal state`);
-      props.onResized(item.id, resizeTime, resizeEdge.current!, resizeTimeDelta(e, resizeEdge.current!));
-    }
+      if (props.onResized) {
+        if (!resizeEdge.current) throw new Error(`Illegal state`);
+        props.onResized(item.id, resizeTime, resizeEdge.current, resizeTimeDelta(e, resizeEdge.current));
+      }
 
-    setResizing(false);
-    setResizeStart(null);
-    setResizeEdge(undefined);
-    setResizeTime(null);
-  };
+      setResizing(false);
+      setResizeStart(null);
+      setResizeEdge(undefined);
+      setResizeTime(null);
+    },
+    [
+      item,
+      props,
+      resizeEdge,
+      resizeTimeDelta,
+      resizeTimeSnap,
+      resizing,
+      setResizeEdge,
+      setResizeStart,
+      setResizing,
+      timeFor,
+    ]
+  );
 
-  const mountInteract = () => {
-    const leftResize = props.useResizeHandle ? ".rct-item-handler-resize-left" : true;
-    const rightResize = props.useResizeHandle ? ".rct-item-handler-resize-right" : true;
-    if (_item.current === null) throw new Error(`Item reference should be never emtpy.`);
+  const canResizeLeft = React.useCallback(
+    (p: ItemProps<TGroup, TItem> = props) => {
+      if (!p.canResizeLeft) return false;
+      const width = parseInt(`${p.dimensions.width}`);
+      return width >= p.minResizeWidth;
+    },
+    [props]
+  );
 
-    interact(_item.current)
-      .resizable({
-        edges: {
-          left: canResizeLeft() && leftResize,
-          right: canResizeRight() && rightResize,
-          top: false,
-          bottom: false,
-        },
-        enabled: props.selected && (canResizeLeft() || canResizeRight()),
-      })
-      .draggable({ enabled: props.selected && canMove() })
-      .styleCursor(false)
-      .on("dragstart", handleDragStart)
-      .on("dragmove", handleDragMove)
-      .on("dragend", handleDragEnd)
-      .on("resizestart", handleResizeStart)
-      .on("resizemove", handleResizeMove)
-      .on("resizeend", handleResizeEnd)
-      .on("tap", (e: PointerEvent & React.MouseEvent) => {
-        actualClick(e, e.pointerType === "mouse" ? "click" : "touch");
-      });
+  const canResizeRight = React.useCallback(
+    (p: ItemProps<TGroup, TItem> = props) => {
+      if (!p.canResizeRight) return false;
+      const width = parseInt(`${p.dimensions.width}`);
+      return width >= p.minResizeWidth;
+    },
+    [props]
+  );
 
-    setInteractMounted(true);
-  };
-
-  const canResizeLeft = (p: ItemProps<TGroup, TItem> = props) => {
-    if (!p.canResizeLeft) return false;
-    const width = parseInt(`${p.dimensions.width}`);
-    return width >= p.minResizeWidth;
-  };
-
-  const canResizeRight = (p: ItemProps<TGroup, TItem> = props) => {
-    if (!p.canResizeRight) return false;
-    const width = parseInt(`${p.dimensions.width}`);
-    return width >= p.minResizeWidth;
-  };
-
-  const canMove = (p: ItemProps<TGroup, TItem> = props) => !!p.canMove;
+  const canMove = React.useCallback((p: ItemProps<TGroup, TItem> = props) => !!p.canMove, [props]);
 
   // event handlers
   const onMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -403,9 +426,12 @@ export const Item = <TGroup extends TimelineGroupBase, TItem extends TimelineIte
     props.onContextMenu(props.item.id, e);
   };
 
-  const actualClick = (e: React.MouseEvent | React.TouchEvent, clickType: "touch" | "click") => {
-    if (props.canSelect && props.onSelect) props.onSelect(item.id, clickType, e);
-  };
+  const actualClick = React.useCallback(
+    (e: React.MouseEvent | React.TouchEvent, clickType: "touch" | "click") => {
+      if (props.canSelect && props.onSelect) props.onSelect(item.id, clickType, e);
+    },
+    [item.id, props]
+  );
 
   const getItemProps = (props: Partial<Omit<TimelineItemProps, "key" | "ref">> = {}) => {
     const classNames = "rct-item" + (item.className ? ` ${item.className}` : "");
@@ -477,6 +503,36 @@ export const Item = <TGroup extends TimelineGroupBase, TItem extends TimelineIte
   };
 
   React.useEffect(() => {
+    const mountInteract = () => {
+      const leftResize = props.useResizeHandle ? ".rct-item-handler-resize-left" : true;
+      const rightResize = props.useResizeHandle ? ".rct-item-handler-resize-right" : true;
+      if (_item.current === null) throw new Error(`Item reference should be never emtpy.`);
+
+      interact(_item.current)
+        .resizable({
+          edges: {
+            left: canResizeLeft() && leftResize,
+            right: canResizeRight() && rightResize,
+            top: false,
+            bottom: false,
+          },
+          enabled: props.selected && (canResizeLeft() || canResizeRight()),
+        })
+        .draggable({ enabled: props.selected && canMove() })
+        .styleCursor(false)
+        .on("dragstart", handleDragStart)
+        .on("dragmove", handleDragMove)
+        .on("dragend", handleDragEnd)
+        .on("resizestart", handleResizeStart)
+        .on("resizemove", handleResizeMove)
+        .on("resizeend", handleResizeEnd)
+        .on("tap", (e: PointerEvent & React.MouseEvent) => {
+          actualClick(e, e.pointerType === "mouse" ? "click" : "touch");
+        });
+
+      setInteractMounted(true);
+    };
+
     let mounted = interactMounted;
 
     const couldDrag = prevProps?.selected && canMove(prevProps);
@@ -486,7 +542,7 @@ export const Item = <TGroup extends TimelineGroupBase, TItem extends TimelineIte
     const willBeAbleToResizeLeft = props.selected && canResizeLeft(props);
     const willBeAbleToResizeRight = props.selected && canResizeRight(props);
 
-    if (!!_item.current) {
+    if (_item.current) {
       if (props.selected && !mounted) {
         mountInteract();
         mounted = true;
@@ -522,7 +578,21 @@ export const Item = <TGroup extends TimelineGroupBase, TItem extends TimelineIte
     if (interactMounted !== mounted) {
       setInteractMounted(mounted);
     }
-  });
+  }, [
+    interactMounted,
+    prevProps,
+    canMove,
+    canResizeLeft,
+    canResizeRight,
+    props,
+    handleDragStart,
+    handleDragMove,
+    handleDragEnd,
+    handleResizeStart,
+    handleResizeMove,
+    handleResizeEnd,
+    actualClick,
+  ]);
 
   const itemContext: ItemContext<TGroup> = {
     canMove: canMove(props),

@@ -19,4 +19,4 @@ export const keyBy = <TItem>(items: TItem[], getKey: (item: TItem) => string | n
   return result;
 };
 
-export const noop = () => {};
+export const noop = () => undefined;

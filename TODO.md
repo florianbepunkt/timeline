@@ -2,7 +2,7 @@
 
 - dissolve \_\_fixtures\_\_ folder []
 - refactor timeline as functional ... end boss style []
-- remove all the todos []
+- remove all the todos [x]
 - add a linter []
 - add living documentation in form of typescript docs and stories []
 

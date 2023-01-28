@@ -42,7 +42,7 @@ export const MarkersProvider: React.FC<MarkersProviderProps> = ({ children }) =>
   };
 
   const updateMarker = (marker: Marker) => {
-    const ix = markers.findIndex(({ id }) => marker.id);
+    const ix = markers.findIndex(({ id }) => marker.id === id);
     if (ix < 0) return;
     setMarkers((curr) => [...curr.slice(0, ix), marker, ...curr.slice(ix + 1)]);
   };

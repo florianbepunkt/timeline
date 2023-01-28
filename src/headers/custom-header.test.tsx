@@ -130,8 +130,8 @@ describe("<CustomHeader />", () => {
   });
 
   test("showPeriod is passed to child render function", () => {
-    const showPeriod = () => {};
-    const renderer = vi.fn((a: CustomHeaderPropsChildrenFnProps<any>) => <div>header</div>);
+    const showPeriod = () => null;
+    const renderer = vi.fn(() => <div>header</div>);
 
     render(
       <RenderHeadersWrapper timelineState={{ showPeriod }}>
@@ -141,6 +141,7 @@ describe("<CustomHeader />", () => {
       </RenderHeadersWrapper>
     );
 
+    // @ts-ignore
     expect(renderer.mock.calls[0][0].showPeriod).toBe(showPeriod);
   });
 

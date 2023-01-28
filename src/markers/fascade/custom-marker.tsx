@@ -36,14 +36,14 @@ export const CustomMarker: React.FC<CustomMarkerProps> = ({ date, children, id }
       _unsubscribe.current();
       _unsubscribe.current = null;
     };
-  }, []);
+  }, [children, date, id, subscribeMarker]);
 
   React.useEffect(() => {
     if (!_getMarker.current) return;
     const marker = _getMarker.current();
     if (marker.type !== "Custom") return;
     updateMarker({ ...marker, date });
-  }, [date]);
+  }, [date, updateMarker]);
 
   return null;
 };

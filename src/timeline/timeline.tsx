@@ -488,9 +488,10 @@ export class Timeline<
   /**
    * Returns the currently visible time window.
    */
-  getVisibleTimeWindow = () => {
-    return { visibleTimeStart: this.state.visibleTimeStart, visibleTimeEnd: this.state.visibleTimeEnd };
-  };
+  getVisibleTimeWindow = () => ({
+    visibleTimeStart: this.state.visibleTimeStart,
+    visibleTimeEnd: this.state.visibleTimeEnd,
+  });
 
   scrollVerticallyBy = (deltaY: number) => {
     if (deltaY) {

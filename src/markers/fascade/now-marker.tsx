@@ -5,7 +5,6 @@ import type { Marker, MarkerRenderer } from "../model";
 
 export type NowMarkerProps = {
   children?: MarkerRenderer;
-  date?: Date | number;
 
   /**
    * Unique id for this marker
@@ -15,7 +14,7 @@ export type NowMarkerProps = {
   interval?: number;
 };
 
-export const NowMarker: React.FC<NowMarkerProps> = ({ children, date, id, interval }) => {
+export const NowMarker: React.FC<NowMarkerProps> = ({ children, id, interval }) => {
   const DEFAULT_INTERVAL = 1000 * 10;
   const { subscribeMarker, updateMarker } = React.useContext(MarkersContext);
   const _unsubscribe = React.useRef<null | (() => void)>(null);
@@ -37,7 +36,7 @@ export const NowMarker: React.FC<NowMarkerProps> = ({ children, date, id, interv
       _unsubscribe.current();
       _unsubscribe.current = null;
     };
-  }, []);
+  }, [children, DEFAULT_INTERVAL, id, interval, subscribeMarker]);
 
   React.useEffect(() => {
     if (!_getMarker.current) return;
@@ -48,7 +47,7 @@ export const NowMarker: React.FC<NowMarkerProps> = ({ children, date, id, interv
       ...marker,
       interval: interval ?? DEFAULT_INTERVAL,
     });
-  }, [interval]);
+  }, [DEFAULT_INTERVAL, interval, updateMarker]);
 
   return null;
 };
