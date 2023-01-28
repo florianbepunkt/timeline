@@ -105,49 +105,4 @@ describe("<SidebarHeader />", () => {
       "headerContainer"
     );
   });
-
-  // TODO: TBD is this needed? This looks like testing basic React principles of component composition
-  // test.skip("Given SideBarHeader When passing a react stateless component as a child Then it should render", () => {
-  //   const Renderer: React.FC<any> = ({ getRootProps }) => {
-  //     return (
-  //       <div data-testid="leftSidebarHeader" {...getRootProps()}>
-  //         Left
-  //       </div>
-  //     );
-  //   };
-  //   const { getByText } = render(
-  //     <RenderHeadersWrapper>
-  //       <TimelineHeaders>
-  //         <SidebarHeader>{Renderer}</SidebarHeader>
-  //         <DateHeader primaryHeader />
-  //         <DateHeader />
-  //       </TimelineHeaders>
-  //     </RenderHeadersWrapper>
-  //   );
-  //   expect(getByText("Left")).toBeInTheDocument();
-  // });
-
-  // TODO: TBD is this needed? This looks like testing basic React principles of component composition
-  // test.skip("Given SideBarHeader When passing a react stateful component as a child Then it should render", () => {
-  //   class Renderer extends React.Component {
-  //     render() {
-  //       const { getRootProps } = this.props;
-  //       return (
-  //         <div data-testid="leftSidebarHeader" {...getRootProps()}>
-  //           Left
-  //         </div>
-  //       );
-  //     }
-  //   }
-  //   const { getByText } = render(
-  //     <RenderHeadersWrapper>
-  //       <TimelineHeaders>
-  //         <SidebarHeader>{Renderer}</SidebarHeader>
-  //         <DateHeader primaryHeader />
-  //         <DateHeader />
-  //       </TimelineHeaders>
-  //     </RenderHeadersWrapper>
-  //   );
-  //   expect(getByText("Left")).toBeInTheDocument();
-  // });
 });

@@ -315,38 +315,4 @@ describe("<CustomHeader />", () => {
 
     expect(getByTestId("customHeader")).toBeInTheDocument();
   });
-
-  // TODO: TBD is this needed? This looks like testing basic React principles of component composition
-  // test("Given Custom Header When passing react stateless component to render prop Then it should render", () => {
-  //   const Renderer = (props) => {
-  //     return <div>header</div>;
-  //   };
-
-  //   const { getByText } = render(
-  //     <RenderHeadersWrapper>
-  //       <TimelineHeaders>
-  //         <CustomHeader>{Renderer}</CustomHeader>
-  //       </TimelineHeaders>
-  //     </RenderHeadersWrapper>
-  //   );
-  //   expect(getByText("header")).toBeInTheDocument();
-  // });
-
-  // TODO: TBD is this needed? This looks like testing basic React principles of component composition
-  // test("Given Custom Header When passing react component to render prop Then it should render", () => {
-  //   class Renderer extends React.Component {
-  //     render() {
-  //       return <div>header</div>;
-  //     }
-  //   }
-
-  //   const { getByText } = render(
-  //     <RenderHeadersWrapper>
-  //       <TimelineHeaders>
-  //         <CustomHeader>{Renderer}</CustomHeader>
-  //       </TimelineHeaders>
-  //     </RenderHeadersWrapper>
-  //   );
-  //   expect(getByText("header")).toBeInTheDocument();
-  // });
 });

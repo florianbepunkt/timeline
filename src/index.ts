@@ -3,13 +3,3 @@ export { CustomHeader, DateHeader, SidebarHeader, TimelineHeaders } from "./head
 export { defaultTimeSteps, defaultHeaderFormats } from "./default-config";
 export { Timeline, TimelineContext } from "./timeline";
 export type { TimelineProps } from "./timeline";
-
-// TODO: remove these completely
-export type {
-  CompleteTimeSteps,
-  Id,
-  ResizeOptions,
-  TimelineGroupBase,
-  TimelineItemBase,
-  TimeUnit,
-} from "./shared-model";

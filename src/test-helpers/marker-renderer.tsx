@@ -14,15 +14,14 @@ export const RenderWrapper: React.FC<{
   const visibleTimeStart = now - ONE_DAY;
   const visibleTimeEnd = now + ONE_DAY;
   const defaultTimelineState: Omit<TimelineProviderProps, "children"> = {
-    visibleTimeStart,
-    visibleTimeEnd,
-    canvasTimeStart: visibleTimeStart - ONE_DAY,
     canvasTimeEnd: visibleTimeEnd + ONE_DAY,
+    canvasTimeStart: visibleTimeStart - ONE_DAY,
     canvasWidth: 3000,
-    // visibleWidth: 1000, // TODO: delete
-    showPeriod: () => {},
-    timelineWidth: 1000,
     timelineUnit: "day",
+    timelineWidth: 1000,
+    visibleTimeEnd,
+    visibleTimeStart,
+    showPeriod: () => {},
   };
 
   timelineState = timelineState != null ? timelineState : defaultTimelineState;

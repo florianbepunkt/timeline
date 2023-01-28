@@ -6,31 +6,29 @@ import { RenderHeadersWrapper } from "./header-renderer";
 import { TimelineProviderProps } from "../timeline/timeline-context";
 import { TimeUnit } from "../shared-model";
 
-export const renderSidebarHeaderWithCustomValues = ({
-  extraProps,
+export const renderSidebarHeaderWithCustomValues = <HeaderData extends Record<string, unknown>>({
+  headerData,
   headersState,
   props,
   timelineState,
   variant,
 }: {
-  extraProps?: any; // TODO: don't understand the model here...
+  headerData?: HeaderData;
   headersState?: Partial<HeadersProviderProps>;
-  props?: { style: React.CSSProperties };
+  props?: Partial<React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>>;
   timelineState?: Partial<TimelineProviderProps>;
   variant?: "left" | "right";
 } = {}) =>
   render(
     <RenderHeadersWrapper timelineState={timelineState} headersState={headersState}>
       <TimelineHeaders>
-        <SidebarHeader variant={variant} headerData={extraProps}>
-          {({ getRootProps }) => {
-            return (
-              <div data-testid="sidebarHeader" {...getRootProps(props)}>
-                SidebarHeader
-                <div>Should Be Rendred</div>
-              </div>
-            );
-          }}
+        <SidebarHeader variant={variant} headerData={headerData}>
+          {({ getRootProps }) => (
+            <div data-testid="sidebarHeader" {...getRootProps(props)}>
+              SidebarHeader
+              <div>Should Be Rendred</div>
+            </div>
+          )}
         </SidebarHeader>
         <DateHeader unit="primaryHeader" />
         <DateHeader />
@@ -44,26 +42,22 @@ export const renderTwoSidebarHeadersWithCustomValues = ({
   timelineState,
 }: {
   headersState?: Partial<HeadersProviderProps>;
-  props?: any; // TODO: don't understand the model here...
+  props?: Partial<React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>>;
   timelineState?: Partial<TimelineProviderProps>;
 } = {}) =>
   render(
     <RenderHeadersWrapper timelineState={timelineState} headersState={headersState}>
       <TimelineHeaders>
         <SidebarHeader variant={"left"} headerData={props}>
-          {({ getRootProps }) => {
-            return (
-              <div {...getRootProps(props)}>
-                LeftSideBar
-                <div>Should Be Rendred</div>
-              </div>
-            );
-          }}
+          {({ getRootProps }) => (
+            <div {...getRootProps(props)}>
+              LeftSideBar
+              <div>Should Be Rendred</div>
+            </div>
+          )}
         </SidebarHeader>
-        <SidebarHeader variant={"right"} headerData={props}>
-          {({ getRootProps, data }) => {
-            return <div {...getRootProps(data)}>RightSideBar</div>;
-          }}
+        <SidebarHeader variant={"right"}>
+          {({ getRootProps }) => <div {...getRootProps(props)}>RightSideBar</div>}
         </SidebarHeader>
         <DateHeader unit="primaryHeader" />
         <DateHeader />
@@ -125,13 +119,11 @@ export const renderTimelineWithVariantSidebar = ({
     <RenderHeadersWrapper timelineState={timelineState} headersState={headersState}>
       <TimelineHeaders>
         <SidebarHeader variant={variant}>
-          {({ getRootProps }) => {
-            return (
-              <div data-testid="sidebarHeader" {...getRootProps()}>
-                Header
-              </div>
-            );
-          }}
+          {({ getRootProps }) => (
+            <div data-testid="sidebarHeader" {...getRootProps()}>
+              Header
+            </div>
+          )}
         </SidebarHeader>
       </TimelineHeaders>
     </RenderHeadersWrapper>
@@ -146,7 +138,7 @@ export const getCustomHeadersInTimeline = ({
 }: {
   headersState?: Partial<HeadersProviderProps>;
   intervalStyle?: React.CSSProperties;
-  props?: any; // TODO: don't understand the model here...
+  props?: Partial<React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>>;
   timelineState?: Partial<TimelineProviderProps>;
   unit?: TimeUnit;
 } = {}) => (
@@ -159,28 +151,24 @@ export const getCustomHeadersInTimeline = ({
           getIntervalProps,
           showPeriod,
           data = { style: { height: 30 } },
-        }) => {
-          return (
-            <div data-testid="customHeader" {...getRootProps(data)}>
-              {intervals.map((interval) => {
-                return (
-                  <div
-                    data-testid="customHeaderInterval"
-                    onClick={() => {
-                      showPeriod(interval.startTime, interval.endTime);
-                    }}
-                    {...getIntervalProps({
-                      interval,
-                      style: intervalStyle,
-                    })}
-                  >
-                    <div className="sticky">{format(interval.startTime, "dd/MM/yyyy")}</div>
-                  </div>
-                );
-              })}
-            </div>
-          );
-        }}
+        }) => (
+          <div data-testid="customHeader" {...getRootProps(data)}>
+            {intervals.map((interval) => (
+              <div
+                data-testid="customHeaderInterval"
+                onClick={() => {
+                  showPeriod(interval.startTime, interval.endTime);
+                }}
+                {...getIntervalProps({
+                  interval,
+                  style: intervalStyle,
+                })}
+              >
+                <div className="sticky">{format(interval.startTime, "dd/MM/yyyy")}</div>
+              </div>
+            ))}
+          </div>
+        )}
       </CustomHeader>
     </TimelineHeaders>
   </RenderHeadersWrapper>

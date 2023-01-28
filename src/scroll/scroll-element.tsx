@@ -80,12 +80,11 @@ export class ScrollElement extends Component<ScrollElementProps, { isDragging: b
     // zoom in the time dimension
     if (e.ctrlKey || e.metaKey || e.altKey) {
       e.preventDefault();
-
-      const parentPosition = getParentPosition(e.currentTarget as HTMLDivElement); // We use the handler on a DIV so it is safe to cast
+      const bounds = (e.currentTarget as HTMLDivElement).getBoundingClientRect();
+      const parentPosition = bounds ?? { x: 0, y: 0 };
       const xPosition = e.clientX - parentPosition.x;
       const speeds = this.props.zoomSpeed ?? defaultZoomSpeed;
       const speed = e.ctrlKey ? speeds.ctrl : e.metaKey ? speeds.meta : speeds.alt;
-
       // convert vertical zoom to horiziontal
       this.props.onWheelZoom(speed, xPosition, e.deltaY);
     } else if (e.shiftKey && this._scrollComponent) {
@@ -177,7 +176,8 @@ export class ScrollElement extends Component<ScrollElementProps, { isDragging: b
       e.preventDefault();
 
       const touchDistance = Math.abs(e.touches[0].screenX - e.touches[1].screenX);
-      const parentPosition = getParentPosition(e.currentTarget);
+      const bounds = e.currentTarget.getBoundingClientRect();
+      const parentPosition = bounds ?? { x: 0, y: 0 };
       const xPosition = (e.touches[0].screenX + e.touches[1].screenX) / 2 - parentPosition.x;
 
       if (touchDistance !== 0 && this._lastTouchDistance !== 0) {
@@ -249,27 +249,4 @@ export class ScrollElement extends Component<ScrollElementProps, { isDragging: b
       </div>
     );
   }
-}
-
-// TODO: can we use getBoundingClientRect instead??
-export function getParentPosition(element: HTMLElement | null) {
-  let xPosition = 0;
-  let yPosition = 0;
-  let first = true;
-
-  while (element) {
-    if (
-      !element.offsetParent &&
-      element.tagName === "BODY" &&
-      element.scrollLeft === 0 &&
-      element.scrollTop === 0
-    ) {
-      element = (document.scrollingElement || element) as HTMLElement;
-    }
-    xPosition += element.offsetLeft - (first ? 0 : element.scrollLeft) + element.clientLeft;
-    yPosition += element.offsetTop - (first ? 0 : element.scrollTop) + element.clientTop;
-    element = element.offsetParent as HTMLElement;
-    first = false;
-  }
-  return { x: xPosition, y: yPosition };
 }

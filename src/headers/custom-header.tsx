@@ -21,7 +21,11 @@ export type HeaderContext = {
 export type CustomHeaderPropsChildrenFnProps<Data> = {
   data: Data;
   getIntervalProps: (props?: GetIntervalProps) => GetIntervalProps & { key: string | number };
-  getRootProps: (propsToOverride?: { style: React.CSSProperties }) => { style: React.CSSProperties };
+  getRootProps: (
+    propsToOverride?: Partial<
+      React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>
+    >
+  ) => { style: React.CSSProperties };
   headerContext: HeaderContext;
   showPeriod: (startDate: Date | number, endDate: Date | number) => void;
   timelineContext: Pick<
@@ -31,7 +35,7 @@ export type CustomHeaderPropsChildrenFnProps<Data> = {
 };
 
 /**
- * TODO: We could improve performance with React.memo, but seems premature at the moment
+ * We could improve performance with React.memo, but seems premature at the moment
  *   shouldComponentUpdate(nextProps: Readonly<WrappedCustomHeaderProps<Data>>) {
     return (
       nextProps.canvasTimeStart !== this.props.canvasTimeStart ||

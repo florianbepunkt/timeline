@@ -45,7 +45,7 @@ type ItemsProps<TGroup extends TimelineGroupBase, TItem extends TimelineItemBase
   onItemDoubleClick: (item: Id, event: React.MouseEvent) => void;
 };
 
-// TODO: MAYBE NEED TO WRAP IN REACT.MEMO
+// Could be wrapped with React.memo for performance optimization
 // const shouldComponentUpdate = (nextProps: ItemsProps<TGroup, TItem>) =>
 //   !(
 //     arraysEqual(nextProps.groups, props.groups) &&
@@ -103,7 +103,6 @@ export const Items = <TGroup extends TimelineGroupBase, TItem extends TimelineIt
         const adjustedDimensions = { ...dimensions, ...{ top: dimensions.top - canvasTop } };
 
         return (
-          // @ts-ignore // TODO
           <Item
             canChangeGroup={
               item.canChangeGroup !== undefined ? item.canChangeGroup : props.canChangeGroup

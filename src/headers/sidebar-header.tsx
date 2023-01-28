@@ -7,9 +7,13 @@ export type SidebarHeaderProps<Data> = {
   variant?: "left" | "right";
 };
 
-export type SidebarHeaderChildrenFnProps<Data> = {
+type SidebarHeaderChildrenFnProps<Data> = {
   data?: Data;
-  getRootProps: (propsToOverride?: { style: React.CSSProperties }) => { style: React.CSSProperties };
+  getRootProps: (
+    propsToOverride?: Partial<
+      React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>
+    >
+  ) => { style: React.CSSProperties };
 };
 
 const defaultSidebarHeaderChildren = ({ getRootProps }: SidebarHeaderChildrenFnProps<unknown>) => (

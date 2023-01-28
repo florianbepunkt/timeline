@@ -2,15 +2,6 @@ import { calculateXPositionForTime, calculateTimeForXPosition } from "../utility
 import React from "react";
 import type { TimeUnit } from "../shared-model";
 
-/* this context will hold all information regarding timeline state:
-  1. timeline width
-  2. visible time start and end
-  3. canvas time start and end
-  4. helpers for calculating left offset of items (and really...anything)
-
-  TODO: this context and the timeline context should be merged
-  TODO: a useTimeline hook should be created that ensures it is called inside a provider
-*/
 export type TimelineContext = {
   canvasTimeEnd: number;
   canvasTimeStart: number;

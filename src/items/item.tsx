@@ -249,7 +249,6 @@ export const Item = <TGroup extends TimelineGroupBase, TItem extends TimelineIte
     return;
   };
 
-  // TODO: could be optimized with React.useCallback
   const handleDragMove = (e: DragEvent) => {
     if (!dragging.current) return;
     let newDragTime = getDragTime(e);
@@ -282,7 +281,6 @@ export const Item = <TGroup extends TimelineGroupBase, TItem extends TimelineIte
     setResizeTime(0);
   };
 
-  // TODO: could be optimized with React.useCallback
   const handleResizeMove = (e: ResizeEvent) => {
     if (!resizing.current) return;
     let currentResizeEdge = resizeEdge.current;

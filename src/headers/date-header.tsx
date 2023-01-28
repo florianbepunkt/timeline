@@ -7,11 +7,9 @@ import { LocalizationContext, TimelineContext } from "../timeline";
 import memoize from "memoize-one";
 import React from "react";
 import type { IntervalRenderer } from "./interval";
-import type { SidebarHeaderChildrenFnProps } from "./sidebar-header";
 import type { TimeUnit } from "../shared-model";
 
 export type DateHeaderProps<Data> = {
-  children?: (props: SidebarHeaderChildrenFnProps<Data>) => React.ReactNode; // TODO: is this used anywhere???
   className?: string;
   headerData?: Data;
   height?: number;

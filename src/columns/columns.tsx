@@ -16,7 +16,7 @@ export type ColumnsProps = {
 };
 
 /**
- * TODO: Could be optimized with React.memo, but premature at the moment
+ * Could be optimized with React.memo, but premature at the moment
   shouldComponentUpdate(nextProps: Props) {
     return !(
       nextProps.canvasTimeEnd === this.props.canvasTimeEnd &&

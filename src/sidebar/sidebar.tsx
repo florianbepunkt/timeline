@@ -17,7 +17,7 @@ export type SidebarProps<CustomGroup extends TimelineGroupBase = TimelineGroupBa
 };
 
 /**
- * TODO: could be optimized with React.memo but seems premature at the moment
+ * Could be optimized with React.memo but seems premature at the moment
  * shouldComponentUpdate(nextProps: Readonly<SidebarProps<Group>>) {
     return !(
       nextProps.width === this.props.width &&
