@@ -1,6 +1,6 @@
 {
   "name": "@florianbepunkt/timeline",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "An event timeline for React",
   "type": "module",
   "module": "dist/index.js",
