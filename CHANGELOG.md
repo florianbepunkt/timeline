@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/florianbepunkt/timeline/compare/v1.0.1...v1.0.2) (2023-01-28)
+
+
+### Bug Fixes
+
+* release ([752a65c](https://github.com/florianbepunkt/timeline/commit/752a65c556768d49f584e4681d02bcba4b6c65db))
+
 ## [1.0.1](https://github.com/florianbepunkt/timeline/compare/v1.0.0...v1.0.1) (2023-01-28)
 
 
