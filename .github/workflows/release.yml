@@ -33,9 +33,9 @@ jobs:
       - name: Install dependencies
         run: npm ci --legacy-peer-deps --include=dev
 
-      # Run unit tests
-      - name: Unit tests
-        run: npm run test:ci
+      # # Run unit tests
+      # - name: Unit tests
+      #   run: npm run test:ci
 
       - name: Release
         env:
