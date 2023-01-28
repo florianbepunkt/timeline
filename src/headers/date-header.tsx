@@ -10,10 +10,29 @@ import type { IntervalRenderer } from "./interval";
 import type { TimeUnit } from "../shared-model";
 
 export type DateHeaderProps<Data> = {
+  /**
+   * Applied to the root of the header
+   */
   className?: string;
+
+  /**
+   * Contextual data to be passed to the item renderer as a data prop
+   */
   headerData?: Data;
+
+  /**
+   * Height of the header in pixels
+   */
   height?: number;
+
+  /**
+   * Render prop to render each interval in the header
+   */
   intervalRenderer?: (props: IntervalRenderer<Data>) => React.ReactNode;
+
+  /**
+   * Controls the how to format the interval label
+   */
   labelFormat?:
     | string
     | ((
@@ -21,7 +40,15 @@ export type DateHeaderProps<Data> = {
         unit: TimeUnit,
         labelWidth: number
       ) => string);
+
+  /**
+   * Applied to the root of the header
+   */
   style?: React.CSSProperties;
+
+  /**
+   * Intervals between columns
+   */
   unit?: TimeUnit | "primaryHeader";
 };
 

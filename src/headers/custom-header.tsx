@@ -7,9 +7,24 @@ import type { CompleteTimeSteps, TimeUnit } from "../shared-model";
 import type { GetIntervalProps, Interval } from "./interval";
 
 export type CustomHeaderProps<Data> = {
+  /**
+   * Function as a child component to render the header
+   */
   children: (props: CustomHeaderPropsChildrenFnProps<Data>) => JSX.Element;
+
+  /**
+   * Contextual data to be passed to the item renderer as a data prop
+   */
   headerData: Data;
+
+  /**
+   * Height of the header in pixels
+   */
   height?: number;
+
+  /**
+   * Intervals
+   */
   unit?: TimeUnit;
 };
 
@@ -48,6 +63,10 @@ export type CustomHeaderPropsChildrenFnProps<Data> = {
       nextProps.headerData !== this.props.headerData
     );
   }
+ */
+
+/**
+ * Responsible for rendering the headers above calendar part of the timeline. This is the base component for DateHeader and offers more control with less features.
  */
 export const CustomHeader = <Data,>({
   children,

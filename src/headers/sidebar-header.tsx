@@ -2,8 +2,19 @@ import { HeadersContext } from "./headers-context";
 import React from "react";
 
 export type SidebarHeaderProps<Data> = {
+  /**
+   * Function as a child component to render the header
+   */
   children?: (props: SidebarHeaderChildrenFnProps<Data>) => JSX.Element;
+
+  /**
+   * Contextual data to be passed to the item renderer as a data prop
+   */
   headerData?: Data;
+
+  /**
+   * Renders above the left or right sidebar
+   */
   variant?: "left" | "right";
 };
 
