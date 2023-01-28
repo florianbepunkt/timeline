@@ -1,3 +1,11 @@
+## [1.0.1](https://github.com/florianbepunkt/timeline/compare/v1.0.0...v1.0.1) (2023-01-28)
+
+
+### Bug Fixes
+
+* gh release ([8b6a38f](https://github.com/florianbepunkt/timeline/commit/8b6a38fb6ea35b7a79c15668f0bf9d6908eeb6a0))
+* gh release ([406832a](https://github.com/florianbepunkt/timeline/commit/406832ac7d8883322a9333886312b0639d71f118))
+
 # 1.0.0 (2023-01-28)
 
 
