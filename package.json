@@ -1,5 +1,5 @@
 {
-  "name": "timeline",
+  "name": "@florianbepunkt/timeline",
   "version": "1.0.0",
   "description": "An event timeline for React",
   "type": "module",
