@@ -60,11 +60,12 @@ export const IntervalComponent = <Data,>({
     }
   };
 
-  const getIntervalProps = (props: GetIntervalProps = {}) => ({
-    ..._getIntervalProps({ interval, ...props }),
-    // eslint-disable-next-line react/prop-types
-    onClick: composeEvents(onIntervalClick, props.onClick),
-  });
+  const getIntervalProps = (props: GetIntervalProps = {}) => {
+    return {
+      ..._getIntervalProps({ interval, ...props }),
+      onClick: composeEvents(onIntervalClick, props.onClick),
+    };
+  };
 
   if (intervalRenderer) {
     return (

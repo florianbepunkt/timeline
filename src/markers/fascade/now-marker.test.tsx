@@ -32,7 +32,7 @@ describe("<TodayMarker />", () => {
       return (
         <RenderWrapper>
           <button onClick={toggleTodayMarker}>Hide Today</button>
-          {isShowing && <NowMarker id="test" />}
+          {isShowing && <NowMarker id="test" date={Date.now()} />}
         </RenderWrapper>
       );
     };

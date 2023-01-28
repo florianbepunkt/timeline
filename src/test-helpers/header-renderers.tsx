@@ -163,7 +163,6 @@ export const getCustomHeadersInTimeline = ({
                   interval,
                   style: intervalStyle,
                 })}
-                key={String(interval.left)}
               >
                 <div className="sticky">{format(interval.startTime, "dd/MM/yyyy")}</div>
               </div>

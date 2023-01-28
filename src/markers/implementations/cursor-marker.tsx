@@ -46,7 +46,7 @@ export const CursorMarker: React.FC<CursorMarkerProps> = ({
         _unsubscribe.current = null;
       }
     };
-  }, [subscribeToMouseOver]);
+  }, []);
 
   if (!isShowingCursor) return null;
   const styles = createMarkerStylesWithLeftOffset(leftOffset);

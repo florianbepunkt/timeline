@@ -29,16 +29,14 @@ export const GroupRow = <TGroup extends TimelineGroupBase = TimelineGroupBase>(
     horizontalLineClassNamesForGroup,
   } = props;
 
-  const className = useMemo(
-    (): string =>
-      [
-        isEvenRow ? "rct-hl-even" : "rct-hl-odd",
-        ...((horizontalLineClassNamesForGroup !== undefined
-          ? horizontalLineClassNamesForGroup(group)
-          : undefined) ?? []),
-      ].join(" "),
-    [horizontalLineClassNamesForGroup, group, isEvenRow]
-  );
+  const className = useMemo((): string => {
+    return [
+      isEvenRow ? "rct-hl-even" : "rct-hl-odd",
+      ...((horizontalLineClassNamesForGroup !== undefined
+        ? horizontalLineClassNamesForGroup(group)
+        : undefined) ?? []),
+    ].join(" ");
+  }, [horizontalLineClassNamesForGroup, group, isEvenRow]);
 
   const onDragOver = useCallback(
     (event: React.DragEvent) => {

@@ -65,7 +65,7 @@ export const DateHeader = <Data,>({
   const { timelineUnit } = React.useContext(TimelineContext);
   const defaultFormatter = React.useCallback(
     (
-      [timeStart]: [Date | number, Date | number],
+      [timeStart, _timeEnd]: [Date | number, Date | number],
       unit: TimeUnit,
       labelWidth: number,
       formatOptions = defaultHeaderFormats

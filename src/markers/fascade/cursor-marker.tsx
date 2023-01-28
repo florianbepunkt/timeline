@@ -31,7 +31,7 @@ export const CursorMarker: React.FC<CursorMarkerProps> = ({ children, id }) => {
         _unsubscribe.current = null;
       }
     };
-  }, [children, id, subscribeMarker]);
+  }, []);
 
   return null;
 };

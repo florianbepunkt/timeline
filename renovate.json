@@ -2,13 +2,7 @@
   "additionalBranchPrefix": "{{parentDir}}-",
   "automerge": true,
   "automergeType": "branch",
-  "extends": [
-    "config:base",
-    "group:allNonMajor",
-    "schedule:monthly",
-    ":pinDependencies",
-    "group:typescript-eslintMonorepo"
-  ],
+  "extends": ["config:base", "group:allNonMajor", "schedule:monthly", ":pinDependencies"],
   "labels": ["chore", "dependencies"],
   "semanticCommits": "enabled",
   "separateMajorMinor": false,
