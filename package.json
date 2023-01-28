@@ -1,7 +1,7 @@
 {
   "name": "timeline",
   "version": "1.0.0",
-  "description": "",
+  "description": "An event timeline for React",
   "type": "module",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -21,9 +21,47 @@
     "typecheck": "tsc --noEmit",
     "typecheck:watch": "tsc --watch --noEmit"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Marius Andra <marius.andra@gmail.com>",
+  "contributors": [
+    {
+      "name": "Stanisław Chmiela",
+      "email": "sjchmiela@gmail.com"
+    },
+    {
+      "name": "Mike Joyce",
+      "url": "https://github.com/mcMickJuice"
+    },
+    {
+      "name": "Samuel Rossetti"
+    },
+    {
+      "name": "amakhrov",
+      "url": "https://github.com/amakhrov"
+    },
+    {
+      "name": "Ahmad Ilaiwi",
+      "url": "https://github.com/Ilaiwi"
+    },
+    {
+      "name": "dkarnutsch",
+      "url": "https://github.com/dkarnutsch"
+    },
+    {
+      "name": "Alex Maclean",
+      "url": "https://github.com/acemac"
+    },
+    {
+      "name": "Kevin Mann",
+      "url": "https://github.com/kevinmanncito"
+    }
+  ],
+  "license": "MIT",
+  "keywords": [
+    "react",
+    "reactjs",
+    "react-component",
+    "timeline"
+  ],
   "dependencies": {
     "classnames": "2.3.2",
     "interactjs": "1.10.17",
@@ -53,7 +91,7 @@
     "@typescript-eslint/eslint-plugin": "^5.49.0",
     "@typescript-eslint/parser": "^5.49.0",
     "@vitejs/plugin-react": "3.0.1",
-    "@vitest/coverage-c8": "0.28.2",
+    "@vitest/coverage-c8": "0.28.3",
     "date-fns": "2.29.3",
     "eslint": "8.32.0",
     "eslint-config-prettier": "8.6.0",
@@ -69,6 +107,6 @@
     "storybook": "7.0.0-beta.31",
     "typescript": "4.9.4",
     "vite": "4.0.4",
-    "vitest": "0.28.2"
+    "vitest": "0.28.3"
   }
 }
