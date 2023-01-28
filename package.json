@@ -6,8 +6,8 @@
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
-    "dist/**/*",
-    "src/**/*"
+    "dist",
+    "src"
   ],
   "scripts": {
     "build": "npx rimraf ./dist && tsc && sass src/timeline.scss dist/timeline.css",
