@@ -7,7 +7,7 @@ import type {
   TimelineItemBase,
   TimelineItemEdge,
   TimeUnit,
-} from "../../types";
+} from "../../shared-model";
 
 export type GroupOrder<TGroup extends TimelineGroupBase> = { index: number; group: TGroup };
 

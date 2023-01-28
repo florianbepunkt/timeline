@@ -8,7 +8,7 @@ import type {
   TimelineItemBase,
   TimelineItemEdge,
   TimeSteps,
-} from "../types";
+} from "../shared-model";
 import type { ItemRendererProps } from "../items";
 import type { Locale } from "date-fns";
 import type { TimelineContext } from "./timeline-context";

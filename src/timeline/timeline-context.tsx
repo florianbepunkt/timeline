@@ -1,6 +1,6 @@
 import { calculateXPositionForTime, calculateTimeForXPosition } from "../utility";
 import React from "react";
-import type { TimeUnit } from "../types";
+import type { TimeUnit } from "../shared-model";
 
 /* this context will hold all information regarding timeline state:
   1. timeline width

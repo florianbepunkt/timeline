@@ -1,6 +1,6 @@
 import { binarySearch } from "../utility/search";
 import { mapRange } from "../utility/generators";
-import type { TimelineGroupBase } from "../types";
+import type { TimelineGroupBase } from "../shared-model";
 
 /**
  * Finds the index of the first fully visible group.

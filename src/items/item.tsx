@@ -1,8 +1,8 @@
 import {
   binarySearch,
   composeEvents,
-  getSumScroll,
   getSumOffset,
+  getSumScroll,
   millisecondsInPixel,
   usePrevious,
   useRefState,
@@ -30,8 +30,7 @@ import type {
   TimelineGroupBase,
   TimelineItemBase,
   TimelineItemEdge,
-  TimelineItemProps,
-} from "../types";
+} from "../shared-model";
 import type { Dimensions, GroupOrder } from "../utility";
 
 export type ItemProps<TGroup extends TimelineGroupBase, TItem extends TimelineItemBase> = {
@@ -102,6 +101,19 @@ export type ItemContext<TGroup extends TimelineGroupBase> = {
   title: string | undefined;
   useResizeHandle: boolean;
   width: number;
+};
+
+export type TimelineItemProps = {
+  className: string;
+  key: Id;
+  onContextMenu: React.ReactEventHandler;
+  onDoubleClick: React.MouseEventHandler;
+  onMouseDown: React.MouseEventHandler;
+  onMouseUp: React.MouseEventHandler;
+  onTouchEnd: React.TouchEventHandler;
+  onTouchStart: React.TouchEventHandler;
+  ref: React.Ref<any>;
+  style: React.CSSProperties;
 };
 
 export type ItemRendererProps<TItem extends TimelineItemBase, TGroup extends TimelineGroupBase> = {

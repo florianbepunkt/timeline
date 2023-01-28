@@ -2,7 +2,7 @@ import { generateTimes, map } from "../utility";
 import { getByUnit } from "../utility/date";
 import { TimelineContext } from "../timeline";
 import React from "react";
-import type { CompleteTimeSteps, TimeUnit } from "../types";
+import type { CompleteTimeSteps, TimeUnit } from "../shared-model";
 
 export type ColumnsProps = {
   canvasTimeEnd: number;

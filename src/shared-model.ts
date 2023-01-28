@@ -1,9 +1,4 @@
-import type { TimelineContext } from "./timeline";
 import type React from "react";
-
-// TODO: this is a big ball of mud... this should be split up and colocated to where it is used
-
-type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>;
 
 export type Id = number | string;
 
@@ -119,19 +114,6 @@ export type TimelineItemBase = {
    * Title
    */
   title?: string;
-};
-
-export type TimelineItemProps = {
-  key: Id;
-  ref: React.Ref<any>;
-  className: string;
-  onMouseDown: React.MouseEventHandler;
-  onMouseUp: React.MouseEventHandler;
-  onTouchStart: React.TouchEventHandler;
-  onTouchEnd: React.TouchEventHandler;
-  onDoubleClick: React.MouseEventHandler;
-  onContextMenu: React.ReactEventHandler;
-  style: React.CSSProperties;
 };
 
 export type MoveResizeValidator<TItem extends TimelineItemBase> = (

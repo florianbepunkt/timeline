@@ -1,4 +1,4 @@
-import { Id } from "../types";
+import { Id } from "../shared-model";
 
 export type Marker = NowMarker | CursorMarker | CustomMarker;
 

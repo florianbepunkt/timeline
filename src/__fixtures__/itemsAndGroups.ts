@@ -1,4 +1,4 @@
-import type { TimelineGroupBase, TimelineItemBase } from "../types";
+import type { TimelineGroupBase, TimelineItemBase } from "../shared-model";
 
 export const items: TimelineItemBase[] = [
   {

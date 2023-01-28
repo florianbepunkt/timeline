@@ -4,7 +4,7 @@ import { HeadersProviderProps } from "../headers/headers-context";
 import { render } from "@testing-library/react";
 import { RenderHeadersWrapper } from "./header-renderer";
 import { TimelineProviderProps } from "../timeline/timeline-context";
-import { TimeUnit } from "../types";
+import { TimeUnit } from "../shared-model";
 
 export const renderSidebarHeaderWithCustomValues = ({
   extraProps,

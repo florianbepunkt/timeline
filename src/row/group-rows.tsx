@@ -1,7 +1,7 @@
 import { GroupRow } from "./group-row";
 import { mapRange } from "../utility/generators";
 import React, { Component } from "react";
-import type { TimelineGroupBase } from "../types";
+import type { TimelineGroupBase } from "../shared-model";
 
 export type GroupRowsProps<TGroup extends TimelineGroupBase = TimelineGroupBase> = {
   canvasWidth: number;

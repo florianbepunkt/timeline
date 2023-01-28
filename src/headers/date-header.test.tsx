@@ -6,7 +6,7 @@ import { RenderHeadersWrapper } from "../test-helpers";
 import { SidebarHeader } from "./sidebar-header";
 import { TimelineHeaders } from "./timeline-headers";
 import type { IntervalRenderer } from "./interval";
-import type { TimeUnit } from "../types";
+import type { TimeUnit } from "../shared-model";
 import userEvent from "@testing-library/user-event";
 
 describe("<DateHeader />", () => {

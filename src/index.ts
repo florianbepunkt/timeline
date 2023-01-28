@@ -12,4 +12,4 @@ export type {
   TimelineGroupBase,
   TimelineItemBase,
   TimeUnit,
-} from "./types";
+} from "./shared-model";

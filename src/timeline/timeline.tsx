@@ -35,7 +35,7 @@ import type {
   TimelineItemBase,
   TimelineItemEdge,
   TimeUnit,
-} from "../types";
+} from "../shared-model";
 import { TimelineProps } from "./props";
 
 type ReactNodeWithPossibleTypeAndSecretKey = React.ReactNode & { type?: { secretKey?: unknown } };

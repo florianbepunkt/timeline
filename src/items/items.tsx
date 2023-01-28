@@ -10,7 +10,7 @@ import type {
   TimelineGroupBase,
   TimelineItemBase,
   TimelineItemEdge,
-} from "../types";
+} from "../shared-model";
 import type { ItemDimensions } from "../utility/calendar";
 
 type ItemsProps<TGroup extends TimelineGroupBase, TItem extends TimelineItemBase> = {

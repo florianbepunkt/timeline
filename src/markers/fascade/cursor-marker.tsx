@@ -1,6 +1,6 @@
 import { MarkersContext } from "../markers-context";
 import React from "react";
-import type { Id } from "../../types";
+import type { Id } from "../../shared-model";
 import type { MarkerRenderer } from "../model";
 
 export type CursorMarkerProps = {

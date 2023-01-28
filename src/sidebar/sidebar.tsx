@@ -1,5 +1,5 @@
 import React from "react";
-import type { TimelineGroupBase } from "../types";
+import type { TimelineGroupBase } from "../shared-model";
 
 export type GroupRendererProps<CustomGroup extends TimelineGroupBase> = {
   group: CustomGroup;

@@ -3,7 +3,7 @@ import { iterateTimes } from "../utility";
 import { TimelineContext } from "../timeline";
 import memoize from "memoize-one";
 import React from "react";
-import type { CompleteTimeSteps, TimeUnit } from "../types";
+import type { CompleteTimeSteps, TimeUnit } from "../shared-model";
 import type { GetIntervalProps, Interval } from "./interval";
 
 export type CustomHeaderProps<Data> = {

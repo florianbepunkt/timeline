@@ -1,7 +1,7 @@
 import { GetIntervalProps, IntervalComponent, IntervalRenderer } from "./interval";
 import React from "react";
 import type { HeaderContext } from "./custom-header";
-import type { TimeUnit } from "../types";
+import type { TimeUnit } from "../shared-model";
 
 type HeaderData<Data> = {
   getLabelFormat: (
