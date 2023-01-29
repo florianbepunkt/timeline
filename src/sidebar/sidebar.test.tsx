@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, test } from "vitest";
 import { cleanup, render } from "@testing-library/react";
-import { Sidebar, SidebarProps } from "./sidebar";
+import { Sidebar, SidebarProps } from "./sidebar.js";
 
 const makeSut = (props: Partial<SidebarProps> = {}) => {
   const defaultProps: SidebarProps = {

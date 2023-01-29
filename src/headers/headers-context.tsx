@@ -1,6 +1,6 @@
-import { noop } from "../utility/generic";
+import { noop } from "../utility/generic.js";
 import React from "react";
-import type { TimeSteps } from "../shared-model";
+import type { TimeSteps } from "../shared-model.js";
 
 export type HeadersContext = {
   leftSidebarWidth: number;

@@ -1,1 +1,1 @@
-export { PreventClickOnDrag } from "./prevent-click-on-drag";
+export { PreventClickOnDrag } from "./prevent-click-on-drag.js";

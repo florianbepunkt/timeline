@@ -1,7 +1,7 @@
-import { createDefaultRenderer, createMarkerStylesWithLeftOffset } from "./shared";
-import { MarkerCanvasContext } from "../marker-canvas-context";
+import { createDefaultRenderer, createMarkerStylesWithLeftOffset } from "./shared.js";
+import { MarkerCanvasContext } from "../marker-canvas-context.js";
 import React from "react";
-import type { MarkerRenderer } from "../model";
+import type { MarkerRenderer } from "../model.js";
 
 export type CursorMarkerProps = { renderer?: MarkerRenderer };
 

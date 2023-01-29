@@ -1,6 +1,6 @@
-import { getGroupOrders, getVisibleItems } from "../utility/calendar";
-import { Item, ItemRendererProps } from "./item";
-import { keyBy } from "../utility/generic";
+import { getGroupOrders, getVisibleItems } from "../utility/calendar/index.js";
+import { Item, ItemRendererProps } from "./item.js";
+import { keyBy } from "../utility/generic.js";
 import React from "react";
 import type {
   ClickType,
@@ -10,8 +10,8 @@ import type {
   TimelineGroupBase,
   TimelineItemBase,
   TimelineItemEdge,
-} from "../shared-model";
-import type { ItemDimensions } from "../utility/calendar";
+} from "../shared-model.js";
+import type { ItemDimensions } from "../utility/calendar/index.js";
 
 type ItemsProps<TGroup extends TimelineGroupBase, TItem extends TimelineItemBase> = {
   canChangeGroup: boolean;

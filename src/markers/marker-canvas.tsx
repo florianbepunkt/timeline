@@ -1,8 +1,8 @@
-import { MarkerCanvasContext } from "./marker-canvas-context";
-import { MarkersRenderer } from "./markers-renderer";
-import { TimelineContext } from "../timeline";
+import { MarkerCanvasContext } from "./marker-canvas-context.js";
+import { MarkersRenderer } from "./markers-renderer.js";
+import { TimelineContext } from "../timeline/index.js";
 import React from "react";
-import type { SubscriptionCallback } from "./model";
+import type { SubscriptionCallback } from "./model.js";
 
 export type MarkerCanvasProps = { children: React.ReactNode | React.ReactNode[] };
 

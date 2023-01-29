@@ -1,7 +1,7 @@
-export { binarySearch } from "./search";
-export { composeEvents } from "./events";
-export { getSumScroll, getSumOffset } from "./dom-helpers";
-export { map } from "./generators";
-export { usePrevious } from "./use-previous";
-export { useRefState } from "./use-ref-state";
-export * from "./calendar/index";
+export { binarySearch } from "./search.js";
+export { composeEvents } from "./events.js";
+export { getSumScroll, getSumOffset } from "./dom-helpers.js";
+export { map } from "./generators.js";
+export { usePrevious } from "./use-previous.js";
+export { useRefState } from "./use-ref-state.js";
+export * from "./calendar/index.js";

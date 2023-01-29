@@ -1,7 +1,7 @@
-import { defaultTimeSteps } from "../default-config";
-import { HeadersProviderProps, HeadersProvider } from "../headers/headers-context";
-import { state } from "../__fixtures__/stateAndProps";
-import { TimelineProvider, TimelineProviderProps } from "../timeline/timeline-context";
+import { defaultTimeSteps } from "../default-config.js";
+import { HeadersProviderProps, HeadersProvider } from "../headers/headers-context.js";
+import { state } from "../__fixtures__/stateAndProps.js";
+import { TimelineProvider, TimelineProviderProps } from "../timeline/timeline-context.js";
 import React from "react";
 
 // eslint-disable-next-line

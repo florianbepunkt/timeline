@@ -1,13 +1,13 @@
 import { afterEach, describe, expect, test } from "vitest";
 import { cleanup, render } from "@testing-library/react";
-import { DateHeader } from "./date-header";
+import { DateHeader } from "./date-header.js";
 import {
   RenderHeadersWrapper,
   renderSidebarHeaderWithCustomValues,
   renderTimelineWithLeftAndRightSidebar,
-} from "../test-helpers";
-import { SidebarHeader } from "./sidebar-header";
-import { TimelineHeaders } from "./timeline-headers";
+} from "../test-helpers/index.js";
+import { SidebarHeader } from "./sidebar-header.js";
+import { TimelineHeaders } from "./timeline-headers.js";
 
 describe("<TimelineHeader />", () => {
   afterEach(cleanup);

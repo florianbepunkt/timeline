@@ -1,8 +1,8 @@
 import { beforeAll, describe, expect, test, vi } from "vitest";
-import { noop } from "../test-helpers";
+import { noop } from "../test-helpers/index.js";
 import { render } from "@testing-library/react";
-import { Timeline } from "./timeline";
-import { visibleTimeStart, visibleTimeEnd } from "../__fixtures__/stateAndProps";
+import { Timeline } from "./timeline.js";
+import { visibleTimeStart, visibleTimeEnd } from "../__fixtures__/stateAndProps.js";
 
 describe("<Timeline />", () => {
   beforeAll(() => {

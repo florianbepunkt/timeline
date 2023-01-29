@@ -1,1 +1,1 @@
-export { GroupRows } from "./group-rows"
+export { GroupRows } from "./group-rows.js"

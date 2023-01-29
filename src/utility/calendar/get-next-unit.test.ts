@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { getNextUnit } from "./calendar";
+import { getNextUnit } from "./calendar.js";
 
 //what value do these tests have? :)
 describe("getNextUnit", () => {

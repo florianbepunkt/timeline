@@ -1,10 +1,10 @@
-import { CustomHeader, DateHeader, SidebarHeader, TimelineHeaders } from "../headers";
+import { CustomHeader, DateHeader, SidebarHeader, TimelineHeaders } from "../headers/index.js";
 import { format } from "date-fns";
-import { HeadersProviderProps } from "../headers/headers-context";
+import { HeadersProviderProps } from "../headers/headers-context.js";
 import { render } from "@testing-library/react";
-import { RenderHeadersWrapper } from "./header-renderer";
-import { TimelineProviderProps } from "../timeline/timeline-context";
-import { TimeUnit } from "../shared-model";
+import { RenderHeadersWrapper } from "./header-renderer.js";
+import { TimelineProviderProps } from "../timeline/timeline-context.js";
+import { TimeUnit } from "../shared-model.js";
 
 export const renderSidebarHeaderWithCustomValues = <HeaderData extends Record<string, unknown>>({
   headerData,

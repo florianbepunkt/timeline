@@ -1,5 +1,5 @@
 import { addDays, startOfDay } from "date-fns";
-import { calculateXPositionForTime } from "./calendar";
+import { calculateXPositionForTime } from "./calendar.js";
 import { describe, expect, test } from "vitest";
 
 describe("calculateXPositionForTime", () => {

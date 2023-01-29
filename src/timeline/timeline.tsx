@@ -7,24 +7,24 @@ import {
   getMinUnit,
   ItemDimensions,
   stackTimelineItems,
-} from "../utility/calendar";
+} from "../utility/calendar/index.js";
 import {
   calculateVisibleGroups,
   findFirstFullyVisibleGroupIndex,
   getNewVerticalCanvasDimensions,
   needNewVerticalCanvas,
-} from "./virtualization";
-import { Columns } from "../columns";
-import { DateHeader, TimelineHeaders, HeadersProvider } from "../headers";
-import { defaultTimeSteps } from "../default-config";
-import { GroupRows } from "../row";
+} from "./virtualization.js";
+import { Columns } from "../columns/index.js";
+import { DateHeader, TimelineHeaders, HeadersProvider } from "../headers/index.js";
+import { defaultTimeSteps } from "../default-config.js";
+import { GroupRows } from "../row/index.js";
 import { isEqual } from "lodash-es";
-import { Items } from "../items";
-import { LocalizationContext } from "./localization";
-import { MarkerCanvas, MarkersProvider } from "../markers";
-import { ScrollElement } from "../scroll";
-import { Sidebar } from "../sidebar";
-import { TimelineProvider } from "./timeline-context";
+import { Items } from "../items/index.js";
+import { LocalizationContext } from "./localization.js";
+import { MarkerCanvas, MarkersProvider } from "../markers/index.js";
+import { ScrollElement } from "../scroll/index.js";
+import { Sidebar } from "../sidebar/index.js";
+import { TimelineProvider } from "./timeline-context.js";
 import React, { Component } from "react";
 import type {
   ClickType,
@@ -35,8 +35,8 @@ import type {
   TimelineItemBase,
   TimelineItemEdge,
   TimeUnit,
-} from "../shared-model";
-import { TimelineProps } from "./props";
+} from "../shared-model.js";
+import { TimelineProps } from "./props.js";
 
 type ReactNodeWithPossibleTypeAndSecretKey = React.ReactNode & { type?: { secretKey?: unknown } };
 type ReactElementWithPossibleTypeAndSecretKey = React.ReactElement & { type?: { secretKey?: unknown } };

@@ -1,5 +1,5 @@
 import React from "react";
-import type { GroupRendererProps } from "../sidebar";
+import type { GroupRendererProps } from "../sidebar/index.js";
 import type {
   Id,
   MoveResizeValidator,
@@ -8,10 +8,10 @@ import type {
   TimelineItemBase,
   TimelineItemEdge,
   TimeSteps,
-} from "../shared-model";
-import type { ItemRendererProps } from "../items";
+} from "../shared-model.js";
+import type { ItemRendererProps } from "../items/index.js";
 import type { Locale } from "date-fns";
-import type { TimelineContext } from "./timeline-context";
+import type { TimelineContext } from "./timeline-context.js";
 
 export type TimelineProps<
   CustomItem extends TimelineItemBase = TimelineItemBase,

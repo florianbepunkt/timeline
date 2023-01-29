@@ -1,1 +1,1 @@
-export { ScrollElement } from "./scroll-element";
+export { ScrollElement } from "./scroll-element.js";

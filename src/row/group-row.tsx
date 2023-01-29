@@ -1,6 +1,6 @@
-import { PreventClickOnDrag } from "../interaction";
+import { PreventClickOnDrag } from "../interaction/index.js";
 import React, { useCallback, useMemo } from "react";
-import type { TimelineGroupBase } from "../shared-model";
+import type { TimelineGroupBase } from "../shared-model.js";
 
 export type GroupRowProps<TGroup extends TimelineGroupBase = TimelineGroupBase> = {
   clickTolerance: number;

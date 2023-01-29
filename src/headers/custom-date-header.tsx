@@ -1,7 +1,7 @@
-import { GetIntervalProps, IntervalComponent, IntervalRenderer } from "./interval";
+import { GetIntervalProps, IntervalComponent, IntervalRenderer } from "./interval.js";
 import React from "react";
-import type { HeaderContext } from "./custom-header";
-import type { TimeUnit } from "../shared-model";
+import type { HeaderContext } from "./custom-header.js";
+import type { TimeUnit } from "../shared-model.js";
 
 type HeaderData<Data> = {
   getLabelFormat: (

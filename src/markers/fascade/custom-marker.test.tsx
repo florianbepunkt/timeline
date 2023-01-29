@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, test } from "vitest";
 import { cleanup, render, fireEvent } from "@testing-library/react";
-import { CustomMarker } from "./custom-marker";
-import { RenderWrapper } from "../../test-helpers";
+import { CustomMarker } from "./custom-marker.js";
+import { RenderWrapper } from "../../test-helpers/index.js";
 import React from "react";
 
 describe("<CustomMarker />", () => {

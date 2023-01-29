@@ -1,5 +1,5 @@
 import React from "react";
-import type { SubscriptionCallback } from "./model";
+import type { SubscriptionCallback } from "./model.js";
 
 export type MarkerCanvasContext = {
   subscribeToMouseOver: (callback: SubscriptionCallback) => () => void;

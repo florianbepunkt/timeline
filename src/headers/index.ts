@@ -1,5 +1,5 @@
-export { CustomHeader } from "./custom-header";
-export { DateHeader } from "./date-header";
-export { HeadersContext, HeadersProvider } from "./headers-context";
-export { SidebarHeader } from "./sidebar-header";
-export { TimelineHeaders } from "./timeline-headers";
+export { CustomHeader } from "./custom-header.js";
+export { DateHeader } from "./date-header.js";
+export { HeadersContext, HeadersProvider } from "./headers-context.js";
+export { SidebarHeader } from "./sidebar-header.js";
+export { TimelineHeaders } from "./timeline-headers.js";

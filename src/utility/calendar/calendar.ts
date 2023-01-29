@@ -1,4 +1,4 @@
-import { addByUnit, getByUnit, setByUnit, startOf } from "../date";
+import { addByUnit, getByUnit, setByUnit, startOf } from "../date.js";
 import type {
   CompleteTimeSteps,
   Id,
@@ -7,7 +7,7 @@ import type {
   TimelineItemBase,
   TimelineItemEdge,
   TimeUnit,
-} from "../../shared-model";
+} from "../../shared-model.js";
 
 export type GroupOrder<TGroup extends TimelineGroupBase> = { index: number; group: TGroup };
 

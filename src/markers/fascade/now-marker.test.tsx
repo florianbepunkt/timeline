@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, test, vi } from "vitest";
 import { cleanup, render, fireEvent } from "@testing-library/react";
-import { RenderWrapper } from "../../test-helpers";
-import { NowMarker, NowMarkerProps } from "./now-marker";
+import { RenderWrapper } from "../../test-helpers/index.js";
+import { NowMarker, NowMarkerProps } from "./now-marker.js";
 import React from "react";
 
 const makeSut = (props: Partial<NowMarkerProps> = {}) => {

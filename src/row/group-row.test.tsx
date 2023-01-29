@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, test, vi } from "vitest";
 import { cleanup, fireEvent, render } from "@testing-library/react";
-import { GroupRow, GroupRowProps } from "./group-row";
-import { noop } from "../test-helpers";
+import { GroupRow, GroupRowProps } from "./group-row.js";
+import { noop } from "../test-helpers/index.js";
 import userEvent from "@testing-library/user-event";
 
 const makeSut = (props: Partial<GroupRowProps> = {}) => {

@@ -1,11 +1,15 @@
 import { afterEach, describe, expect, test, vi } from "vitest";
 import { cleanup, render } from "@testing-library/react";
-import { CustomHeader, CustomHeaderPropsChildrenFnProps } from "./custom-header";
-import { DateHeader } from "./date-header";
+import { CustomHeader, CustomHeaderPropsChildrenFnProps } from "./custom-header.js";
+import { DateHeader } from "./date-header.js";
 import { differenceInMonths, format, parse, parseISO } from "date-fns";
-import { getCustomHeadersInTimeline, RenderHeadersWrapper, parsePxToNumbers } from "../test-helpers";
-import { SidebarHeader } from "./sidebar-header";
-import { TimelineHeaders } from "./timeline-headers";
+import {
+  getCustomHeadersInTimeline,
+  RenderHeadersWrapper,
+  parsePxToNumbers,
+} from "../test-helpers/index.js";
+import { SidebarHeader } from "./sidebar-header.js";
+import { TimelineHeaders } from "./timeline-headers.js";
 
 describe("<CustomHeader />", () => {
   afterEach(cleanup);

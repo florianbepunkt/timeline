@@ -1,6 +1,6 @@
-import { defaultTimeSteps } from "../../default-config";
+import { defaultTimeSteps } from "../../default-config.js";
 import { describe, expect, test } from "vitest";
-import { getMinUnit } from "./calendar";
+import { getMinUnit } from "./calendar.js";
 
 describe("getMinUnit", () => {
   // this is the happy path and used as safety net if we make any refactorings

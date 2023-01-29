@@ -1,7 +1,7 @@
 import { describe, expect, test, vi } from "vitest";
 import { fireEvent, render } from "@testing-library/react";
-import { noop } from "../test-helpers";
-import { PreventClickOnDrag, PreventClickOnDragProps } from "./prevent-click-on-drag";
+import { noop } from "../test-helpers/index.js";
+import { PreventClickOnDrag, PreventClickOnDragProps } from "./prevent-click-on-drag.js";
 import React from "react";
 import userEvent from "@testing-library/user-event";
 

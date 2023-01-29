@@ -1,4 +1,4 @@
-import { HeadersContext } from "./headers-context";
+import { HeadersContext } from "./headers-context.js";
 import React from "react";
 
 export type SidebarHeaderProps<Data> = {

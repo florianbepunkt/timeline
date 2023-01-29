@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { items, groups } from "../../__fixtures__/itemsAndGroups";
+import { items, groups } from "../../__fixtures__/itemsAndGroups.js";
 import {
   props,
   propsNoStack,
@@ -7,9 +7,9 @@ import {
   stateMoveItem,
   stateResizeItemLeft,
   stateResizeItemRight,
-} from "../../__fixtures__/stateAndProps";
-import { stackTimelineItems } from "./calendar";
-import type { TimelineItemEdge } from "../../types";
+} from "../../__fixtures__/stateAndProps.js";
+import { stackTimelineItems } from "./calendar.js";
+import type { TimelineItemEdge } from "../../shared-model.js";
 
 describe("stackItems", () => {
   test("work as expected", () => {

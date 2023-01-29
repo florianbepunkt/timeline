@@ -1,10 +1,10 @@
-import { HeadersContext } from "./headers-context";
-import { iterateTimes } from "../utility";
-import { TimelineContext } from "../timeline";
+import { HeadersContext } from "./headers-context.js";
+import { iterateTimes } from "../utility/index.js";
+import { TimelineContext } from "../timeline/index.js";
 import memoize from "memoize-one";
 import React from "react";
-import type { CompleteTimeSteps, TimeUnit } from "../shared-model";
-import type { GetIntervalProps, Interval } from "./interval";
+import type { CompleteTimeSteps, TimeUnit } from "../shared-model.js";
+import type { GetIntervalProps, Interval } from "./interval.js";
 
 export type CustomHeaderProps<Data> = {
   /**

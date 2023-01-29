@@ -1,7 +1,7 @@
-import { composeEvents } from "../utility/events";
-import { endOf, startOf } from "../utility/date";
-import { getNextUnit } from "../utility/calendar";
-import { TimeUnit } from "../shared-model";
+import { composeEvents } from "../utility/events.js";
+import { endOf, startOf } from "../utility/date.js";
+import { getNextUnit } from "../utility/calendar/index.js";
+import { TimeUnit } from "../shared-model.js";
 import React from "react";
 
 export type Interval = {

@@ -1,4 +1,4 @@
-import { CompleteTimeSteps } from "./shared-model";
+import { CompleteTimeSteps } from "./shared-model.js";
 
 export const defaultTimeSteps: CompleteTimeSteps = {
   second: 1,

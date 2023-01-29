@@ -1,7 +1,7 @@
-import { calculateScrollCanvas } from "./calendar";
+import { calculateScrollCanvas } from "./calendar.js";
 import { describe, expect, test } from "vitest";
-import { items, groups } from "../../__fixtures__/itemsAndGroups";
-import { props, state, visibleTimeStart, visibleTimeEnd } from "../../__fixtures__/stateAndProps";
+import { items, groups } from "../../__fixtures__/itemsAndGroups.js";
+import { props, state, visibleTimeStart, visibleTimeEnd } from "../../__fixtures__/stateAndProps.js";
 
 describe("calculateScrollCanvas", () => {
   test("should calculate new scroll state", () => {

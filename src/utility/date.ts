@@ -36,7 +36,7 @@ import {
   startOfYear,
 } from "date-fns";
 import { match } from "ts-pattern";
-import type { TimeUnit } from "../shared-model";
+import type { TimeUnit } from "../shared-model.js";
 
 export const addByUnit = (date: Date | number, unit: TimeUnit, value: number) =>
   match(unit)

@@ -1,1 +1,1 @@
-export { Columns } from "./columns";
+export { Columns } from "./columns.js";

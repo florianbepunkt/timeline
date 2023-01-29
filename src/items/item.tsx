@@ -6,8 +6,8 @@ import {
   millisecondsInPixel,
   usePrevious,
   useRefState,
-} from "../utility";
-import { defaultItemRenderer } from "./default-item-renderer";
+} from "../utility/index.js";
+import { defaultItemRenderer } from "./default-item-renderer.js";
 import { DragEvent, ResizeEvent, PointerEvent } from "@interactjs/types";
 import {
   leftResizeStyle,
@@ -19,8 +19,8 @@ import {
   selectedAndCanResizeRight,
   selectedAndCanResizeRightAndDragRight,
   selectedStyle,
-} from "./styles";
-import { TimelineContext } from "../timeline";
+} from "./styles.js";
+import { TimelineContext } from "../timeline/index.js";
 import interact from "interactjs";
 import React from "react";
 import type {
@@ -30,8 +30,8 @@ import type {
   TimelineGroupBase,
   TimelineItemBase,
   TimelineItemEdge,
-} from "../shared-model";
-import type { Dimensions, GroupOrder } from "../utility";
+} from "../shared-model.js";
+import type { Dimensions, GroupOrder } from "../utility/index.js";
 
 export type ItemProps<TGroup extends TimelineGroupBase, TItem extends TimelineItemBase> = {
   canChangeGroup: boolean;

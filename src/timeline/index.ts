@@ -1,4 +1,4 @@
-export { LocalizationContext } from "./localization";
-export { Timeline } from "./timeline";
-export { TimelineContext } from "./timeline-context";
-export type { TimelineProps } from "./props";
+export { LocalizationContext } from "./localization.js";
+export { Timeline } from "./timeline.js";
+export { TimelineContext } from "./timeline-context.js";
+export type { TimelineProps } from "./props.js";

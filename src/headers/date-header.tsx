@@ -1,13 +1,13 @@
-import { CustomDateHeader } from "./custom-date-header";
-import { CustomHeader } from "./custom-header";
-import { defaultHeaderFormats } from "../default-config";
+import { CustomDateHeader } from "./custom-date-header.js";
+import { CustomHeader } from "./custom-header.js";
+import { defaultHeaderFormats } from "../default-config.js";
 import { format } from "date-fns";
-import { getNextUnit } from "../utility/calendar";
-import { LocalizationContext, TimelineContext } from "../timeline";
+import { getNextUnit } from "../utility/calendar/index.js";
+import { LocalizationContext, TimelineContext } from "../timeline/index.js";
 import memoize from "memoize-one";
 import React from "react";
-import type { IntervalRenderer } from "./interval";
-import type { TimeUnit } from "../shared-model";
+import type { IntervalRenderer } from "./interval.js";
+import type { TimeUnit } from "../shared-model.js";
 
 export type DateHeaderProps<Data> = {
   /**

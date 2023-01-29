@@ -1,5 +1,5 @@
 import React from "react";
-import type { Marker } from "./model";
+import type { Marker } from "./model.js";
 
 export type MarkersContext = {
   markers: Marker[];

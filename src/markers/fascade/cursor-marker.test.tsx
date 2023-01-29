@@ -1,8 +1,8 @@
 import { act, cleanup, render } from "@testing-library/react";
 import { afterEach, describe, expect, test, vi } from "vitest";
-import { CursorMarker } from "./cursor-marker";
-import { MarkerCanvasContext } from "../marker-canvas-context";
-import { RenderWrapper } from "../../test-helpers";
+import { CursorMarker } from "./cursor-marker.js";
+import { MarkerCanvasContext } from "../marker-canvas-context.js";
+import { RenderWrapper } from "../../test-helpers/index.js";
 import React from "react";
 import userEvent from "@testing-library/user-event";
 

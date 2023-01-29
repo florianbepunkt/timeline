@@ -1,5 +1,5 @@
-import type { ItemContext, ItemRendererResizeProps, ResizeStyles, TimelineItemProps } from "./item";
-import type { TimelineGroupBase, TimelineItemBase } from "../shared-model";
+import type { ItemContext, ItemRendererResizeProps, ResizeStyles, TimelineItemProps } from "./item.js";
+import type { TimelineGroupBase, TimelineItemBase } from "../shared-model.js";
 
 type DefaultItemRendererProps<TGroup extends TimelineGroupBase, TItem extends TimelineItemBase> = {
   item: TItem;

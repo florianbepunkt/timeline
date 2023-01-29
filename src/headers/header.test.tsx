@@ -1,9 +1,8 @@
 import { afterEach, beforeAll, describe, expect, test } from "vitest";
 import { cleanup, render } from "@testing-library/react";
-import { items, groups } from "../__fixtures__/itemsAndGroups";
-import { props as defaultProps } from "../__fixtures__/stateAndProps";
-import { Timeline } from "../timeline";
-import { TimelineProps } from "../timeline/props";
+import { items, groups } from "../__fixtures__/itemsAndGroups.js";
+import { props as defaultProps } from "../__fixtures__/stateAndProps.js";
+import { Timeline, TimelineProps } from "../timeline/index.js";
 
 const makeSut = (props: Partial<TimelineProps> = {}) => {
   return [render(<Timeline {...defaultProps} items={items} groups={groups} {...props} />)] as const;

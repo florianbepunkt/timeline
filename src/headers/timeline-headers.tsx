@@ -1,5 +1,5 @@
-import { HeadersContext } from "./headers-context";
-import { SidebarHeader } from "./sidebar-header";
+import { HeadersContext } from "./headers-context.js";
+import { SidebarHeader } from "./sidebar-header.js";
 import classNames from "classnames";
 import React from "react";
 

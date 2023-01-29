@@ -1,9 +1,9 @@
-import { CursorMarker } from "./implementations/cursor-marker";
-import { CustomMarker } from "./implementations/custom-marker";
-import { MarkersContext } from "./markers-context";
+import { CursorMarker } from "./implementations/cursor-marker.js";
+import { CustomMarker } from "./implementations/custom-marker.js";
+import { MarkersContext } from "./markers-context.js";
 import { match } from "ts-pattern";
-import { TimelineContext } from "../timeline/timeline-context";
-import { NowMarker } from "./implementations/now-marker";
+import { TimelineContext } from "../timeline/timeline-context.js";
+import { NowMarker } from "./implementations/now-marker.js";
 import React from "react";
 
 /**

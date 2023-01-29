@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, test } from "vitest";
 import { cleanup, render } from "@testing-library/react";
-import { GroupRows, GroupRowsProps } from "./group-rows";
-import { noop } from "../test-helpers";
+import { GroupRows, GroupRowsProps } from "./group-rows.js";
+import { noop } from "../test-helpers/index.js";
 
 const makeSut = (props: Partial<GroupRowsProps> = {}) => {
   const defaultProps: GroupRowsProps = {

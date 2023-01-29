@@ -1,6 +1,6 @@
-import { calculateXPositionForTime, calculateTimeForXPosition } from "../utility";
+import { calculateXPositionForTime, calculateTimeForXPosition } from "../utility/index.js";
 import React from "react";
-import type { TimeUnit } from "../shared-model";
+import type { TimeUnit } from "../shared-model.js";
 
 export type TimelineContext = {
   canvasTimeEnd: number;

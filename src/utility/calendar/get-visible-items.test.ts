@@ -1,6 +1,6 @@
 import { addDays, addMinutes } from "date-fns";
 import { describe, expect, test } from "vitest";
-import { getGroupOrders, getVisibleItems } from "./calendar";
+import { getGroupOrders, getVisibleItems } from "./calendar.js";
 
 const itemTimeEndKey = "endTime" as const;
 const itemTimeStartKey = "startTime" as const;

@@ -1,5 +1,5 @@
 import { addHours } from "date-fns";
-import { calculateTimeForXPosition } from "./calendar";
+import { calculateTimeForXPosition } from "./calendar.js";
 import { describe, expect, test } from "vitest";
 import { parseISO } from "date-fns";
 

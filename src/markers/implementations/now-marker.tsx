@@ -1,6 +1,6 @@
-import { createDefaultRenderer, createMarkerStylesWithLeftOffset } from "./shared";
+import { createDefaultRenderer, createMarkerStylesWithLeftOffset } from "./shared.js";
 import React from "react";
-import type { MarkerRenderer } from "../model";
+import type { MarkerRenderer } from "../model.js";
 
 type NowMarkerProps = {
   getLeftOffsetFromDate: (date: number) => number;
