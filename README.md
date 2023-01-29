@@ -6,6 +6,10 @@ This package is not production ready. It is a fork of react-calendar-timeline th
 
 Released package are preliminary for testing purposes.
 
+## ESM
+
+This module is ESM only.
+
 ## Demo
 
 Clone the repo, run `npm install` and then run Storybook with `npm run storybook`.
