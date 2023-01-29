@@ -1,7 +1,7 @@
 import "../src/timeline.scss";
 import { de } from "date-fns/locale";
-import { makeDemoData } from "./make-demo-data";
-import { Timeline } from "../src";
+import { makeDemoData } from "./make-demo-data.js";
+import { Timeline } from "../src/index.js";
 import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 

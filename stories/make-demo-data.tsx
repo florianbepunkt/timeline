@@ -1,5 +1,5 @@
 import { addHours } from "date-fns";
-import type { TimelineGroupBase, TimelineItemBase } from "../src/types";
+import type { TimelineGroupBase, TimelineItemBase } from "../src/shared-model.js";
 
 type RelativeTimeWindow = {
   startOffset: number;

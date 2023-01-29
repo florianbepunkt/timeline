@@ -1,5 +1,13 @@
+# Bugs
+
+- css bug item title overflow []
+- bug: items not visible initially (not in stories, but when importing / using package) []
+- bug: stories in safari do not render timeline at correct position (defaultStart / defaultEnd), Chrome is ok []
+
 # TODO
 
+- css design []
+- header... primary should be a flag not a unit, semantics matter []
 - dissolve \_\_fixtures\_\_ folder []
 - refactor timeline as functional ... end boss style []
 - refactor scroll/ScrollElement as functional (naah, we need to fix the test first) []

@@ -1,12 +1,12 @@
 import "../src/timeline.scss";
-import { makeDemoData } from "./make-demo-data";
+import { makeDemoData } from "./make-demo-data.js";
 import {
   CustomHeader as CustomHeaderComponent,
   DateHeader as DateHeaderComponent,
   SidebarHeader as SidebarHeaderComponent,
   Timeline,
   TimelineHeaders,
-} from "../src";
+} from "../src/index.js";
 import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 

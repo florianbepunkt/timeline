@@ -5,8 +5,8 @@ import {
   CustomMarker as CustomMarkerComponent,
   Timeline,
   NowMarker as NowMarkerComponent,
-} from "../src/index";
-import { makeDemoData } from "./make-demo-data";
+} from "../src/index.js";
+import { makeDemoData } from "./make-demo-data.js";
 import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 

@@ -1,6 +1,6 @@
 import "../src/timeline.scss";
-import { makeDemoData } from "./make-demo-data";
-import { Id, Timeline } from "../src";
+import { makeDemoData } from "./make-demo-data.js";
+import { Id, Timeline } from "../src/index.js";
 import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 
