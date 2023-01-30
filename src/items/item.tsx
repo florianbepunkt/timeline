@@ -456,6 +456,7 @@ export const Item = <TGroup extends TimelineGroupBase, TItem extends TimelineIte
       width: `${dimensions.width}px`,
       height: `${dimensions.height}px`,
       lineHeight: `${dimensions.height}px`,
+      overflow: "hidden"
     };
 
     return Object.assign(

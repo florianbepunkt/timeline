@@ -1,6 +1,6 @@
 # Bugs
 
-- css bug item title overflow []
+- css bug item title overflow [x]
 - bug: items not visible initially (not in stories, but when importing / using package) []
 - bug: stories in safari do not render timeline at correct position (defaultStart / defaultEnd), Chrome is ok []
 
