@@ -1,3 +1,10 @@
+## [1.0.5](https://github.com/florianbepunkt/timeline/compare/v1.0.4...v1.0.5) (2023-01-30)
+
+
+### Bug Fixes
+
+* css bug item title overflow ([8f6069e](https://github.com/florianbepunkt/timeline/commit/8f6069ed9899d1ca9e30035e9a878db3ae253eac))
+
 ## [1.0.4](https://github.com/florianbepunkt/timeline/compare/v1.0.3...v1.0.4) (2023-01-29)
 
 
