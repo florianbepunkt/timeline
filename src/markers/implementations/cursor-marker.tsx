@@ -16,7 +16,7 @@ export type CursorMarkerProps = { renderer?: MarkerRenderer };
  *  when the user mouseleaves the element
  */
 export const CursorMarker: React.FC<CursorMarkerProps> = ({
-  renderer = createDefaultRenderer("default-cursor-marker"),
+  renderer = createDefaultRenderer("default-cursor-marker", "rct-cursor-marker"),
 }) => {
   const { subscribeToMouseOver } = React.useContext(MarkerCanvasContext);
   const _unsubscribe = React.useRef<null | (() => void)>(null);

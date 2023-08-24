@@ -1,3 +1,4 @@
+import type { Dimensions } from "./utility/calendar/index.js";
 import type React from "react";
 
 export type Id = number | string;
@@ -116,9 +117,36 @@ export type TimelineItemBase = {
   title?: string;
 };
 
-export type MoveResizeValidator<TItem extends TimelineItemBase> = (
+export type MoveResizeValidator<TItem extends TimelineItemBase = TimelineItemBase> = (
   action: "move" | "resize",
   itemId: TItem,
   time: number,
   resizeEdge?: TimelineItemEdge // This value is only available for resize
 ) => number;
+
+export type TimelineState<CustomGroup extends TimelineGroupBase = TimelineGroupBase> = {
+  canvasBottom: number;
+  canvasTimeEnd: number;
+  canvasTimeStart: number;
+  canvasTop: number;
+  dragGroupTitle: React.ReactNode | null;
+  dragTime: number | null;
+  resizeTime: number | null;
+  resizingEdge: TimelineItemEdge | null;
+  resizingItem: Id | null;
+  selectedItem: null | Id;
+  visibleTimeEnd: number;
+  visibleTimeStart: number;
+  width: number;
+
+  // Hidden props without initial values (at least in the original implementation)
+  dimensionItems: {
+    id: Id;
+    dimensions: Dimensions<CustomGroup>;
+  }[];
+  height: number;
+  groupHeights: number[];
+  groupTops: number[];
+  newGroupOrder: number | null;
+  draggingItem: Id | null;
+};

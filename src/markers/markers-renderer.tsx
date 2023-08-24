@@ -12,7 +12,6 @@ import React from "react";
 export const MarkersRenderer: React.FC = () => {
   const { getLeftOffsetFromDate } = React.useContext(TimelineContext);
   const { markers } = React.useContext(MarkersContext);
-
   return (
     <React.Fragment>
       {markers.map((marker) =>

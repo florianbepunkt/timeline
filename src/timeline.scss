@@ -1,19 +1,19 @@
 $item-color: white;
-$item-background: #2196f3;
-$item-border: 1px solid #1a6fb3;
+$item-background: var(--mui-palette-primary-main);
+$item-border: 1px solid var(--mui-palette-primary-900);
 $item-selected-color: white;
-$item-selected-background: #ffc107;
-$item-selected-border: 1px solid #ff9800;
+$item-selected-background: var(--mui-palette-secondary-main);
+$item-selected-border: 1px solid var(--mui-palette-secondary-dark);
 
-$row-background-even: transparent;
-$row-background-odd: rgba(0, 0, 0, 0.05);
+$row-background-even: var(--mui-palette-common-white);
+$row-background-odd: var(--mui-palette-primary-50);
 
-$border-color: #bbb;
+$border-color: var(--mui-palette-divider);
 $border-width: 1px;
 $thick-border-width: 2px;
 $sidebar-color: #ffffff;
-$sidebar-background-color: #c52020;
-$list-item-padding: 0 4px;
+$sidebar-background-color: #fff;
+$list-item-padding: 0 0.5rem;
 $weekend: rgba(250, 246, 225, 0.5);
 
 .react-calendar-timeline {
@@ -28,16 +28,17 @@ $weekend: rgba(250, 246, 225, 0.5);
   }
 
   .rct-scroll {
+    -ms-touch-action: none;
     display: inline-block;
-    white-space: normal; /* was set to nowrap in .rct-outer */
-    vertical-align: top;
     overflow-x: scroll;
     overflow-y: hidden;
-    -ms-touch-action: none;
     touch-action: none;
+    vertical-align: top;
+    white-space: normal; /* was set to nowrap in .rct-outer */
   }
 
   .rct-item {
+    border-radius: 4px;
     overflow: "hidden";
 
     &:hover {
@@ -45,25 +46,30 @@ $weekend: rgba(250, 246, 225, 0.5);
     }
 
     .rct-item-content {
-      position: sticky;
-      position: -webkit-sticky;
+      border-radius: 4px;
+      font-size: 14px;
+      font-weight: 500;
+      display: inline-block;
+      height: 100%;
       left: 0px;
       overflow: hidden;
-      display: inline-block;
-      border-radius: 2px;
       padding: 0 6px;
-      height: 100%;
+      position: -webkit-sticky;
+      position: sticky;
     }
   }
 
   .rct-sidebar {
-    overflow: hidden;
-    white-space: normal; /* was set to nowrap in .rct-outer */
-    display: inline-block;
-    vertical-align: top;
-    position: relative;
-    box-sizing: border-box;
     border-right: $border-width solid $border-color;
+    box-sizing: border-box;
+    color: var(--mui-palette-text-primary);
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 400;
+    overflow: hidden;
+    position: relative;
+    vertical-align: top;
+    white-space: normal; /* was set to nowrap in .rct-outer */
 
     &.rct-sidebar-right {
       border-right: 0;
@@ -71,13 +77,14 @@ $weekend: rgba(250, 246, 225, 0.5);
     }
 
     .rct-sidebar-row {
-      padding: $list-item-padding;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      box-sizing: border-box;
-      margin: 0;
       border-bottom: $border-width solid $border-color;
+      box-sizing: border-box;
+      color: var(--mui-palette-text-primary);
+      margin: 0;
+      overflow: hidden;
+      padding: $list-item-padding;
+      text-overflow: ellipsis;
+      white-space: nowrap;
 
       &.rct-sidebar-row-odd {
         background: $row-background-odd;
@@ -92,7 +99,7 @@ $weekend: rgba(250, 246, 225, 0.5);
     .rct-vl {
       position: absolute;
       border-left: 1px solid $border-color;
-      z-index: 30;
+      z-index: 50;
       &.rct-vl-first {
         border-left-width: 2px;
       }
@@ -123,38 +130,64 @@ $weekend: rgba(250, 246, 225, 0.5);
     }
   }
 
+  .rct-custom-marker {
+    background: var(--mui-palette-divider);
+    width: 4px;
+    z-index: 60;
+  }
+
+  .rct-cursor-marker {
+    background: var(--mui-palette-primary-200);
+    width: 2px;
+    z-index: 60;
+  }
+
   .rct-cursor-line {
+    background: $item-background;
     position: absolute;
     width: 2px;
-    background: $item-background;
-    z-index: 51;
+    z-index: 70;
   }
 
   .rct-dateHeader {
-    display: flex;
     align-items: center;
-    justify-content: center;
-    height: 100%;
-    border-bottom: 1px solid #bbb;
+    border-left: 1px solid var(--mui-palette-divider);
     cursor: pointer;
-    font-size: 14px;
-    background-color: rgb(240, 240, 240);
-    border-left: 2px solid #bbb;
+    display: flex;
+    font-size: 10px;
+    height: 100%;
+    justify-content: center;
+
+    &.rct-dateHeader-primary {
+      border-bottom: 1px solid var(--mui-palette-divider);
+      font-size: 12px;
+      font-weight: 700;
+    }
   }
 
   .rct-dateHeader-primary {
     background-color: initial;
-    border-left: 1px solid #bbb;
-    border-right: 1px solid #bbb;
-    color: #fff;
+    border-collapse: collapse;
+    color: var(--mui-palette-text-primary);
+
+    &:first-child {
+      border-left: 1px solid var(--mui-palette-divider);
+    }
+  }
+
+  .rct-sidebar-header {
+    border-top: 1px solid var(--mui-palette-divider);
   }
 
   .rct-header-root {
-    background: #c52020;
-    border-bottom: 1px solid #bbb;
+    background: #fff;
+    border-bottom: 1px solid var(--mui-palette-divider);
+    border-bottom: 1px solid var(--mui-palette-TableCell-border);
+    box-shadow: 4px 0 8px rgb(0 0 0 / 10%);
+    color: var(--mui-palette-text-primary);
   }
 
   .rct-calendar-header {
-    border: 1px solid #bbb;
+    border-top: 1px solid var(--mui-palette-divider);
   }
 }

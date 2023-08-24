@@ -1,10 +1,3 @@
-## [1.0.6](https://github.com/florianbepunkt/timeline/compare/v1.0.5...v1.0.6) (2023-08-13)
-
-
-### Bug Fixes
-
-* **deps:** update dependency ts-pattern to v5 ([92ae091](https://github.com/florianbepunkt/timeline/commit/92ae0910e4ad085b6b1d69d68a3ae5c8152fb3f3))
-
 ## [1.0.5](https://github.com/florianbepunkt/timeline/compare/v1.0.4...v1.0.5) (2023-01-30)
 
 

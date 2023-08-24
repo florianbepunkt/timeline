@@ -17,7 +17,7 @@ export type TimelineProps<
   CustomItem extends TimelineItemBase = TimelineItemBase,
   CustomGroup extends TimelineGroupBase = TimelineGroupBase
 > = {
-  children?: React.ReactElement | React.ReactElement[];
+  children?: React.ReactNode | React.ReactNode[];
 
   /**
    * Groups items are sorted into. If you use the right sidebar, you can pass optional rightTitle property here. If you want to overwrite the calculated height with a custom height, you can pass a height property as an int in pixels here. This can be very useful for categorized groups.

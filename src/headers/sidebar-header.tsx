@@ -28,7 +28,7 @@ type SidebarHeaderChildrenFnProps<Data> = {
 };
 
 const defaultSidebarHeaderChildren = ({ getRootProps }: SidebarHeaderChildrenFnProps<unknown>) => (
-  <div data-testid="sidebarHeader" {...getRootProps({ style: {} })} />
+  <div className="rct-sidebar-header" data-testid="sidebarHeader" {...getRootProps({ style: {} })} />
 );
 
 export const SidebarHeader = <T,>(props: SidebarHeaderProps<T>): JSX.Element => {

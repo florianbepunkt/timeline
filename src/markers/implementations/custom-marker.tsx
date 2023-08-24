@@ -14,7 +14,7 @@ type CustomMarkerProps = {
 export const CustomMarker: React.FC<CustomMarkerProps> = ({
   date,
   getLeftOffsetFromDate,
-  renderer = createDefaultRenderer("default-customer-marker-id"),
+  renderer = createDefaultRenderer("default-customer-marker-id", "rct-custom-marker"),
 }) => {
   const value = typeof date === "number" ? date : date.valueOf();
   const leftOffset = getLeftOffsetFromDate(value);

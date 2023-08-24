@@ -12,10 +12,10 @@ export type ScrollElementProps = {
 
   getVisibleTimeWindow: () => { visibleTimeStart: number; visibleTimeEnd: number };
   onHorizontalScroll: (scrollX: number) => void;
-  onHorizontalScrollByDelta: (timeDelta: number) => void;
-  onVerticalScrollByDelta: (deltaY: number) => void;
+  onVerticalScrollBy: (deltaY: number) => void;
   onWheelZoom: (speed: number, xPosition: number, deltaY: number) => void;
   onZoom: (scale: number, offset: number) => void;
+  scrollHorizontallyByTime: (timeDelta: number) => void;
 };
 
 export const ScrollElement: React.FC<ScrollElementProps> = ({
@@ -24,15 +24,16 @@ export const ScrollElement: React.FC<ScrollElementProps> = ({
   height,
   isInteractingWithItem,
   onHorizontalScroll,
-  onHorizontalScrollByDelta,
-  onVerticalScrollByDelta,
+  onVerticalScrollBy,
   onWheelZoom,
   onZoom,
+  scrollHorizontallyByTime,
   scrollRef,
   top,
   width,
   zoomSpeed,
 }) => {
+  const isMounted = React.useRef(false);
   const defaultZoomSpeed: ZoomSpeed = {
     alt: 1,
     meta: 2,
@@ -51,6 +52,13 @@ export const ScrollElement: React.FC<ScrollElementProps> = ({
   const [isDragging, setIsDragging] = React.useState(false);
 
   React.useEffect(() => {
+    isMounted.current = true;
+    return function cleanUp() {
+      isMounted.current = false;
+    };
+  }, []);
+
+  React.useEffect(() => {
     return function cleanUp() {
       if (_scrollComponent.current) {
         _scrollComponent.current.removeEventListener("wheel", handleWheel);
@@ -60,9 +68,14 @@ export const ScrollElement: React.FC<ScrollElementProps> = ({
 
   const handleScroll = (e: React.UIEvent<HTMLDivElement, UIEvent>) => {
     e.preventDefault();
+    if (!isMounted.current) return;
     if (!_scrollComponent.current) return;
-    if (isDragging) return;
+    // console.log("handleScroll called", {
+    //   scrollX: _scrollComponent.current.scrollLeft,
+    //   _scrollComponent: _scrollComponent.current,
+    // });
     const scrollX = _scrollComponent.current.scrollLeft;
+    console.log("calling 1");
     onHorizontalScroll(scrollX);
   };
 
@@ -86,6 +99,7 @@ export const ScrollElement: React.FC<ScrollElementProps> = ({
     } else if (e.shiftKey && _scrollComponent.current) {
       e.preventDefault();
       // shift+scroll event from a touchpad has deltaY property populated; shift+scroll event from a mouse has deltaX
+      console.log("calling 2");
       onHorizontalScroll(_scrollComponent.current.scrollLeft + (e.deltaY || e.deltaX));
       // no modifier pressed? we prevented the default event, so scroll or zoom as needed
     }
@@ -109,7 +123,8 @@ export const ScrollElement: React.FC<ScrollElementProps> = ({
   };
 
   const handleMouseMove = (e: React.MouseEvent) => {
-    // Check the interacion because we don't want to drag the canvas if the user is dragging an item.
+    // Check the interacion because we don't want to drag the chart if
+    // the user is dragging an item.
     if (isDragging && !isInteractingWithItem && _scrollComponent.current) {
       // Horizontal scrolling
       const { visibleTimeStart } = getVisibleTimeWindow();
@@ -117,10 +132,10 @@ export const ScrollElement: React.FC<ScrollElementProps> = ({
       const desiredTimeMovement = pixelMovement * _dragStartMillisecondsInPixel.current;
       const chartMovement = _dragStartVisibleTimeStart.current - visibleTimeStart;
       const timeDelta = desiredTimeMovement + chartMovement;
-      onHorizontalScrollByDelta(timeDelta);
+      scrollHorizontallyByTime(timeDelta);
 
       // Vertical scrolling
-      onVerticalScrollByDelta(-e.movementY);
+      onVerticalScrollBy(-e.movementY);
     }
   };
 
@@ -211,6 +226,8 @@ export const ScrollElement: React.FC<ScrollElementProps> = ({
     top: `${top}px`,
     width: `${width}px`,
   };
+
+  console.log("RENDER");
 
   return (
     <div

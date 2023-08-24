@@ -14,7 +14,7 @@ type NowMarkerProps = {
 export const NowMarker: React.FC<NowMarkerProps> = ({
   getLeftOffsetFromDate,
   interval,
-  renderer = createDefaultRenderer("default-today-line"),
+  renderer = createDefaultRenderer("default-today-line", "rct-now-marker"),
 }) => {
   const _intervalToken = React.useRef<NodeJS.Timer | undefined>();
   const [date, setDate] = React.useState(Date.now());

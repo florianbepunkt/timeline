@@ -153,9 +153,13 @@ export const Item = <TGroup extends TimelineGroupBase, TItem extends TimelineIte
 
   const [interactMounted, setInteractMounted] = React.useState(false);
   const [dragging, setDragging] = useRefState(false);
-  const [dragTime, setDragTime] = React.useState<number | null>(null);
-  const [dragGroupDelta, setDragGroupDelta] = useRefState<number | null>(null);
-  const [dragStart, setDragStart] = useRefState<{ x: number; y: number; offset: number } | null>(null);
+
+  // const [dragGroupDelta, setDragGroupDelta] = useRefState<number | null>(null);
+  // const [dragStart, setDragStart] = useRefState<{ x: number; y: number; offset: number } | null>(null);
+  const dragStart = React.useRef<{ x: number; y: number; offset: number } | null>(null);
+  const dragTime = React.useRef<number | null>(null);
+  const dragGroupDelta = React.useRef<number | null>(null);
+  // const [dragTime, setDragTime] = React.useState<number | null>(null);
 
   const [resizing, setResizing] = useRefState(false);
   const [resizeEdge, setResizeEdge] = useRefState<TimelineItemEdge | undefined>(undefined);
@@ -178,7 +182,7 @@ export const Item = <TGroup extends TimelineGroupBase, TItem extends TimelineIte
       const offset = considerOffset ? new Date().getTimezoneOffset() * 60 * 1000 : 0;
       return Math.round(dragTime / dragSnap) * dragSnap - (offset % dragSnap);
     } else {
-      return dragTime;
+      return Math.round(dragTime);
     }
   };
 
@@ -187,7 +191,7 @@ export const Item = <TGroup extends TimelineGroupBase, TItem extends TimelineIte
       const endTime = item.endTime % dragSnap;
       return Math.round((dragTime - endTime) / dragSnap) * dragSnap + endTime;
     } else {
-      return dragTime;
+      return Math.round(dragTime);
     }
   };
 
@@ -243,20 +247,25 @@ export const Item = <TGroup extends TimelineGroupBase, TItem extends TimelineIte
     if (!props.selected) return false;
     const clickTime = timeFor(e);
     setDragging(true);
-    setDragStart({ x: e.pageX, y: e.pageY, offset: item.startTime - clickTime });
-    setDragTime(item.startTime);
-    setDragGroupDelta(0);
+    // setDragStart({ x: e.pageX, y: e.pageY, offset: item.startTime - clickTime });
+    dragStart.current = { x: e.pageX, y: e.pageY, offset: item.startTime - clickTime };
+    dragTime.current = item.startTime;
+    // setDragTime(item.startTime);
+    dragGroupDelta.current = 0;
+    // setDragGroupDelta(0);
     return;
   };
 
   const handleDragMove = (e: DragEvent) => {
     if (!dragging.current) return;
     let newDragTime = getDragTime(e);
-    const dragGroupDelta = getDragGroupDelta(e);
+    const newDragGroupDelta = getDragGroupDelta(e);
     if (props.moveResizeValidator) newDragTime = props.moveResizeValidator("move", item, newDragTime);
-    if (props.onDrag) props.onDrag(item.id, newDragTime, props.order.index + dragGroupDelta);
-    setDragTime(newDragTime);
-    setDragGroupDelta(dragGroupDelta);
+    if (props.onDrag) props.onDrag(item.id, newDragTime, props.order.index + newDragGroupDelta);
+    // setDragTime(newDragTime);
+    dragTime.current = newDragTime;
+    // setDragGroupDelta(newDragGroupDelta);
+    dragGroupDelta.current = newDragGroupDelta;
   };
 
   const handleDragEnd = (e: DragEvent) => {
@@ -267,9 +276,12 @@ export const Item = <TGroup extends TimelineGroupBase, TItem extends TimelineIte
       props.onDrop(item.id, dragTime, props.order.index + getDragGroupDelta(e));
     }
     setDragging(false);
-    setDragStart(null);
-    setDragTime(null);
-    setDragGroupDelta(null);
+    // setDragStart(null);
+    dragStart.current = null;
+    // setDragTime(null);
+    dragTime.current = null;
+    // setDragGroupDelta(null);
+    dragGroupDelta.current = null;
   };
 
   // resize handlers
@@ -279,6 +291,7 @@ export const Item = <TGroup extends TimelineGroupBase, TItem extends TimelineIte
     setResizeEdge(undefined);
     setResizeStart(e.pageX);
     setResizeTime(0);
+    return;
   };
 
   const handleResizeMove = (e: ResizeEvent) => {
@@ -409,7 +422,7 @@ export const Item = <TGroup extends TimelineGroupBase, TItem extends TimelineIte
 
   const getItemProps = (props: Partial<Omit<TimelineItemProps, "key" | "ref">> = {}) => {
     const classNames = "rct-item" + (item.className ? ` ${item.className}` : "");
-    const result: TimelineItemProps & { title: string | undefined } = {
+    const result: TimelineItemProps = {
       className: classNames + ` ${props.className ? props.className : ""}`,
       key: item.id,
       onContextMenu: composeEvents(handleContextMenu, props.onContextMenu),
@@ -420,7 +433,7 @@ export const Item = <TGroup extends TimelineGroupBase, TItem extends TimelineIte
       onTouchStart: composeEvents(onTouchStart, props.onTouchStart),
       ref: _item,
       style: Object.assign({}, getItemStyle(props)),
-      title: item.title,
+      // title: item.title,
     };
     return result;
   };
@@ -456,7 +469,7 @@ export const Item = <TGroup extends TimelineGroupBase, TItem extends TimelineIte
       width: `${dimensions.width}px`,
       height: `${dimensions.height}px`,
       lineHeight: `${dimensions.height}px`,
-      overflow: "hidden"
+      overflow: "hidden",
     };
 
     return Object.assign(
@@ -533,7 +546,7 @@ export const Item = <TGroup extends TimelineGroupBase, TItem extends TimelineIte
     dragging: dragging.current,
     dragGroupDelta: dragGroupDelta.current,
     dragStart: dragStart.current,
-    dragTime: dragTime,
+    dragTime: dragTime.current,
     resizeEdge: resizeEdge.current,
     resizeStart: resizeStart.current,
     resizeTime: resizeTime,

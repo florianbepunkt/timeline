@@ -135,7 +135,7 @@ export class Timeline<
       );
     }
 
-    if (visibleTimeStart >= visibleTimeEnd) {
+    if (visibleTimeStart > visibleTimeEnd) {
       throw new Error(
         `You must obey the laws of time – visibleTimeStart ${visibleTimeStart} is after visibleTimeEnd ${visibleTimeEnd}`
       );
@@ -439,10 +439,18 @@ export class Timeline<
   };
 
   scrollHorizontally = (scrollX: number) => {
+    console.log("scrollHorizontally called", scrollX);
     const visibleDuration = this.state.visibleTimeEnd - this.state.visibleTimeStart;
     const millisecondsPerPixel = visibleDuration / this.state.width;
+
     const canvasTimeStart = this.state.canvasTimeStart;
     const visibleTimeStart = canvasTimeStart + millisecondsPerPixel * scrollX;
+
+    console.log("scrollHorizontally", {
+      canvasTimeStart,
+      stateVisibleTimeStart: this.state.visibleTimeStart,
+      visibleTimeStart,
+    });
 
     if (this.state.visibleTimeStart !== visibleTimeStart) {
       this.onTimeChange(visibleTimeStart, visibleTimeStart + visibleDuration, this.updateScrollCanvas);
@@ -455,6 +463,7 @@ export class Timeline<
    * @param timeDelta  The time delta in milliseconds (either negative or positive) to scroll the timeline by.
    */
   scrollHorizontallyByTime = (timeDelta: number) => {
+    console.log("scrollHorizontallyByTime called");
     if (timeDelta !== 0) {
       this.onTimeChange(
         this.state.visibleTimeStart + timeDelta,
@@ -486,6 +495,8 @@ export class Timeline<
     items: CustomItem[] = this.props.items,
     groups: CustomGroup[] = this.props.groups
   ) => {
+    console.log("updateScrollCanvas", visibleTimeStart);
+
     this.setState(
       calculateScrollCanvas({
         visibleTimeStart,
@@ -510,6 +521,7 @@ export class Timeline<
   };
 
   changeZoom = (scale: number, offset = 0.5) => {
+    console.log("changeZoom called");
     const { minZoom = defaultMinZoom, maxZoom = defaultMaxZoom } = this.props;
     const oldZoom = this.state.visibleTimeEnd - this.state.visibleTimeStart;
     const newZoom = Math.min(Math.max(Math.round(oldZoom * scale), minZoom), maxZoom); // min 1 min, max 20 years
@@ -519,6 +531,7 @@ export class Timeline<
   };
 
   showPeriod = (from: Date | number, to: Date | number) => {
+    console.log("showPeriod called");
     const visibleTimeStart = from.valueOf();
     const visibleTimeEnd = to.valueOf();
     const zoom = visibleTimeEnd - visibleTimeStart;
@@ -611,7 +624,6 @@ export class Timeline<
   };
 
   dragItem = (item: Id, dragTime: number, newGroupOrder: number) => {
-    console.log("dragItem");
     const newGroup = this.props.groups[newGroupOrder];
 
     this.setState({
@@ -830,7 +842,6 @@ export class Timeline<
    * refer to for explanation https://github.com/gaearon/react-hot-loader#checking-element-types
    */
   isTimelineHeader = (child: ReactNodeWithPossibleTypeAndSecretKey) => {
-    if(!child || !child["type"]) return false;
     if (child.type === undefined) return false;
     return child.type.secretKey === TimelineHeaders.secretKey;
   };
@@ -877,8 +888,8 @@ export class Timeline<
       timeSteps: timeSteps,
     };
 
-    return childArray && React.Children.map(childArray, (child: ReactNodeWithPossibleTypeAndSecretKey) => {
-      if (child && React.isValidElement(child) && !this.isTimelineHeader(child)) {
+    return React.Children.map(childArray, (child: ReactNodeWithPossibleTypeAndSecretKey) => {
+      if (!this.isTimelineHeader(child) && React.isValidElement(child)) {
         return React.cloneElement(child, childProps);
       } else {
         return null;

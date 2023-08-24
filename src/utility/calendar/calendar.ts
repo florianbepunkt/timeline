@@ -2,12 +2,14 @@ import { addByUnit, getByUnit, setByUnit, startOf } from "../date.js";
 import type {
   CompleteTimeSteps,
   Id,
-  TimeSteps,
   TimelineGroupBase,
   TimelineItemBase,
   TimelineItemEdge,
+  TimelineState,
+  TimeSteps,
   TimeUnit,
 } from "../../shared-model.js";
+import type { TimelineProps } from "../../timeline/index.js";
 
 export type GroupOrder<TGroup extends TimelineGroupBase> = { index: number; group: TGroup };
 
@@ -937,37 +939,67 @@ export function getCanvasBoundariesFromVisibleTime(visibleTimeStart: number, vis
  * Get the canvas area for a given visible time. Will shift the start/end of
  * the canvas if the visible time does not fit within the existing canvas.
  *
- * @param visibleTimeStart  The visible start time in milliseconds.
- * @param visibleTimeEnd  The visible end time in milliseconds.
- * @param forceUpdateDimensions  Whether to force a new canvas even if the visible
- *                               time window would fit into the existing one.
- * @param items  All the items of the timeline.
- * @param groups  All the groups of the timeline.
- * @param props  The props of the Timeline.
- * @param state  The state of the Timeline.
- *
  * @returns  An object containing some updates to the state of the Timeline.
  */
-export function calculateScrollCanvas<TGroup extends TimelineGroupBase, TItem extends TimelineItemBase>(
-  visibleTimeStart: number,
-  visibleTimeEnd: number,
-  forceUpdateDimensions: boolean,
-  items: TItem[],
-  groups: TGroup[],
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  props: any,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  state: any
-) {
+export const calculateScrollCanvas = <TGroup extends TimelineGroupBase, TItem extends TimelineItemBase>({
+  forceUpdateDimensions,
+  groups,
+  items,
+  props,
+  state,
+  visibleTimeEnd,
+  visibleTimeStart,
+}: {
+  /**
+   * Whether to force a new canvas even if the visible time window would fit into the existing one.
+   */
+  forceUpdateDimensions: boolean;
+
+  /**
+   * All the groups of the timeline.
+   */
+  groups: TGroup[];
+
+  /**
+   * All the items of the timeline.
+   */
+  items: TItem[];
+
+  /**
+   * The props of the Timeline.
+   */
+  props: TimelineProps<TItem, TGroup>;
+
+  /**
+   * The state of the Timeline.
+   */
+  state: TimelineState<TGroup>;
+
+  /**
+   * The visible end time in milliseconds.
+   */
+  visibleTimeEnd: number;
+
+  /**
+   * The visible start time in milliseconds.
+   */
+  visibleTimeStart: number;
+}) => {
   const oldCanvasTimeStart = state.canvasTimeStart;
   const oldZoom = state.visibleTimeEnd - state.visibleTimeStart;
   const newZoom = visibleTimeEnd - visibleTimeStart;
+
   const newState: {
     visibleTimeStart: number;
     visibleTimeEnd: number;
-    canvasTimeStart?: number;
-    canvasTimeEnd?: number;
-  } = { visibleTimeStart, visibleTimeEnd };
+    canvasTimeStart: number;
+    canvasTimeEnd: number;
+  } = {
+    canvasTimeStart: state.canvasTimeStart,
+    canvasTimeEnd: state.canvasTimeEnd,
+    visibleTimeStart,
+    visibleTimeEnd,
+  };
 
   // Check if the current canvas covers the new times
   const canKeepCanvas =
@@ -984,34 +1016,32 @@ export function calculateScrollCanvas<TGroup extends TimelineGroupBase, TItem ex
     );
     newState.canvasTimeStart = canvasTimeStart;
     newState.canvasTimeEnd = canvasTimeEnd;
-    const mergedState = {
-      ...state,
-      ...newState,
-    };
 
+    const mergedState = { ...state, ...newState };
     const canvasWidth = getCanvasWidth(mergedState.width);
 
     // The canvas cannot be kept, so calculate the new items position
     Object.assign(
       newState,
       stackTimelineItems({
-        calculateExtraSpace: props.calculateExtraSpace,
+        calculateExtraSpace: props.calculateExtraSpace ?? false,
         canvasTimeEnd: mergedState.canvasTimeEnd,
         canvasTimeStart: mergedState.canvasTimeStart,
         canvasWidth,
         draggingItem: mergedState.draggingItem,
         dragTime: mergedState.dragTime,
         groups,
-        itemHeight: props.itemHeight,
+        itemHeight: props.itemHeight ?? 28, // TODO centralize default values
         items,
-        lineHeight: props.lineHeight,
+        lineHeight: props.lineHeight ?? 36, // TODO centralize default values
         newGroupOrder: mergedState.newGroupOrder,
         resizeTime: mergedState.resizeTime,
         resizingEdge: mergedState.resizingEdge,
         resizingItem: mergedState.resizingItem,
-        stackItems: props.stackItems,
+        stackItems: props.stackItems ?? false, // TODO centralize default values
       })
     );
   }
+
   return newState;
-}
+};
