@@ -38,7 +38,7 @@ import type {
 } from "../shared-model.js";
 import type { TimelineProps } from "./props.js";
 import { usePrevious } from "../utility/use-previous.js";
-import useResizeObserver from "@react-hook/resize-observer";
+// import useResizeObserver from "@react-hook/resize-observer";
 
 type ReactNodeWithPossibleTypeAndSecretKey = React.ReactNode & { type?: { secretKey?: unknown } };
 type ReactElementWithPossibleTypeAndSecretKey = React.ReactElement & { type?: { secretKey?: unknown } };
@@ -587,18 +587,18 @@ export const Timeline = <
     return selectedItems.some((i) => i === itemId);
   };
 
-  useResizeObserver(container, (entry) => {
-    const { height, width } = entry.contentRect;
-    if (containerHeight.current !== height) {
-      containerHeight.current = height;
-      containerScrollOrResizeListener(); // The height changed, update the vertical scroll canvas
-    }
+  // useResizeObserver(container, (entry) => {
+  //   const { height, width } = entry.contentRect;
+  //   if (containerHeight.current !== height) {
+  //     containerHeight.current = height;
+  //     containerScrollOrResizeListener(); // The height changed, update the vertical scroll canvas
+  //   }
 
-    if (containerWidth.current !== width) {
-      containerWidth.current = width;
-      resize(); // The width changed, update the horizontal scroll canvas
-    }
-  });
+  //   if (containerWidth.current !== width) {
+  //     containerWidth.current = width;
+  //     resize(); // The width changed, update the horizontal scroll canvas
+  //   }
+  // });
 
   const getDerivedStateFromProps = <
     CustomItem extends TimelineItemBase = TimelineItemBase,
