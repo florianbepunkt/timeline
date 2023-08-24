@@ -1,3 +1,16 @@
+# [1.1.0](https://github.com/florianbepunkt/timeline/compare/v1.0.6...v1.1.0) (2023-08-24)
+
+
+### Bug Fixes
+
+* revert styles ([61cecc7](https://github.com/florianbepunkt/timeline/commit/61cecc71b68e8383c67b48f867c7795b67067204))
+* ts build ([63a728f](https://github.com/florianbepunkt/timeline/commit/63a728f5745cc9d37ce4e2028041f0d5ba99d4de))
+
+
+### Features
+
+* merge changes from production ([9ed8980](https://github.com/florianbepunkt/timeline/commit/9ed8980f55bcc88b7092fadab6a4a4bf5446b620))
+
 ## [1.0.5](https://github.com/florianbepunkt/timeline/compare/v1.0.4...v1.0.5) (2023-01-30)
 
 
