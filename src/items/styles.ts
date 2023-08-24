@@ -1,11 +1,11 @@
 import type { CSSProperties } from "react";
 
 export const overridableStyles: CSSProperties = {
-  fontSize: 14,
+  fontSize: 12,
   color: "white",
   cursor: "pointer",
-  background: "var(--mui-palette-primary-600)",
-  borderColor: "var(--mui-palette-primary-900)",
+  background: "#2196f3",
+  borderColor: "#1a6fb3",
   borderStyle: "solid",
   borderTopWidth: "1px",
   borderBottomWidth: "1px",
@@ -15,8 +15,8 @@ export const overridableStyles: CSSProperties = {
 };
 
 export const selectedStyle: CSSProperties = {
-  background: "var(--mui-palette-secondary-main)",
-  borderColor: "var(--mui-palette-secondary-dark)",
+   background: "#ffc107",
+   borderColor: "#ff9800",
   zIndex: 82,
 };
 
